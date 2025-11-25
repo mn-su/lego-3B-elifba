@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>Elifba - 3D LEGO Editör</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        #info {
+            position: absolute;
+            top: 10px;
+            width: 100%;
+            text-align: center;
+            color: #333;
+            font-size: 16px;
+            pointer-events: none;
+        }
+        #palette-container {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background-color: rgba(255, 255, 255, 0.85);
+            padding: 10px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        #color-palette, #diacritic-palette, #letter-palette {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        .color-box {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .color-box:hover {
+            transform: scale(1.1);
+        }
+        .color-box.selected {
+            border-color: #000;
+            transform: scale(1.15);
+        }
+        .letter-box {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            cursor: pointer;
+            border: 3px solid #ccc;
+            background-color: #fff;
+            transition: transform 0.2s, border-color 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+        }
+        .diacritic-box {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            cursor: pointer;
+            border: 3px solid #ccc;
+            background-color: #fff;
+            transition: transform 0.2s, border-color 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 44px;
+            font-weight: bold;
+            color: #333;
+        }
+        .diacritic-box:hover, .letter-box:hover {
+            transform: scale(1.1);
+        }
+        .diacritic-box.selected, .letter-box.selected {
+            border-color: #007bff;
+            transform: scale(1.15);
+        }
+        #controls {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .control-btn {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: background-color 0.2s;
+            color: #333;
+        }
+        .control-btn:hover {
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div id="info">Blok eklemek için zemine, silmek için bloğa dokunun.</div>
+    <div id="palette-container">
+        <div id="color-palette"></div>
+        <div id="diacritic-palette"></div>
+        <div id="letter-palette"></div>
+    </div>
+    <div id="controls">
+        <button id="remove-mode-btn" class="control-btn" title="Silme Modu">🗑️</button>
+        <button id="clear-all-btn" class="control-btn" title="Hepsini Sil">♻️</button>
+    </div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.164.1/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.164.1/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        let camera, scene, renderer;
+        let plane, pointer, raycaster;
+        let rollOverMesh, rollOverMaterial;
+        let objects = [];
+        let controls;
+
+        const colors = [0xffffff, 0xffd5d5, 0xfffdd5, 0xd5ffdd, 0xd5f6ff, 0xe0d5ff, 0xcccccc, 0x888888, 0x000000];
+        const diacritics = {
+            'ـَ': '\u064E', // Fatha
+            'ـِ': '\u0650', // Kasra
+            'ـُ': '\u064F', // Damma
+            'ـً': '\u064B', // Tanwin Fath
+            'ـٍ': '\u064D', // Tanwin Kasr
+            'ـٌ': '\u064C', // Tanwin Damm
+            'ـّ': '\u0651', // Shadda
+            'ـْ': '\u0652', // Sukun
+            ' ': ''      // No diacritic
+        };
+        const arabicAlphabet = ['ا', 'ب', 'ت', 'ث', 'ج', 'ح', 'خ', 'د', 'ذ', 'ر', 'ز', 'س', 'ش', 'ص', 'ض', 'ط', 'ظ', 'ع', 'غ', 'ف', 'ق', 'ك', 'ل', 'م', 'ن', 'ه', 'و', 'ي'];
+        
+        let selectedLetter = arabicAlphabet[0];
+        let selectedDiacritic = diacritics[' '];
+        let selectedBlockColor = colors[0];
+        let isRemoveMode = false;
+
+        let pointerDownTime = 0;
+        const pointerDownPosition = new THREE.Vector2();
+
+        const colorPaletteContainer = document.getElementById('color-palette');
+        const diacriticPaletteContainer = document.getElementById('diacritic-palette');
+        const letterPaletteContainer = document.getElementById('letter-palette');
+        const removeModeBtn = document.getElementById('remove-mode-btn');
+        const clearAllBtn = document.getElementById('clear-all-btn');
+
+        init();
+        render();
+
+        function createColorPalette() {
+            colors.forEach(color => {
+                const colorBox = document.createElement('div');
+                colorBox.classList.add('color-box');
+                colorBox.style.backgroundColor = `#${color.toString(16).padStart(6, '0')}`;
+                colorBox.addEventListener('click', () => {
+                    selectedBlockColor = color;
+                    document.querySelectorAll('.color-box').forEach(box => box.classList.remove('selected'));
+                    colorBox.classList.add('selected');
+                });
+                colorPaletteContainer.appendChild(colorBox);
+            });
+            colorPaletteContainer.children[0].classList.add('selected');
+        }
+
+        function createDiacriticPalette() {
+            Object.keys(diacritics).forEach(key => {
+                const diacriticBox = document.createElement('div');
+                diacriticBox.classList.add('diacritic-box');
+                diacriticBox.textContent = key;
+                diacriticBox.addEventListener('click', () => {
+                    selectedDiacritic = diacritics[key];
+                    document.querySelectorAll('.diacritic-box').forEach(box => box.classList.remove('selected'));
+                    diacriticBox.classList.add('selected');
+                });
+                diacriticPaletteContainer.appendChild(diacriticBox);
+            });
+            diacriticPaletteContainer.children[diacriticPaletteContainer.children.length - 1].classList.add('selected'); // Select 'None' by default
+        }
+
+        function createLetterPalette() {
+            arabicAlphabet.forEach(letter => {
+                const letterBox = document.createElement('div');
+                letterBox.classList.add('letter-box');
+                letterBox.textContent = letter;
+                letterBox.addEventListener('click', () => {
+                    selectedLetter = letter;
+                    document.querySelectorAll('.letter-box').forEach(box => box.classList.remove('selected'));
+                    letterBox.classList.add('selected');
+                    isRemoveMode = false;
+                    removeModeBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+                    rollOverMesh.visible = true;
+                });
+                letterPaletteContainer.appendChild(letterBox);
+            });
+            letterPaletteContainer.children[0].classList.add('selected');
+        }
+
+        function init() {
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
+            camera.position.set(500, 800, 1300);
+            camera.lookAt(0, 0, 0);
+
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xf0f0f0);
+
+            // roll-over helpers
+            const rollOverGeo = new THREE.BoxGeometry(100, 100, 100);
+            rollOverMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, opacity: 0.5, transparent: true });
+            rollOverMesh = new THREE.Mesh(rollOverGeo, rollOverMaterial);
+            scene.add(rollOverMesh);
+
+            // grid
+            const gridHelper = new THREE.GridHelper(1000, 10);
+            scene.add(gridHelper);
+            
+            const planeGeo = new THREE.PlaneGeometry(1000, 1000);
+            planeGeo.rotateX(-Math.PI / 2);
+            plane = new THREE.Mesh(planeGeo, new THREE.MeshBasicMaterial({ visible: false }));
+            scene.add(plane);
+            objects.push(plane);
+
+            // lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
+            directionalLight.position.set(1, 0.75, 0.5).normalize();
+            scene.add(directionalLight);
+
+            raycaster = new THREE.Raycaster();
+            pointer = new THREE.Vector2();
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            controls = new OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.screenSpacePanning = false;
+            controls.minDistance = 200;
+            controls.maxDistance = 5000;
+            controls.maxPolarAngle = Math.PI / 2;
+
+            createColorPalette();
+            createDiacriticPalette();
+            createLetterPalette();
+
+            document.addEventListener('pointermove', onPointerMove);
+            document.addEventListener('pointerdown', onPointerDown);
+            document.addEventListener('pointerup', onPointerUp);
+            window.addEventListener('resize', onWindowResize);
+            removeModeBtn.addEventListener('click', toggleRemoveMode);
+            clearAllBtn.addEventListener('click', clearAllBlocks);
+        }
+
+        function createLetterMaterial(letter, blockColor) {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = 256;
+            canvas.height = 256;
+
+            // Determine text color based on background luminance
+            const hexColor = `#${blockColor.toString(16).padStart(6, '0')}`;
+            context.fillStyle = hexColor;
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            const r = (blockColor >> 16) & 0xff;
+            const g = (blockColor >> 8) & 0xff;
+            const b = blockColor & 0xff;
+            const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+            const textColor = luminance > 0.5 ? '#000000' : '#FFFFFF';
+
+            context.font = 'bold 180px Arial';
+            context.fillStyle = textColor;
+            context.textAlign = 'center';
+            context.textBaseline = 'middle';
+            context.fillText(letter, canvas.width / 2, canvas.height / 2);
+
+            const texture = new THREE.CanvasTexture(canvas);
+            return new THREE.MeshLambertMaterial({ map: texture, color: blockColor });
+        }
+
+        function toggleRemoveMode() {
+            isRemoveMode = !isRemoveMode;
+            if (isRemoveMode) {
+                removeModeBtn.style.backgroundColor = '#ff8c8c'; // Highlight when active
+                rollOverMesh.visible = false;
+                document.querySelectorAll('.letter-box, .color-box, .diacritic-box').forEach(box => box.classList.remove('selected'));
+            } else {
+                removeModeBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+                rollOverMesh.visible = true;
+                // Reselect the current items
+                const selectedLetterEl = Array.from(letterPaletteContainer.children).find(el => el.textContent === selectedLetter);
+                if (selectedLetterEl) selectedLetterEl.classList.add('selected');
+                
+                const selectedColorIndex = colors.indexOf(selectedBlockColor);
+                if (selectedColorIndex !== -1) colorPaletteContainer.children[selectedColorIndex].classList.add('selected');
+
+                const selectedDiacriticKey = Object.keys(diacritics).find(key => diacritics[key] === selectedDiacritic);
+                const selectedDiacriticEl = Array.from(diacriticPaletteContainer.children).find(el => el.textContent === selectedDiacriticKey);
+                if (selectedDiacriticEl) selectedDiacriticEl.classList.add('selected');
+            }
+        }
+
+        function clearAllBlocks() {
+            for (let i = objects.length - 1; i >= 0; i--) {
+                if (objects[i] !== plane) {
+                    scene.remove(objects[i]);
+                    objects.splice(i, 1);
+                }
+            }
+            render();
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            render();
+        }
+
+        function onPointerMove(event) {
+            if ( event.isPrimary === false ) return;
+
+            pointer.set((event.clientX / window.innerWidth) * 2 - 1, - (event.clientY / window.innerHeight) * 2 + 1);
+
+            // only update the rollover mesh if we are not dragging
+            const distanceMoved = pointerDownPosition.distanceTo( new THREE.Vector2( event.clientX, event.clientY ) );
+            if (distanceMoved < 10) {
+                 raycaster.setFromCamera(pointer, camera);
+                const intersects = raycaster.intersectObjects(objects, false);
+                if (intersects.length > 0) {
+                    const intersect = intersects[0];
+                    const newPosition = new THREE.Vector3().copy(intersect.point).add(intersect.face.normal);
+                    newPosition.divideScalar(100).floor().multiplyScalar(100).addScalar(50);
+                    rollOverMesh.position.copy(newPosition);
+                }
+            }
+            render();
+        }
+
+        function onPointerDown( event ) {
+            if ( event.isPrimary === false ) return;
+
+            // Don't trigger if interacting with UI
+            if (event.target.closest('#palette-container, #controls')) return;
+
+            pointerDownTime = Date.now();
+            pointerDownPosition.set( event.clientX, event.clientY );
+
+            // Also update the pointer for immediate use in placeOrRemoveBlock
+            pointer.set((event.clientX / window.innerWidth) * 2 - 1, - (event.clientY / window.innerHeight) * 2 + 1);
+        }
+
+        function onPointerUp( event ) {
+            if ( event.isPrimary === false ) return;
+            
+            // Don't trigger if interacting with UI
+            if (event.target.closest('#palette-container, #controls')) return;
+
+            const timeElapsed = Date.now() - pointerDownTime;
+            const distanceMoved = pointerDownPosition.distanceTo( new THREE.Vector2( event.clientX, event.clientY ) );
+
+            // It's a click if the mouse moved less than 10 pixels and was held for less than 300ms
+            if ( timeElapsed < 300 && distanceMoved < 10 ) {
+                placeOrRemoveBlock();
+            }
+        }
+
+        function placeOrRemoveBlock() {
+            raycaster.setFromCamera(pointer, camera);
+            const intersects = raycaster.intersectObjects(objects, false);
+
+            if (intersects.length > 0) {
+                const intersect = intersects[0];
+
+                if (isRemoveMode) {
+                    if (intersect.object !== plane) {
+                        scene.remove(intersect.object);
+                        objects.splice(objects.indexOf(intersect.object), 1);
+                    }
+                } else {
+                    const combinedLetter = selectedLetter + selectedDiacritic;
+                    const voxel = new THREE.Mesh(
+                        new THREE.BoxGeometry(100, 100, 100),
+                        createLetterMaterial(combinedLetter, selectedBlockColor)
+                    );
+                    const newPosition = new THREE.Vector3().copy(intersect.point).add(intersect.face.normal);
+                    newPosition.divideScalar(100).floor().multiplyScalar(100).addScalar(50);
+                    voxel.position.copy(newPosition);
+                    scene.add(voxel);
+                    objects.push(voxel);
+                }
+                render();
+            }
+        }
+
+        function render() {
+            controls.update();
+            renderer.render(scene, camera);
+        }
+    </script>
+</body>
+</html>
