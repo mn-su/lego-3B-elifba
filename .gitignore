@@ -1,4 +1,34 @@
+# macOS
 .DS_Store
+
+# VS Code
+.vscode/
+
+# Node / paket yöneticileri
 node_modules/
+npm-debug.log*
+yarn-error.log*
+.pnpm-store/
+
+# Build / dağıtım
 dist/
+build/
+.cache/
+*.zip
+
+# Environment / gizli dosyalar
+.env
+*.pem
+*.key
+
+# Log / geçici dosyalar
 *.log
+*.tmp
+*.swp
+*.bak
+Thumbs.db
+
+# Python cache
+__pycache__/
+*.pyc
+
