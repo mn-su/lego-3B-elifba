@@ -117,6 +117,43 @@
         .control-btn:hover {
             background-color: #fff;
         }
+
+        @media (max-width: 768px) {
+            #palette-container {
+                display: none; /* Initially hidden on mobile */
+                flex-direction: column;
+                width: 100%;
+                bottom: 0;
+                left: 0;
+                transform: none;
+                border-radius: 15px 15px 0 0;
+                padding: 15px;
+                max-height: 50vh;
+                overflow-y: auto;
+            }
+
+            #palette-container.visible {
+                display: flex; /* Show when toggled */
+            }
+
+            #controls {
+                right: 10px;
+            }
+            .color-box {
+                width: 30px;
+                height: 30px;
+            }
+            .letter-box {
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+            }
+             .diacritic-box {
+                width: 40px;
+                height: 40px;
+                font-size: 30px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -127,6 +164,7 @@
         <div id="letter-palette"></div>
     </div>
     <div id="controls">
+        <button id="toggle-palette-btn" class="control-btn" title="Paleti Aç/Kapat">🎨</button>
         <button id="remove-mode-btn" class="control-btn" title="Silme Modu">🗑️</button>
         <button id="clear-all-btn" class="control-btn" title="Hepsini Sil">♻️</button>
     </div>
@@ -175,8 +213,10 @@
         const colorPaletteContainer = document.getElementById('color-palette');
         const diacriticPaletteContainer = document.getElementById('diacritic-palette');
         const letterPaletteContainer = document.getElementById('letter-palette');
+        const paletteContainer = document.getElementById('palette-container');
         const removeModeBtn = document.getElementById('remove-mode-btn');
         const clearAllBtn = document.getElementById('clear-all-btn');
+        const togglePaletteBtn = document.getElementById('toggle-palette-btn');
 
         init();
         render();
@@ -286,6 +326,9 @@
             window.addEventListener('resize', onWindowResize);
             removeModeBtn.addEventListener('click', toggleRemoveMode);
             clearAllBtn.addEventListener('click', clearAllBlocks);
+            togglePaletteBtn.addEventListener('click', () => {
+                paletteContainer.classList.toggle('visible');
+            });
         }
 
         function createLetterMaterial(letter, blockColor) {
