@@ -27,13 +27,16 @@
             transform: translateX(-50%);
             width: 80%;
             max-width: 800px;
-            display: flex;
+            display: none; /* Hidden by default, toggled with .visible */
             flex-direction: column;
             gap: 10px;
             background-color: rgba(255, 255, 255, 0.85);
             padding: 10px;
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        #palette-container.visible {
+            display: flex;
         }
         #color-palette, #diacritic-palette, #letter-palette {
             display: flex;
@@ -46,7 +49,7 @@
             height: 35px;
             border-radius: 50%;
             cursor: pointer;
-            border: 3px solid transparent;
+            border: 3px solid #e0e0e0;
             transition: transform 0.2s, border-color 0.2s;
         }
         .color-box:hover {
@@ -120,7 +123,6 @@
 
         @media (max-width: 768px) {
             #palette-container {
-                display: none; /* Initially hidden on mobile */
                 flex-direction: column;
                 width: 100%;
                 bottom: 0;
@@ -130,10 +132,6 @@
                 padding: 15px;
                 max-height: 50vh;
                 overflow-y: auto;
-            }
-
-            #palette-container.visible {
-                display: flex; /* Show when toggled */
             }
 
             #controls {
@@ -188,7 +186,7 @@
         let objects = [];
         let controls;
 
-        const colors = [0xffffff, 0xffd5d5, 0xfffdd5, 0xd5ffdd, 0xd5f6ff, 0xe0d5ff, 0xcccccc, 0x888888, 0x000000];
+        const colors = [0xffffff, 0xff1493, 0xffd700, 0x32cd32, 0x1e90ff, 0xDA70D6, 0xcccccc];
         const diacritics = {
             'ـَ': '\u064E', // Fatha
             'ـِ': '\u0650', // Kasra
@@ -220,6 +218,10 @@
 
         init();
         render();
+
+        if (window.innerWidth > 768) {
+            paletteContainer.classList.add('visible');
+        }
 
         function createColorPalette() {
             colors.forEach(color => {
@@ -337,18 +339,34 @@
             canvas.width = 256;
             canvas.height = 256;
 
-            // Determine text color based on background luminance
             const hexColor = `#${blockColor.toString(16).padStart(6, '0')}`;
             context.fillStyle = hexColor;
             context.fillRect(0, 0, canvas.width, canvas.height);
 
-            const r = (blockColor >> 16) & 0xff;
-            const g = (blockColor >> 8) & 0xff;
-            const b = blockColor & 0xff;
-            const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-            const textColor = luminance > 0.5 ? '#000000' : '#FFFFFF';
+            let textColor;
+            // Manually set text color for high contrast on all palette colors
+            if (blockColor === 0x888888 || blockColor === 0x000000) {
+                textColor = '#FFFFFF'; // White text for dark gray and black
+            } else {
+                textColor = '#000000'; // Black text for all other vibrant/light colors
+            }
 
-            context.font = 'bold 180px Arial';
+            // Auto-scaling font
+            const baseFontSize = 180;
+            context.font = `bold ${baseFontSize}px Arial`;
+            const metrics = context.measureText(letter);
+            const textWidth = metrics.width;
+            
+            // Using a rough height estimate as actual bounding box can be complex
+            const textHeight = baseFontSize * 1.2; 
+
+            const scaleX = (canvas.width * 0.9) / textWidth; // Use 90% of canvas width
+            const scaleY = (canvas.height * 0.9) / textHeight; // Use 90% of canvas height
+            const scale = Math.min(scaleX, scaleY, 1); // Only scale down
+
+            const finalFontSize = Math.floor(baseFontSize * scale);
+            context.font = `bold ${finalFontSize}px Arial`;
+
             context.fillStyle = textColor;
             context.textAlign = 'center';
             context.textBaseline = 'middle';
