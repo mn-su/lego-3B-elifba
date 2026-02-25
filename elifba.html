@@ -114,8 +114,9 @@
             transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
             display: flex;
             justify-content: center;
-            align-items: center;
-            font-weight: bold;
+            align-items: flex-start;
+            padding-top: 2px;
+            font-weight: 500;
             color: #333;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
@@ -124,14 +125,17 @@
             width: 38px;
             height: 38px;
             border-radius: 8px;
-            font-size: 21px;
+            font-size: 20px;
+            line-height: 1;
         }
 
         .diacritic-box {
             width: 38px;
             height: 38px;
             border-radius: 8px;
-            font-size: 28px;
+            font-size: 26px;
+            line-height: 0.5;
+            padding-bottom: 16px;
         }
 
         .shape-box {
@@ -953,8 +957,8 @@
 
                 const canvas = document.createElement('canvas');
                 const context = canvas.getContext('2d');
-                canvas.width = 256;
-                canvas.height = 256;
+                canvas.width = 300;
+                canvas.height = 300;
 
                 // Background
                 context.fillStyle = `#${hexColor.toString(16).padStart(6, '0')}`;
@@ -1007,11 +1011,14 @@
                 context.lineWidth = strokeWidth;
                 context.lineJoin = 'round';
                 context.lineCap = 'round';
-                context.strokeText(combinedText, canvas.width / 2, canvas.height / 2);
+                
+                // Draw text with vertical offset for diacritics (balanced for most combinations)
+                const textY = canvas.height / 2 + 12;
+                context.strokeText(combinedText, canvas.width / 2, textY);
                 
                 // Draw filled text
                 context.fillStyle = textColor;
-                context.fillText(combinedText, canvas.width / 2, canvas.height / 2);
+                context.fillText(combinedText, canvas.width / 2, textY);
 
                 // Create material - use MeshBasicMaterial to avoid color multiplication
                 const texture = new THREE.CanvasTexture(canvas);
