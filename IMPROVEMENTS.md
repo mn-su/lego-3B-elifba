@@ -64,16 +64,7 @@
 - ✅ 1-8 - Renk seç hızlı erişim
 - ✅ ← → - Harf navigasyon
 
-### 6. **Alternatif Şekiller**
-- ✅ **Şekil Seçimi Paleti** - 4 şekil türü
-  - ⬜ Kutu (Box) - Orijinal
-  - 🔵 Küre (Sphere) - Yuvarlak
-  - 🔷 Silindir (Cylinder) - Silindirik
-  - △ Piramit (Cone) - Koniye
-  
-- ✅ **Dinamik Geometri** - `createBlockGeometry()` ile şekil oluşturulur
-  - State save/load'ta shape bilgisi tutulur
-  - Export/import'ta şekil bilgisi korunur
+
 
 ### 7. **Animasyonlar**
 - ✅ **Yerleştirme Animasyonu** - Bloklar scale animasyon ile yerleşir
@@ -145,53 +136,31 @@
 - ✅ **Canvas render** - Latin font kullanılır (Arial bold)
 - ✅ **Raycaster** - Precise intersection detection
 
-## 🧪 Test Edilmesi Gereken Özellikler
+### 13. **UI/UX Optimize Edilmesi** (v2.1)
+- ✅ **Palette Boyut Optimizasyonu** - Kompakt ve dengeli layout
+  - Container max-width: 850px (900px'den indirildi)
+  - Gap: 8px (10px'den azaltıldı)
+  - Padding: 12px 15px (15px'den optimize edildi)
+  - Labellar 11px (12px'den küçültüldü)
 
-### Temel İşlevler
-- [ ] Blok ekleme - Zemine tıkla ve blok ekle
-- [ ] Blok silme - R tuşu ile silme modu, bloğa tıkla
-- [ ] Hepsini sil - C tuşu veya ♻️ butonu, confirm dialog
-- [ ] Renk seçimi - 1-8 tuşları veya paletteyi tıkla
-- [ ] Harf seçimi - ← → tuşları veya paletteyi tıkla
-- [ ] Diakriti seçimi - Paletteyi tıkla
+- ✅ **Harf/Karakter Yerleşimi** - Homojen kutu boyutları
+  - Tüm kutu boyutları 38x38px
+  - Font weight: 500 (bold'dan hafifletildi)
+  - Font size: 20px harf, 26px diakriti
+  - line-height: 1 (perfect baseline control)
 
-### Şekiller
-- [ ] Şekil paleti görünür - 4 şekil göz
-- [ ] Küre oluştur - 🔵 seç ve blok ekle
-- [ ] Silindir oluştur - 🔷 seç ve blok ekle
-- [ ] Piramit oluştur - △ seç ve blok ekle
+- ✅ **Diakriti (Harekeler) İyileştirmesi** - Üst konumlandırma
+  - align-items: flex-start (merkezdenden çıkarıldı)
+  - padding-top: 2px (karakterleri yukarı çekme)
+  - padding-bottom: 6px diakritilik (harekeler daha üstte)
+  - Font size: 26px (uygun görünüm)
 
-### Animasyonlar
-- [ ] Blok yerleştirme animasyonu - Smooth scale up
+- ✅ **Renk Kutuları** - Konsistent boyutlandırma
+  - Boyut: 34x34px (35px'den indirildi)
+  - Border: 3px (hala belirgin)
+  - Circular design korundu
 
-### Undo/Redo
-- [ ] Undo çalışıyor - Ctrl+Z veya ↶ butonu
-- [ ] Redo çalışıyor - Ctrl+Y veya ↷ butonu
-- [ ] History sınırı - 50 adıma kadar
-- [ ] Buttonlar disabled ise işlemsiz olacak
 
-### Export/Import
-- [ ] Kaydet - Ctrl+S veya 💾 butonu
-- [ ] JSON dosyası indir - tarayıcı download
-- [ ] Yükle - Ctrl+O veya 📂 butonu
-- [ ] JSON dosyası açıldı mı - seçtiğin dosya yüklendi
-
-### Keyboard
-- [ ] P - Paleti aç/kapat çalışıyor
-- [ ] R - Silme modu çalışıyor
-- [ ] C - Hepsini sil çalışıyor
-- [ ] ? - Help gösteriliyor
-
-### UI
-- [ ] Status bar güncellenmiş - Seçili harf, renk gösteriliyor
-- [ ] Help paneli açılıyor - ? tuşu
-- [ ] Renk taşınıyor - Selected state CSS
-- [ ] Palette labelleri - Section başlıkları
-
-### Mobile
-- [ ] Touch ediliyor - Pointer events çalışıyor
-- [ ] Bottom palette - Responsive mobile view
-- [ ] Controls yan yana - Mobile layout
 
 ## 📊 Kod İstatistikleri
 
@@ -206,18 +175,7 @@
 - **Max history steps**: 50
 - **Texture cache optimization**: Unlimited (Map based)
 
-## 🎯 Gelecek İyileştirmeleri (Opsiyonel)
 
-1. **Double-click block edit** - Mevcut bloğu seçip özellikleri değiştir
-2. **Instanced rendering** - 1000+ blok performansı için
-3. **Group selection** - Çoklu blok seçip silme
-4. **Copy/Paste** - Blok patterns kopyala
-5. **Rotation** - Blokları döndür
-6. **Block preview hover** - 3D preview
-7. **Multiplayer** - WebSocket ile paylaşılan sahneler
-8. **Settings menu** - Kullanıcı tercihler
-9. **Dark mode** - Tema seçimi
-10. **Analytics** - Kullanım istatistikleri
 
 ## 📝 Notlar
 
@@ -229,6 +187,6 @@
 
 ---
 
-**Versiyon**: 2.0  
-**Tarih**: 24 Şubat 2026  
-**Durum**: ✅ Tamamlı ve test edilmeye hazır
+**Versiyon**: 2.1  
+**Tarih**: 25 Şubat 2026  
+**Durum**: ✅ Tamamlı, optimize edildi ve test edilmeye hazır
