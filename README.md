@@ -10,6 +10,7 @@ Uygulama, Elifba'daki harfleri bloklar şeklinde sahneye yerleştirip düzenleme
 
 **Canlı**
 - https://mn-su.github.io/lego-3B-elifba/elifba.html
+
 **Özellikler**
 - Renk paleti ile blok rengi seçme.
 - Harf paleti (Arapça harfler) ve diakritik/işaret(üstün, cezim, vb.) seçimi.
