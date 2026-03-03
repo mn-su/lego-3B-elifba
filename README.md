@@ -8,6 +8,8 @@ Uygulama, Elifba'daki harfleri bloklar şeklinde sahneye yerleştirip düzenleme
 - Dosya: `elifba.html` — tüm HTML, CSS ve JavaScript tek dosyada (Three.js modülleri importmap/CDN üzerinden yüklenir).
 - `index.html` (opsiyonel) — kök URL için yönlendirici (varsa) `elifba.html` dosyasına yönlendirir.
 
+**Canlı**
+- https://mn-su.github.io/lego-3B-elifba/elifba.html
 **Özellikler**
 - Renk paleti ile blok rengi seçme.
 - Harf paleti (Arapça harfler) ve diakritik/işaret(üstün, cezim, vb.) seçimi.
