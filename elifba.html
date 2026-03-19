@@ -1025,17 +1025,17 @@
         <div id="info">Haydi başlayalım. Bir renk seç, bir harf seç ve oyun alanına dokunarak ilk bloğunu yerleştir.</div>
         <div id="status-bar">Hazır! Mod: Yap • Blok: 0</div>
         <div id="mission-launcher">
-            <button id="start-mission-btn" type="button" aria-label="Mini görev başlat">🌟 Gorev Yap</button>
+            <button id="start-mission-btn" type="button" aria-label="Mini görev başlat">🌟 Görev Yap</button>
         </div>
         <div id="mission-card" aria-live="polite" class="hidden-panel">
             <div class="mission-header">
-                <div class="mission-title">Mini Gorev</div>
+                <div class="mission-title">Mini Görev</div>
                 <div class="mission-actions">
                     <button id="play-mission-btn" class="mini-ui-btn" type="button" aria-label="Mini görevi dinlet" title="Mini görevi dinlet">🔈</button>
                     <button id="next-mission-btn" class="mini-ui-btn" type="button" aria-label="Yeni mini görev seç" title="Yeni mini görev seç">↻</button>
                 </div>
             </div>
-            <div id="mission-text">3 blokluk minik bir yapi kur.</div>
+            <div id="mission-text">3 blokluk minik bir yapı kur.</div>
             <div id="mission-progress">0/3 blok</div>
         </div>
         <div id="celebration-banner" aria-live="polite" class="hidden-panel"></div>
@@ -1108,15 +1108,15 @@
         </div>
         <div class="help-copy">Önce paleti aç, sonra rengini ve harfini seç. Oyun alanına dokununca yeni blok eklenir.</div>
         <div>🎨 Palet düğmesi renk ve harf kutusunu açar.</div>
-        <div>Sağ üstteki dönen küp aktif seçimi gösterir; ▶ sesi dinletir, 🔊 sesi acar veya kapatir.</div>
-        <div>👁️ dugmesi bilgi kartlarini ve onizlemeyi tek hamlede gizler veya geri getirir.</div>
-        <div>🌟 Gorev Yap alani temizler, mini gorevi acip yavasca okur.</div>
-        <div>Kelime gorevlerinde Turkce ad ile Arapca karsiligi art arda seslendirilir.</div>
-        <div>🔈 mini gorevi tekrar okur; ↻ yeni gorev verir, gorev bitince ayni dugme supurgeye doner.</div>
-        <div>Paletin ustundeki ikonlu hazir yapi dugmeleri secilince sekiller ve kisa kelime ornekleri hemen yuklenir.</div>
+        <div>Sağ üstteki dönen küp aktif seçimi gösterir; ▶ sesi dinletir, 🔊 sesi açar veya kapatır.</div>
+        <div>👁️ düğmesi bilgi kartlarını ve önizlemeyi tek hamlede gizler veya geri getirir.</div>
+        <div>🌟 Görev Yap alanı temizler, mini görevi açıp yavaşça okur.</div>
+        <div>Kelime görevlerinde Türkçe ad ile Arapça karşılığı art arda seslendirilir.</div>
+        <div>🔈 mini görevi tekrar okur; ↻ yeni görev verir, görev bitince aynı düğme süpürgeye döner.</div>
+        <div>Paletin üstündeki ikonlu hazır yapı düğmeleri seçilince şekiller ve kısa kelime örnekleri hemen yüklenir.</div>
         <div>🗑️ Çöp kutusu silme modunu açar; kaldırmak istediğin bloğa dokunursun.</div>
         <div>↶ ↷ ile geri alıp tekrar deneyebilirsin.</div>
-        <div>♻️ Temizleme dugmesi artik oyun ici onay kutusuyla calisir.</div>
+        <div>♻️ Temizleme düğmesi artık oyun içi onay kutusuyla çalışır.</div>
         <div class="help-divider"></div>
         <div class="help-title" style="font-size: 15px;">Klavye kullananlar için</div>
         <div><span class="help-shortcut">P</span> Paleti aç veya kapat</div>
@@ -1172,31 +1172,31 @@
             feedback: {
                 celebrations: [
                     {
-                        kicker: 'Yildiz Toplandi',
+                        kicker: 'Yıldız Toplandı',
                         title: 'Bravo minik usta!',
-                        copy: 'Yeni gorevi tertemiz bitirdin.',
+                        copy: 'Yeni görevi tertemiz bitirdin.',
                         speechLead: 'Bravo minik usta.',
                         audioKey: 'celebration.bravo'
                     },
                     {
-                        kicker: 'Sahane',
-                        title: 'Hop, bir yildiz daha!',
+                        kicker: 'Şahane',
+                        title: 'Hop, bir yıldız daha!',
                         copy: 'Sahnen biraz daha parladı.',
-                        speechLead: 'Sahane. Bir yildiz daha kazandin.',
+                        speechLead: 'Şahane. Bir yıldız daha kazandın.',
                         audioKey: 'celebration.yildiz'
                     },
                     {
                         kicker: 'Süper',
                         title: 'Harika gidiyorsun!',
-                        copy: 'Bu gorevi de gulerek tamamladin.',
+                        copy: 'Bu görevi de gülerek tamamladın.',
                         speechLead: 'Harika gidiyorsun.',
                         audioKey: 'celebration.harika'
                     },
                     {
-                        kicker: 'Cik Cik Alkis',
-                        title: 'Cok guzel oldu!',
-                        copy: 'Harflerin sirasi bu kez tam yerindeydi.',
-                        speechLead: 'Cok guzel oldu.',
+                        kicker: 'Cik Cik Alkış',
+                        title: 'Çok güzel oldu!',
+                        copy: 'Harflerin sırası bu kez tam yerindeydi.',
+                        speechLead: 'Çok güzel oldu.',
                         audioKey: 'celebration.cokguzel'
                     }
                 ]
@@ -1263,7 +1263,7 @@
             presets: [
                 { id: 'kule', label: 'Kule', speechLabel: 'Kule', audioKey: 'preset.kule', icon: '🗼', kind: 'shape' },
                 { id: 'merdiven', label: 'Merdiven', speechLabel: 'Merdiven', audioKey: 'preset.merdiven', icon: '🪜', kind: 'shape' },
-                { id: 'kopru', label: 'Kopru', speechLabel: 'Kopru', audioKey: 'preset.kopru', icon: '🌉', kind: 'shape' },
+                { id: 'kopru', label: 'Köprü', speechLabel: 'Köprü', audioKey: 'preset.kopru', icon: '🌉', kind: 'shape' },
                 { id: 'piramit', label: 'Piramit', speechLabel: 'Piramit', audioKey: 'preset.piramit', icon: '🔺', kind: 'shape' },
                 { id: 'duvar', label: 'Duvar', speechLabel: 'Duvar', audioKey: 'preset.duvar', icon: '🧱', kind: 'shape' },
                 { id: 'kale', label: 'Kale', speechLabel: 'Kale', audioKey: 'preset.kale', icon: '🏰', kind: 'shape' },
@@ -1274,7 +1274,7 @@
                     label: 'باب',
                     speechLabel: 'Bab',
                     speechSegments: [
-                        { text: 'Kapi', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.bab.tr' },
+                        { text: 'Kapı', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.bab.tr' },
                         { text: 'باب', lang: 'ar-SA', rate: 0.52, audioKey: 'preset.bab.ar' }
                     ],
                     icon: '🚪',
@@ -1285,7 +1285,7 @@
                     label: 'نور',
                     speechLabel: 'Nur',
                     speechSegments: [
-                        { text: 'Isik', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.nur.tr' },
+                        { text: 'Işık', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.nur.tr' },
                         { text: 'نور', lang: 'ar-SA', rate: 0.52, audioKey: 'preset.nur.ar' }
                     ],
                     icon: '💡',
@@ -1769,7 +1769,7 @@
                         shape.addCuboid(-1, 1, 2, 2, 0, 1);
                         shape.addCuboid(-2, 2, 3, 3, 0, 1);
                         return {
-                            label: 'Kopru',
+                            label: 'Köprü',
                             selection: { letter: 'ج', diacritic: '', color: colors.green },
                             blocks: shape.blocks
                         };
@@ -1815,7 +1815,7 @@
                         return {
                             label: 'Kale',
                             selection: { letter: 'ك', diacritic: '', color: colors.purple },
-                            guideMessage: 'Kale kuruldu. Kuleleri incele, sonra kendi savunma yapini tasarlayabilirsin.',
+                            guideMessage: 'Kale kuruldu. Kuleleri incele, sonra kendi savunma yapını tasarlayabilirsin.',
                             blocks: shape.blocks
                         };
                     }
@@ -1876,7 +1876,7 @@
                         return {
                             label: 'باب',
                             selection: { letter: 'ب', diacritic: '\u064E', color: colors.orange },
-                            guideMessage: 'باب geldi. Kapiyi bul ve harfleri sagdan sola oku.',
+                            guideMessage: 'باب geldi. Kapıyı bul ve harfleri sağdan sola oku.',
                             blocks: buildWordBlocks([
                                 { letter: 'ب', diacritic: '\u064E', color: colors.orange },
                                 { letter: 'ا', diacritic: '', color: colors.yellow },
@@ -1887,7 +1887,7 @@
                         return {
                             label: 'نور',
                             selection: { letter: 'ن', diacritic: '\u064F', color: colors.blue },
-                            guideMessage: 'نور geldi. Isik kelimesini dinle ve harfleri tek tek incele.',
+                            guideMessage: 'نور geldi. Işık kelimesini dinle ve harfleri tek tek incele.',
                             blocks: buildWordBlocks([
                                 { letter: 'ن', diacritic: '\u064F', color: colors.blue },
                                 { letter: 'و', diacritic: '', color: colors.green },
@@ -1923,7 +1923,7 @@
                 this.applySelectionSnapshot(preset.selection);
                 this.updateUndoRedoButtons();
                 this.scheduleAutosave();
-                this.setCoachMessage(preset.guideMessage || `${preset.label} sahneye yerlestirildi.`, true);
+                this.setCoachMessage(preset.guideMessage || `${preset.label} sahneye yerleştirildi.`, true);
                 if (presetMeta?.speechSegments?.length) {
                     this.speakSequence(presetMeta.speechSegments, { silentFail: true });
                 } else {
@@ -2237,7 +2237,7 @@
 
                 if (!this.canUseSoundPlayback() || !this.isSoundEnabled) {
                     if (!options.silentFail) {
-                        this.setCoachMessage('Ses kapaliysa gorev okunamaz. Hoparloru acabilirsin.', true);
+                        this.setCoachMessage('Ses kapalıysa görev okunamaz. Hoparlörleri açabilirsin.', true);
                     }
                     return false;
                 }
@@ -2337,7 +2337,7 @@
                 replayButton.title = !this.isSpeechSupported ? 'Bu tarayicida seslendirme desteklenmiyor' : (this.isSoundEnabled ? 'Secili sesi dinlet' : 'Ses su an kapali');
                 if (missionButton) {
                     missionButton.disabled = !canPlaySound || !this.isSoundEnabled;
-                    missionButton.title = !canPlaySound ? 'Bu tarayicida seslendirme desteklenmiyor' : (this.isSoundEnabled ? 'Mini gorevi dinlet' : 'Ses su an kapali');
+                    missionButton.title = !canPlaySound ? 'Bu tarayıcıda seslendirme desteklenmiyor' : (this.isSoundEnabled ? 'Mini görevi dinlet' : 'Ses şu an kapalı');
                 }
             }
 
@@ -2532,14 +2532,14 @@
 
                 const createWordMission = ({ id, label, arabic, success, type = 'nesne' }) => ({
                     id,
-                    text: `${label} yaz. Ipucu: ${arabic}`,
+                    text: `${label} yaz. İpucu: ${arabic}`,
                     speechSegments: type === 'isim'
                         ? [
-                            { text: `${label} adini yaz. Arapca yazilisi`, lang: 'tr-TR', rate: 0.46, audioKey: `mission.${id}.tr` },
+                            { text: `${label} adını yaz. Arapça yazılışı`, lang: 'tr-TR', rate: 0.46, audioKey: `mission.${id}.tr` },
                             { text: arabic, lang: 'ar-SA', rate: 0.52, audioKey: `mission.${id}.ar` }
                         ]
                         : [
-                            { text: `${label} yaz. Arapcasi`, lang: 'tr-TR', rate: 0.46, audioKey: `mission.${id}.tr` },
+                            { text: `${label} yaz. Arapçası`, lang: 'tr-TR', rate: 0.46, audioKey: `mission.${id}.tr` },
                             { text: arabic, lang: 'ar-SA', rate: 0.52, audioKey: `mission.${id}.ar` }
                         ],
                     progress: (stats) => `${this.getWordProgressCount(stats.blocksData, arabic)}/${Array.from(arabic).length} harf`,
@@ -2552,73 +2552,73 @@
                 return [
                     createSpeechMission({
                         id: 'three-blocks',
-                        text: '3 blokluk minik bir yapi kur.',
+                        text: '3 blokluk minik bir yapı kur.',
                         progress: (stats) => `${Math.min(stats.blockCount, 3)}/3 blok`,
                         isComplete: (stats) => stats.blockCount >= 3,
-                        success: 'Aferin. Ilk mini gorevi tamamladin.'
+                        success: 'Aferin. İlk mini görevi tamamladın.'
                     }),
                     createSpeechMission({
                         id: 'orange-pair',
-                        text: '2 turuncu blok yerlestir.',
+                        text: '2 turuncu blok yerleştir.',
                         progress: (stats) => `${Math.min(stats.countColor(CONFIG.defaultSelection.colorHex), 2)}/2 turuncu`,
                         isComplete: (stats) => stats.countColor(CONFIG.defaultSelection.colorHex) >= 2,
-                        success: 'Harika. Turuncu gorev tamamlandi.'
+                        success: 'Harika. Turuncu görev tamamlandı.'
                     }),
                     createSpeechMission({
                         id: 'letter-be',
-                        text: '2 tane Be harfli blok yerlestir.',
+                        text: '2 tane Be harfli blok yerleştir.',
                         progress: (stats) => `${Math.min(stats.countLetter('ب'), 2)}/2 Be`,
                         isComplete: (stats) => stats.countLetter('ب') >= 2,
-                        success: 'Sahneye iki Be yerlestirdin.'
+                        success: 'Sahneye iki Be yerleştirdin.'
                     }),
                     createSpeechMission({
                         id: 'height-two',
-                        text: '2 katli bir yapi kur.',
+                        text: '2 katlı bir yapı kur.',
                         progress: (stats) => `${Math.max(stats.maxGridY + 1, 0)}/2 kat`,
                         isComplete: (stats) => stats.maxGridY >= 1,
-                        success: 'Yukseklik gorevi tamam. Yapin buyuyor.'
+                        success: 'Yükseklik görevi tamam. Yapın büyüyor.'
                     }),
                     createSpeechMission({
                         id: 'three-colors',
-                        text: '3 farkli renk kullan.',
+                        text: '3 farklı renk kullan.',
                         progress: (stats) => `${Math.min(stats.uniqueColorCount, 3)}/3 renk`,
                         isComplete: (stats) => stats.uniqueColorCount >= 3,
-                        success: 'Renk gorevi tamam. Sahnen canlandi.'
+                        success: 'Renk görevi tamam. Sahnen canlandı.'
                     }),
                     createSpeechMission({
                         id: 'fatha-block',
-                        text: 'Ustunlu bir blok ekle.',
-                        progress: (stats) => stats.countDiacritic('\u064E') > 0 ? 'Tamamlandi' : 'Ustun bekleniyor',
+                        text: 'Üstünlü bir blok ekle.',
+                        progress: (stats) => stats.countDiacritic('\u064E') > 0 ? 'Tamamlandı' : 'Üstün bekleniyor',
                         isComplete: (stats) => stats.countDiacritic('\u064E') > 0,
-                        success: 'Ustunlu blok gorevi tamam.'
+                        success: 'Üstünlü blok görevi tamam.'
                     }),
                     createSpeechMission({
                         id: 'seven-blocks',
-                        text: '7 blokluk biraz daha buyuk bir yapi kur.',
+                        text: '7 blokluk biraz daha büyük bir yapı kur.',
                         progress: (stats) => `${Math.min(stats.blockCount, 7)}/7 blok`,
                         isComplete: (stats) => stats.blockCount >= 7,
-                        success: 'Buyuk yapi gorevini de bitirdin.'
+                        success: 'Büyük yapı görevini de bitirdin.'
                     }),
                     createSpeechMission({
                         id: 'orange-trio',
-                        text: '3 turuncu blok yerlestir.',
+                        text: '3 turuncu blok yerleştir.',
                         progress: (stats) => `${Math.min(stats.countColor(CONFIG.defaultSelection.colorHex), 3)}/3 turuncu`,
                         isComplete: (stats) => stats.countColor(CONFIG.defaultSelection.colorHex) >= 3,
-                        success: 'Turuncu kule parlamaya basladi.'
+                        success: 'Turuncu kule parlamaya başladı.'
                     }),
                     createSpeechMission({
                         id: 'mim-pair',
-                        text: '2 tane Mim harfli blok yerlestir.',
+                        text: '2 tane Mim harfli blok yerleştir.',
                         progress: (stats) => `${Math.min(stats.countLetter('م'), 2)}/2 Mim`,
                         isComplete: (stats) => stats.countLetter('م') >= 2,
-                        success: 'Mimlerle yeni bir gorev tamamladin.'
+                        success: 'Mimlerle yeni bir görev tamamladın.'
                     }),
                     createSpeechMission({
                         id: 'height-three',
-                        text: '3 katli bir yapi kur.',
+                        text: '3 katlı bir yapı kur.',
                         progress: (stats) => `${Math.max(stats.maxGridY + 1, 0)}/3 kat`,
                         isComplete: (stats) => stats.maxGridY >= 2,
-                        success: 'Uc katli yapin uzaktan da gorunuyor.'
+                        success: 'Üç katlı yapın uzaktan da görünüyor.'
                     }),
                     createSpeechMission({
                         id: 'marked-pair',
@@ -2629,39 +2629,39 @@
                     }),
                     createSpeechMission({
                         id: 'blue-pair',
-                        text: '2 mavi blok yerlestir.',
+                        text: '2 mavi blok yerleştir.',
                         progress: (stats) => `${Math.min(stats.countColor(0x4d9fff), 2)}/2 mavi`,
                         isComplete: (stats) => stats.countColor(0x4d9fff) >= 2,
-                        success: 'Mavi blok gorevini de tamamladin.'
+                        success: 'Mavi blok görevini de tamamladın.'
                     }),
                     createSpeechMission({
                         id: 'wide-base',
                         text: 'Yerde 5 blokluk genis bir taban kur.',
                         progress: (stats) => `${Math.min(stats.groundBlocks, 5)}/5 taban`,
                         isComplete: (stats) => stats.groundBlocks >= 5,
-                        success: 'Taban gorevi tamam. Simdi yukariya cikabilirsin.'
+                        success: 'Taban görevi tamam. Şimdi yukarıya çıkabilirsin.'
                     }),
-                    createWordMission({ id: 'name-mustafa', label: 'Mustafa', arabic: 'مصطفي', type: 'isim', success: 'Mustafa gorevini tamamladin.' }),
-                    createWordMission({ id: 'name-fatima', label: 'Fatima', arabic: 'فاطمه', type: 'isim', success: 'Fatima gorevini tamamladin.' }),
-                    createWordMission({ id: 'name-emine', label: 'Emine', arabic: 'امينه', type: 'isim', success: 'Emine gorevini tamamladin.' }),
-                    createWordMission({ id: 'name-ali', label: 'Ali', arabic: 'علي', type: 'isim', success: 'Ali gorevini de bitirdin.' }),
-                    createWordMission({ id: 'name-hasan', label: 'Hasan', arabic: 'حسن', type: 'isim', success: 'Hasan gorevi tamamlandi.' }),
-                    createWordMission({ id: 'name-yusuf', label: 'Yusuf', arabic: 'يوسف', type: 'isim', success: 'Yusuf gorevini tamamladin.' }),
-                    createWordMission({ id: 'name-meryem', label: 'Meryem', arabic: 'مريم', type: 'isim', success: 'Meryem gorevi de tamamlandi.' }),
-                    createWordMission({ id: 'fruit-muz', label: 'Muz', arabic: 'موز', success: 'Muz gorevini tamamladin.' }),
-                    createWordMission({ id: 'fruit-uzum', label: 'Uzum', arabic: 'عنب', success: 'Uzum gorevini tamamladin.' }),
-                    createWordMission({ id: 'fruit-elma', label: 'Elma', arabic: 'تفاح', success: 'Elma gorevini tamamladin.' }),
-                    createWordMission({ id: 'fruit-nar', label: 'Nar', arabic: 'رمان', success: 'Nar gorevi tamamlandi.' }),
-                    createWordMission({ id: 'veg-havuc', label: 'Havuc', arabic: 'جزر', success: 'Havuc gorevini tamamladin.' }),
-                    createWordMission({ id: 'veg-sogan', label: 'Sogan', arabic: 'بصل', success: 'Sogan gorevini tamamladin.' }),
-                    createWordMission({ id: 'thing-ev', label: 'Ev', arabic: 'بيت', success: 'Ev gorevini tamamladin.' }),
-                    createWordMission({ id: 'thing-kapi', label: 'Kapi', arabic: 'باب', success: 'Kapi gorevi tamamlandi.' }),
-                    createWordMission({ id: 'thing-isik', label: 'Isik', arabic: 'نور', success: 'Isik gorevini tamamladin.' }),
-                    createWordMission({ id: 'thing-kitap', label: 'Kitap', arabic: 'كتاب', success: 'Kitap gorevi tamamlandi.' }),
-                    createWordMission({ id: 'thing-kalem', label: 'Kalem', arabic: 'قلم', success: 'Kalem gorevini tamamladin.' }),
-                    createWordMission({ id: 'thing-balik', label: 'Balik', arabic: 'سمك', success: 'Balik gorevi tamamlandi.' }),
-                    createWordMission({ id: 'thing-gul', label: 'Gul', arabic: 'ورد', success: 'Gul gorevini tamamladin.' }),
-                    createWordMission({ id: 'thing-bulut', label: 'Bulut', arabic: 'سحاب', success: 'Bulut gorevi tamamlandi.' })
+                    createWordMission({ id: 'name-mustafa', label: 'Mustafa', arabic: 'مصطفي', type: 'isim', success: 'Mustafa görevini tamamladın.' }),
+                    createWordMission({ id: 'name-fatima', label: 'Fatima', arabic: 'فاطمه', type: 'isim', success: 'Fatima görevini tamamladın.' }),
+                    createWordMission({ id: 'name-emine', label: 'Emine', arabic: 'امينه', type: 'isim', success: 'Emine görevini tamamladın.' }),
+                    createWordMission({ id: 'name-ali', label: 'Ali', arabic: 'علي', type: 'isim', success: 'Ali görevini de bitirdin.' }),
+                    createWordMission({ id: 'name-hasan', label: 'Hasan', arabic: 'حسن', type: 'isim', success: 'Hasan görevi tamamlandı.' }),
+                    createWordMission({ id: 'name-yusuf', label: 'Yusuf', arabic: 'يوسف', type: 'isim', success: 'Yusuf görevini tamamladın.' }),
+                    createWordMission({ id: 'name-meryem', label: 'Meryem', arabic: 'مريم', type: 'isim', success: 'Meryem görevi de tamamlandı.' }),
+                    createWordMission({ id: 'fruit-muz', label: 'Muz', arabic: 'موز', success: 'Muz görevini tamamladın.' }),
+                    createWordMission({ id: 'fruit-uzum', label: 'Üzüm', arabic: 'عنب', success: 'Üzüm görevini tamamladın.' }),
+                    createWordMission({ id: 'fruit-elma', label: 'Elma', arabic: 'تفاح', success: 'Elma görevini tamamladın.' }),
+                    createWordMission({ id: 'fruit-nar', label: 'Nar', arabic: 'رمان', success: 'Nar görevi tamamlandı.' }),
+                    createWordMission({ id: 'veg-havuc', label: 'Havuç', arabic: 'جزر', success: 'Havuç görevini tamamladın.' }),
+                    createWordMission({ id: 'veg-sogan', label: 'Soğan', arabic: 'بصل', success: 'Soğan görevini tamamladın.' }),
+                    createWordMission({ id: 'thing-ev', label: 'Ev', arabic: 'بيت', success: 'Ev görevini tamamladın.' }),
+                    createWordMission({ id: 'thing-kapi', label: 'Kapı', arabic: 'باب', success: 'Kapı görevi tamamlandı.' }),
+                    createWordMission({ id: 'thing-isik', label: 'Işık', arabic: 'نور', success: 'Işık görevini tamamladın.' }),
+                    createWordMission({ id: 'thing-kitap', label: 'Kitap', arabic: 'كتاب', success: 'Kitap görevi tamamlandı.' }),
+                    createWordMission({ id: 'thing-kalem', label: 'Kalem', arabic: 'قلم', success: 'Kalem görevini tamamladın.' }),
+                    createWordMission({ id: 'thing-balik', label: 'Balık', arabic: 'سمك', success: 'Balık görevi tamamlandı.' }),
+                    createWordMission({ id: 'thing-gul', label: 'Gül', arabic: 'ورد', success: 'Gül görevini tamamladın.' }),
+                    createWordMission({ id: 'thing-bulut', label: 'Bulut', arabic: 'سحاب', success: 'Bulut görevi tamamlandı.' })
                 ];
             }
 
@@ -2674,7 +2674,7 @@
                 this.updateMissionCard();
 
                 if (showHint && this.currentMission) {
-                    this.setCoachMessage(`Yeni mini gorev: ${this.currentMission.text}`, true);
+                    this.setCoachMessage(`Yeni mini görev: ${this.currentMission.text}`, true);
                     this.speakCurrentMission(true);
                 }
             }
@@ -2684,14 +2684,14 @@
                 if (Array.isArray(mission.speechSegments) && mission.speechSegments.length > 0) {
                     return mission.speechSegments;
                 }
-                return [{ text: `Mini gorev. ${mission.speechText || mission.text}`, lang: 'tr-TR', rate: 0.48 }];
+                return [{ text: `Mini görev. ${mission.speechText || mission.text}`, lang: 'tr-TR', rate: 0.48 }];
             }
 
             speakCurrentMission(silent = false) {
                 if (!this.currentMission) return false;
                 if (!this.canUseSoundPlayback() || !this.isSoundEnabled) {
                     if (!silent) {
-                        this.setCoachMessage('Ses kapaliysa gorev okunamaz. Hoparloru acabilirsin.', true);
+                        this.setCoachMessage('Ses kapalıysa görev okunamaz. Hoparlörleri açabilirsin.', true);
                     }
                     return false;
                 }
@@ -2841,8 +2841,8 @@
                 button.setAttribute('aria-label', isComplete ? 'Sahneyi temizle' : 'Başka mini görev seç');
                 playButton.disabled = !this.isSpeechSupported || !this.isSoundEnabled;
                 playButton.title = !this.isSpeechSupported
-                    ? 'Bu tarayicida seslendirme desteklenmiyor'
-                    : (this.isSoundEnabled ? 'Mini gorevi dinlet' : 'Ses su an kapali');
+                    ? 'Bu tarayıcıda seslendirme desteklenmiyor'
+                    : (this.isSoundEnabled ? 'Mini görevi dinlet' : 'Ses şu an kapalı');
 
                 if (!isComplete && this.currentMissionCompleted) {
                     this.currentMissionCompleted = false;
@@ -3003,7 +3003,7 @@
             getStatusBarText() {
                 const modeLabel = this.isRemoveMode ? 'Sil' : 'Yap';
                 const blockCount = this.getBlockCount();
-                return `Hazır! Mod: ${modeLabel} • Blok: ${blockCount} • Yildiz: ${this.completedMissionCount}`;
+                return `Hazır! Mod: ${modeLabel} • Blok: ${blockCount} • Yıldız: ${this.completedMissionCount}`;
             }
 
             createColorPalette() {
@@ -3285,10 +3285,10 @@
 
                 const isMissionReward = source === 'mission';
                 this.openConfirmDialog({
-                    title: isMissionReward ? 'Yeni Goreve Hazir misin?' : 'Sahneyi Temizleyelim mi?',
+                    title: isMissionReward ? 'Yeni Göreve Hazır mısın?' : 'Sahneyi Temizleyelim mi?',
                     message: isMissionReward
-                        ? 'Gorevi tamamladin. Supurgeye dokunursan alan temizlenecek ve yeni mini gorev gelecek.'
-                        : 'Sahnedeki tum bloklar temizlenecek. Devam etmek ister misin?',
+                        ? 'Görevi tamamladın. Süpürgeye dokunursan alan temizlenecek ve yeni mini görev gelecek.'
+                        : 'Sahnedeki tüm bloklar temizlenecek. Devam etmek ister misin?',
                     confirmLabel: isMissionReward ? 'Temizle ve Basla' : 'Temizle',
                     onConfirm: () => this.clearAllBlocks({ assignNewMission: isMissionReward })
                 });

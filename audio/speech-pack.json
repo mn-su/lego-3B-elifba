@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-19T11:31:36.676Z",
+  "generatedAt": "2026-03-19T12:44:54.005Z",
   "engine": "macos-say",
   "format": "mp3",
   "cues": {
@@ -17,7 +17,7 @@
     },
     "preset.kopru": {
       "src": "audio/generated/preset-kopru.mp3",
-      "text": "Kopru",
+      "text": "Köprü",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -53,7 +53,7 @@
     },
     "preset.bab.tr": {
       "src": "audio/generated/preset-bab-tr.mp3",
-      "text": "Kapi",
+      "text": "Kapı",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -65,7 +65,7 @@
     },
     "preset.nur.tr": {
       "src": "audio/generated/preset-nur-tr.mp3",
-      "text": "Isik",
+      "text": "Işık",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -89,61 +89,61 @@
     },
     "mission.three-blocks.tr": {
       "src": "audio/generated/mission-three-blocks-tr.mp3",
-      "text": "3 blokluk minik bir yapi kur.",
+      "text": "3 blokluk minik bir yapı kur.",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
     "mission.orange-pair.tr": {
       "src": "audio/generated/mission-orange-pair-tr.mp3",
-      "text": "2 turuncu blok yerlestir.",
+      "text": "2 turuncu blok yerleştir.",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
     "mission.letter-be.tr": {
       "src": "audio/generated/mission-letter-be-tr.mp3",
-      "text": "2 tane Be harfli blok yerlestir.",
+      "text": "2 tane Be harfli blok yerleştir.",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
     "mission.height-two.tr": {
       "src": "audio/generated/mission-height-two-tr.mp3",
-      "text": "2 katli bir yapi kur.",
+      "text": "2 katlı bir yapı kur.",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
     "mission.three-colors.tr": {
       "src": "audio/generated/mission-three-colors-tr.mp3",
-      "text": "3 farkli renk kullan.",
+      "text": "3 farklı renk kullan.",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
     "mission.fatha-block.tr": {
       "src": "audio/generated/mission-fatha-block-tr.mp3",
-      "text": "Ustunlu bir blok ekle.",
+      "text": "Üstünlü bir blok ekle.",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
     "mission.seven-blocks.tr": {
       "src": "audio/generated/mission-seven-blocks-tr.mp3",
-      "text": "7 blokluk biraz daha buyuk bir yapi kur.",
+      "text": "7 blokluk biraz daha büyük bir yapı kur.",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
     "mission.orange-trio.tr": {
       "src": "audio/generated/mission-orange-trio-tr.mp3",
-      "text": "3 turuncu blok yerlestir.",
+      "text": "3 turuncu blok yerleştir.",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
     "mission.mim-pair.tr": {
       "src": "audio/generated/mission-mim-pair-tr.mp3",
-      "text": "2 tane Mim harfli blok yerlestir.",
+      "text": "2 tane Mim harfli blok yerleştir.",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
     "mission.height-three.tr": {
       "src": "audio/generated/mission-height-three-tr.mp3",
-      "text": "3 katli bir yapi kur.",
+      "text": "3 katlı bir yapı kur.",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -155,19 +155,19 @@
     },
     "mission.blue-pair.tr": {
       "src": "audio/generated/mission-blue-pair-tr.mp3",
-      "text": "2 mavi blok yerlestir.",
+      "text": "2 mavi blok yerleştir.",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
     "mission.wide-base.tr": {
       "src": "audio/generated/mission-wide-base-tr.mp3",
-      "text": "Yerde 5 blokluk genis bir taban kur.",
+      "text": "Yerde 5 blokluk geniş bir taban kur.",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
     "mission.name-mustafa.tr": {
       "src": "audio/generated/mission-name-mustafa-tr.mp3",
-      "text": "Mustafa adini yaz. Arapca yazilisi",
+      "text": "Mustafa adını yaz. Arapça yazılışı",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -179,7 +179,7 @@
     },
     "mission.name-fatima.tr": {
       "src": "audio/generated/mission-name-fatima-tr.mp3",
-      "text": "Fatima adini yaz. Arapca yazilisi",
+      "text": "Fatima adını yaz. Arapça yazılışı",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -191,7 +191,7 @@
     },
     "mission.name-emine.tr": {
       "src": "audio/generated/mission-name-emine-tr.mp3",
-      "text": "Emine adini yaz. Arapca yazilisi",
+      "text": "Emine adını yaz. Arapça yazılışı",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -203,7 +203,7 @@
     },
     "mission.name-ali.tr": {
       "src": "audio/generated/mission-name-ali-tr.mp3",
-      "text": "Ali adini yaz. Arapca yazilisi",
+      "text": "Ali adını yaz. Arapça yazılışı",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -215,7 +215,7 @@
     },
     "mission.name-hasan.tr": {
       "src": "audio/generated/mission-name-hasan-tr.mp3",
-      "text": "Hasan adini yaz. Arapca yazilisi",
+      "text": "Hasan adını yaz. Arapça yazılışı",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -227,7 +227,7 @@
     },
     "mission.name-yusuf.tr": {
       "src": "audio/generated/mission-name-yusuf-tr.mp3",
-      "text": "Yusuf adini yaz. Arapca yazilisi",
+      "text": "Yusuf adını yaz. Arapça yazılışı",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -239,7 +239,7 @@
     },
     "mission.name-meryem.tr": {
       "src": "audio/generated/mission-name-meryem-tr.mp3",
-      "text": "Meryem adini yaz. Arapca yazilisi",
+      "text": "Meryem adını yaz. Arapça yazılışı",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -251,7 +251,7 @@
     },
     "mission.fruit-muz.tr": {
       "src": "audio/generated/mission-fruit-muz-tr.mp3",
-      "text": "Muz yaz. Arapcasi",
+      "text": "Muz yaz. Arapçası",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -263,7 +263,7 @@
     },
     "mission.fruit-uzum.tr": {
       "src": "audio/generated/mission-fruit-uzum-tr.mp3",
-      "text": "Uzum yaz. Arapcasi",
+      "text": "Üzüm yaz. Arapçası",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -275,7 +275,7 @@
     },
     "mission.fruit-elma.tr": {
       "src": "audio/generated/mission-fruit-elma-tr.mp3",
-      "text": "Elma yaz. Arapcasi",
+      "text": "Elma yaz. Arapçası",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -287,7 +287,7 @@
     },
     "mission.fruit-nar.tr": {
       "src": "audio/generated/mission-fruit-nar-tr.mp3",
-      "text": "Nar yaz. Arapcasi",
+      "text": "Nar yaz. Arapçası",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -299,7 +299,7 @@
     },
     "mission.veg-havuc.tr": {
       "src": "audio/generated/mission-veg-havuc-tr.mp3",
-      "text": "Havuc yaz. Arapcasi",
+      "text": "Havuç yaz. Arapçası",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -311,7 +311,7 @@
     },
     "mission.veg-sogan.tr": {
       "src": "audio/generated/mission-veg-sogan-tr.mp3",
-      "text": "Sogan yaz. Arapcasi",
+      "text": "Soğan yaz. Arapçası",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -323,7 +323,7 @@
     },
     "mission.thing-ev.tr": {
       "src": "audio/generated/mission-thing-ev-tr.mp3",
-      "text": "Ev yaz. Arapcasi",
+      "text": "Ev yaz. Arapçası",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -335,7 +335,7 @@
     },
     "mission.thing-kapi.tr": {
       "src": "audio/generated/mission-thing-kapi-tr.mp3",
-      "text": "Kapi yaz. Arapcasi",
+      "text": "Kapı yaz. Arapçası",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -347,7 +347,7 @@
     },
     "mission.thing-isik.tr": {
       "src": "audio/generated/mission-thing-isik-tr.mp3",
-      "text": "Isik yaz. Arapcasi",
+      "text": "Işık yaz. Arapçası",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -359,7 +359,7 @@
     },
     "mission.thing-kitap.tr": {
       "src": "audio/generated/mission-thing-kitap-tr.mp3",
-      "text": "Kitap yaz. Arapcasi",
+      "text": "Kitap yaz. Arapçası",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -371,7 +371,7 @@
     },
     "mission.thing-kalem.tr": {
       "src": "audio/generated/mission-thing-kalem-tr.mp3",
-      "text": "Kalem yaz. Arapcasi",
+      "text": "Kalem yaz. Arapçası",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -383,7 +383,7 @@
     },
     "mission.thing-balik.tr": {
       "src": "audio/generated/mission-thing-balik-tr.mp3",
-      "text": "Balik yaz. Arapcasi",
+      "text": "Balık yaz. Arapçası",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -395,7 +395,7 @@
     },
     "mission.thing-gul.tr": {
       "src": "audio/generated/mission-thing-gul-tr.mp3",
-      "text": "Gul yaz. Arapcasi",
+      "text": "Gül yaz. Arapçası",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -407,7 +407,7 @@
     },
     "mission.thing-bulut.tr": {
       "src": "audio/generated/mission-thing-bulut-tr.mp3",
-      "text": "Bulut yaz. Arapcasi",
+      "text": "Bulut yaz. Arapçası",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -425,7 +425,7 @@
     },
     "celebration.yildiz": {
       "src": "audio/generated/celebration-yildiz.mp3",
-      "text": "Sahane. Bir yildiz daha kazandin.",
+      "text": "Şahane. Bir yıldız daha kazandın.",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -437,7 +437,7 @@
     },
     "celebration.cokguzel": {
       "src": "audio/generated/celebration-cokguzel.mp3",
-      "text": "Cok guzel oldu.",
+      "text": "Çok güzel oldu.",
       "lang": "tr-TR",
       "voice": "Yelda"
     }
