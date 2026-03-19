@@ -470,6 +470,48 @@
             padding: 0 0 8px;
         }
 
+        .palette-tabs {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 0 0 10px;
+        }
+
+        .palette-tab {
+            flex: 1 1 0;
+            height: 40px;
+            border: none;
+            border-radius: 16px;
+            font: inherit;
+            font-size: 14px;
+            font-weight: 900;
+            cursor: pointer;
+            color: var(--ink);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(247, 251, 255, 0.86));
+            box-shadow: 0 8px 16px rgba(88, 107, 132, 0.12);
+            transition: transform 0.15s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+            user-select: none;
+        }
+
+        .palette-tab:active {
+            transform: scale(0.98);
+        }
+
+        .palette-tab[aria-selected="true"] {
+            background: linear-gradient(180deg, #fff6ef, #fffdf9);
+            box-shadow: 0 0 0 3px var(--accent-ring);
+        }
+
+        body.palette-open {
+            /* When palette is open on mobile, hide other cards to prevent overlap/overflow. */
+        }
+
+        body.palette-tab-presets #preset-section,
+        body.palette-tab-letters #letter-section {
+            /* Defaults overridden in mobile media query. */
+        }
+
         .palette-scroll {
             display: grid;
             gap: 10px;
@@ -908,13 +950,20 @@
                 left: 50%;
                 bottom: calc(env(safe-area-inset-bottom) + 12px);
                 transform: translateX(-50%);
-                width: min(304px, calc(100vw - 18px));
+                width: calc(100vw - 18px);
                 flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 8px;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                gap: 6px;
                 padding: 10px;
                 border-radius: 24px;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+
+            #controls::-webkit-scrollbar {
+                display: none;
             }
 
             .control-btn {
@@ -947,6 +996,32 @@
 
             .palette-scroll {
                 max-height: calc(100vh - 250px);
+            }
+
+            .palette-tabs {
+                display: flex;
+            }
+
+            body.palette-open #hud-info-stack,
+            body.palette-open #active-selection-card {
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+            }
+
+            body.palette-tab-presets #preset-section {
+                display: block;
+            }
+            body.palette-tab-presets #letter-section,
+            body.palette-tab-presets #combo-section {
+                display: none;
+            }
+            body.palette-tab-letters #letter-section,
+            body.palette-tab-letters #combo-section {
+                display: block;
+            }
+            body.palette-tab-letters #preset-section {
+                display: none;
             }
 
             .palette-section {
@@ -1069,14 +1144,18 @@
         <div class="palette-header">
             <button id="close-palette-btn" class="mini-ui-btn" type="button" aria-label="Paleti kapat">✕</button>
         </div>
+        <div class="palette-tabs" role="tablist" aria-label="Palet sekmeleri">
+            <button id="palette-tab-presets" class="palette-tab" type="button" role="tab" aria-selected="false">Hazır Yapılar</button>
+            <button id="palette-tab-letters" class="palette-tab" type="button" role="tab" aria-selected="true">Harfler</button>
+        </div>
         <div class="palette-scroll">
-            <section class="palette-section compact">
+            <section id="preset-section" class="palette-section compact">
                 <div id="preset-palette"></div>
             </section>
-            <section class="palette-section">
+            <section id="letter-section" class="palette-section">
                 <div id="letter-palette"></div>
             </section>
-            <section class="palette-section compact">
+            <section id="combo-section" class="palette-section compact">
                 <div class="palette-combo-grid">
                     <div class="palette-group">
                         <div id="color-palette"></div>
@@ -1447,6 +1526,7 @@
                 this.isPaletteOpen = false;
                 this.isHelpOpen = false;
                 this.isHudVisible = true;
+                this.mobilePaletteTab = 'letters'; // Mobile: Presetler ve Harfler ayrı sekmede gösterilir.
                 this.isMobileViewport = window.innerWidth <= 768;
                 this.needsRender = false;
 
@@ -2949,6 +3029,19 @@
                 backdrop.setAttribute('aria-hidden', String(!shouldShow));
             }
 
+            setMobilePaletteTab(tab) {
+                const normalizedTab = tab === 'presets' ? 'presets' : 'letters';
+                this.mobilePaletteTab = normalizedTab;
+
+                document.body.classList.toggle('palette-tab-presets', normalizedTab === 'presets');
+                document.body.classList.toggle('palette-tab-letters', normalizedTab === 'letters');
+
+                const presetsBtn = document.getElementById('palette-tab-presets');
+                const lettersBtn = document.getElementById('palette-tab-letters');
+                presetsBtn?.setAttribute('aria-selected', String(normalizedTab === 'presets'));
+                lettersBtn?.setAttribute('aria-selected', String(normalizedTab === 'letters'));
+            }
+
             setPaletteOpen(nextState) {
                 this.isPaletteOpen = nextState;
                 if (this.isPaletteOpen) {
@@ -2969,6 +3062,9 @@
                 this.syncBackdrop();
                 this.setCoachMessage(this.getDefaultCoachMessage());
                 this.needsRender = true;
+
+                document.body.classList.toggle('palette-open', this.isPaletteOpen && this.isMobileViewport);
+                if (this.isMobileViewport) this.setMobilePaletteTab(this.mobilePaletteTab);
             }
 
             togglePalette(forceOpen = !this.isPaletteOpen) {
@@ -3166,6 +3262,9 @@
                     this.setPaletteOpen(false);
                     this.setHelpOpen(false);
                 });
+
+                document.getElementById('palette-tab-presets')?.addEventListener('click', () => this.setMobilePaletteTab('presets'));
+                document.getElementById('palette-tab-letters')?.addEventListener('click', () => this.setMobilePaletteTab('letters'));
                 window.addEventListener('beforeunload', () => this.persistAutosave());
 
                 this.setPaletteOpen(!this.isMobileViewport);
