@@ -74,54 +74,352 @@
             z-index: 1;
         }
 
-        #info,
-        #status-bar,
+        #hud-info-stack,
         #controls,
         #shortcuts-help,
+        #active-selection-card,
         #palette-container,
         #palette-backdrop {
             position: absolute;
         }
 
+        #hud-info-stack {
+            position: fixed;
+            top: calc(env(safe-area-inset-top) + 10px);
+            left: calc(env(safe-area-inset-left) + 12px);
+            width: min(390px, calc(100vw - 228px));
+            display: grid;
+            gap: 10px;
+            z-index: 30;
+            transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+        }
+
         #info {
-            top: calc(env(safe-area-inset-top) + 14px);
-            left: 50%;
-            transform: translateX(-50%);
-            width: min(470px, calc(100vw - 24px));
+            position: static;
+            width: 100%;
             padding: 14px 18px;
             border-radius: 24px;
             background: var(--panel);
             border: 1px solid var(--panel-border);
             box-shadow: var(--shadow);
             backdrop-filter: blur(16px);
-            text-align: center;
+            text-align: left;
             color: var(--ink);
             font-size: 15px;
             font-weight: 600;
             line-height: 1.45;
             pointer-events: none;
-            z-index: 30;
         }
 
         #status-bar {
-            top: calc(env(safe-area-inset-top) + 100px);
-            left: 50%;
-            transform: translateX(-50%);
-            width: min(560px, calc(100vw - 24px));
+            position: static;
+            width: 100%;
             padding: 10px 16px;
             border-radius: 20px;
             background: rgba(255, 255, 255, 0.74);
             border: 1px solid rgba(255, 255, 255, 0.72);
             box-shadow: 0 10px 24px rgba(80, 103, 132, 0.14);
             backdrop-filter: blur(16px);
-            text-align: center;
+            text-align: left;
             color: var(--ink);
             font-size: 13px;
             font-weight: 600;
             line-height: 1.45;
             white-space: normal;
             pointer-events: none;
-            z-index: 30;
+        }
+
+        #mission-card {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid rgba(255, 255, 255, 0.82);
+            box-shadow: 0 10px 24px rgba(80, 103, 132, 0.14);
+            backdrop-filter: blur(16px);
+            display: grid;
+            gap: 8px;
+            transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+        }
+
+        #mission-launcher {
+            width: 100%;
+        }
+
+        #start-mission-btn {
+            width: 100%;
+            min-height: 54px;
+            border: none;
+            border-radius: 20px;
+            font: inherit;
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--ink);
+            cursor: pointer;
+            background: linear-gradient(180deg, #fff6e7, #ffe7d4);
+            box-shadow: 0 12px 24px rgba(255, 149, 92, 0.18);
+            transition: transform 0.16s ease, box-shadow 0.18s ease;
+        }
+
+        #start-mission-btn:hover,
+        #start-mission-btn:focus-visible {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 28px rgba(255, 149, 92, 0.24);
+            outline: none;
+        }
+
+        #mission-card.completed {
+            border-color: rgba(78, 203, 113, 0.8);
+            background: linear-gradient(180deg, rgba(245, 255, 248, 0.92), rgba(255, 255, 255, 0.84));
+            box-shadow: 0 0 0 3px rgba(78, 203, 113, 0.14), 0 10px 24px rgba(80, 103, 132, 0.14);
+        }
+
+        .mission-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .mission-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .mission-title {
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.01em;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+
+        #mission-text {
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.65;
+            color: var(--ink);
+        }
+
+        .mission-arabic {
+            display: inline-block;
+            margin-left: 6px;
+            font-size: 2.15em;
+            line-height: 0.88;
+            font-weight: 800;
+            direction: rtl;
+            unicode-bidi: isolate;
+            vertical-align: middle;
+        }
+
+        #mission-progress {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--muted);
+        }
+
+        #celebration-banner {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 22px;
+            background:
+                radial-gradient(circle at top right, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0) 34%),
+                linear-gradient(135deg, rgba(255, 224, 133, 0.98), rgba(255, 166, 116, 0.95));
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 14px 28px rgba(255, 169, 86, 0.2);
+            color: #6b3b1d;
+            display: grid;
+            gap: 3px;
+            pointer-events: none;
+            animation: celebration-pop 0.42s ease;
+        }
+
+        .celebration-kicker {
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .celebration-title {
+            font-size: 16px;
+            font-weight: 900;
+            line-height: 1.2;
+        }
+
+        .celebration-copy {
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1.35;
+            color: rgba(107, 59, 29, 0.82);
+        }
+
+        @keyframes celebration-pop {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px) scale(0.96);
+            }
+            60% {
+                opacity: 1;
+                transform: translateY(0) scale(1.02);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .hidden-panel {
+            display: none !important;
+        }
+
+        #confirm-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(21, 34, 48, 0.34);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.18s ease, visibility 0.18s ease;
+            z-index: 118;
+        }
+
+        #confirm-backdrop.visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        #confirm-dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: min(360px, calc(100vw - 28px));
+            padding: 18px;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 18px 42px rgba(60, 80, 104, 0.22);
+            backdrop-filter: blur(18px);
+            transform: translate(-50%, calc(-50% + 14px)) scale(0.98);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+            z-index: 120;
+            display: grid;
+            gap: 14px;
+        }
+
+        #confirm-dialog.visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .confirm-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--ink);
+        }
+
+        .confirm-copy {
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--muted);
+        }
+
+        .confirm-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .confirm-btn {
+            min-width: 108px;
+            height: 46px;
+            border: none;
+            border-radius: 16px;
+            font: inherit;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            color: var(--ink);
+            background: linear-gradient(180deg, #ffffff, #f5fbff);
+            box-shadow: 0 8px 16px rgba(88, 107, 132, 0.14);
+            transition: transform 0.15s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+        }
+
+        .confirm-btn:hover,
+        .confirm-btn:focus-visible {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 22px rgba(88, 107, 132, 0.2);
+            outline: none;
+        }
+
+        .confirm-btn.danger {
+            color: #fff;
+            background: linear-gradient(180deg, #ff8f7e, #ff6b78);
+        }
+
+        #active-selection-card {
+            position: fixed;
+            top: calc(env(safe-area-inset-top) + 6px);
+            right: calc(env(safe-area-inset-right) + 10px);
+            width: min(176px, calc(100vw - 20px));
+            padding: 10px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid rgba(255, 255, 255, 0.84);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(16px);
+            z-index: 45;
+            display: grid;
+            gap: 8px;
+            transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+        }
+
+        .active-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .active-card-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .active-card-body {
+            display: grid;
+            justify-items: center;
+        }
+
+        .selection-cube-scene {
+            width: 122px;
+            height: 122px;
+            display: grid;
+            place-items: center;
+            border-radius: 20px;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.86), rgba(239, 247, 255, 0.68));
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        #selection-preview-host {
+            width: 100%;
+            height: 100%;
+        }
+
+        #selection-preview-host canvas {
+            width: 100% !important;
+            height: 100% !important;
+            display: block;
+            border-radius: 20px;
         }
 
         #palette-backdrop {
@@ -391,6 +689,92 @@
             flex-shrink: 0;
         }
 
+        .mini-ui-btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        #preset-palette {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: flex-start;
+        }
+
+        .preset-btn {
+            width: 58px;
+            height: 58px;
+            padding: 0;
+            border: 2px solid rgba(216, 227, 239, 0.98);
+            border-radius: 18px;
+            background: linear-gradient(180deg, #ffffff, #f6fbff);
+            box-shadow: 0 7px 16px rgba(90, 108, 134, 0.1);
+            color: var(--ink);
+            font: inherit;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+            touch-action: manipulation;
+        }
+
+        .preset-btn[data-kind="shape"] {
+            border-color: rgba(255, 145, 92, 0.8);
+            background: linear-gradient(180deg, #fffaf2, #f6fbff);
+        }
+
+        .preset-btn[data-kind="word"] {
+            border-color: rgba(89, 149, 255, 0.82);
+            background: linear-gradient(180deg, #fff7f0, #fffef7);
+        }
+
+        .preset-icon {
+            font-size: 29px;
+            line-height: 1;
+            filter: drop-shadow(0 4px 8px rgba(82, 104, 130, 0.18));
+        }
+
+        .preset-btn:hover,
+        .preset-btn:focus-visible {
+            transform: translateY(-2px);
+            border-color: rgba(255, 122, 89, 0.55);
+            box-shadow: 0 10px 20px rgba(90, 108, 134, 0.16);
+            outline: none;
+        }
+
+        .preset-btn.selected {
+            border-color: var(--accent);
+            background: linear-gradient(180deg, #fff6ef, #fffdf9);
+            box-shadow: 0 0 0 3px var(--accent-ring);
+        }
+
+        .preset-btn[data-kind="shape"].selected {
+            border-color: rgba(255, 122, 89, 0.96);
+            background: linear-gradient(180deg, #fff6ef, #fffdf9);
+            box-shadow: 0 0 0 3px rgba(255, 122, 89, 0.22);
+        }
+
+        .preset-btn[data-kind="word"].selected {
+            border-color: rgba(89, 149, 255, 0.96);
+            background: linear-gradient(180deg, #f4f8ff, #fffdf9);
+            box-shadow: 0 0 0 3px rgba(89, 149, 255, 0.2);
+        }
+
+        .mini-ui-btn[aria-pressed="true"] {
+            background: linear-gradient(180deg, #fff1ea, #ffe1d4);
+            box-shadow: 0 0 0 3px rgba(255, 122, 89, 0.16);
+        }
+
+        body.hud-cards-hidden #hud-info-stack,
+        body.hud-cards-hidden #active-selection-card {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-10px);
+        }
+
         #shortcuts-help {
             left: 20px;
             bottom: 20px;
@@ -452,19 +836,70 @@
         }
 
         @media (max-width: 768px) {
+            #hud-info-stack {
+                top: calc(env(safe-area-inset-top) + 6px);
+                left: calc(env(safe-area-inset-left) + 6px);
+                width: clamp(150px, calc(100vw - 164px), 250px);
+                gap: 8px;
+            }
+
             #info {
-                top: calc(env(safe-area-inset-top) + 10px);
-                width: calc(100vw - 18px);
                 padding: 12px 14px;
                 border-radius: 20px;
                 font-size: 13px;
             }
 
             #status-bar {
-                top: calc(env(safe-area-inset-top) + 86px);
-                width: calc(100vw - 18px);
                 padding: 8px 12px;
                 font-size: 12px;
+            }
+
+            #mission-card {
+                padding: 10px 12px;
+                border-radius: 18px;
+            }
+
+            #mission-text {
+                font-size: 13px;
+            }
+
+            .mission-arabic {
+                margin-left: 4px;
+                font-size: 1.95em;
+            }
+
+            #start-mission-btn {
+                min-height: 50px;
+                border-radius: 18px;
+                font-size: 15px;
+            }
+
+            #confirm-dialog {
+                width: calc(100vw - 18px);
+                padding: 16px;
+                border-radius: 20px;
+            }
+
+            .confirm-actions {
+                flex-wrap: wrap;
+            }
+
+            .confirm-btn {
+                flex: 1 1 132px;
+            }
+
+            #active-selection-card {
+                top: calc(env(safe-area-inset-top) + 4px);
+                right: calc(env(safe-area-inset-right) + 6px);
+                width: min(142px, calc(100vw - 16px));
+                padding: 10px;
+                border-radius: 18px;
+                gap: 8px;
+            }
+
+            .selection-cube-scene {
+                width: 96px;
+                height: 96px;
             }
 
             #controls {
@@ -473,7 +908,7 @@
                 left: 50%;
                 bottom: calc(env(safe-area-inset-bottom) + 12px);
                 transform: translateX(-50%);
-                width: min(248px, calc(100vw - 18px));
+                width: min(304px, calc(100vw - 18px));
                 flex-direction: row;
                 flex-wrap: wrap;
                 justify-content: center;
@@ -487,6 +922,15 @@
                 height: 48px;
                 border-radius: 16px;
                 font-size: 22px;
+            }
+
+            .preset-btn {
+                width: 52px;
+                height: 52px;
+            }
+
+            .preset-icon {
+                font-size: 26px;
             }
 
             #palette-container {
@@ -559,8 +1003,11 @@
             }
 
             #status-bar {
-                top: calc(env(safe-area-inset-top) + 80px);
                 font-size: 11px;
+            }
+
+            #active-selection-card {
+                top: calc(env(safe-area-inset-top) + 2px);
             }
 
             #palette-container {
@@ -574,16 +1021,58 @@
     </style>
 </head>
 <body>
-    <div id="info">Haydi başlayalım. Bir renk seç, bir harf seç ve oyun alanına dokunarak ilk bloğunu yerleştir.</div>
-    <div id="status-bar">Hazır! Harf: ا • Renk: Bulut Beyazı • Hareke: Yok • Blok: 0</div>
+    <div id="hud-info-stack">
+        <div id="info">Haydi başlayalım. Bir renk seç, bir harf seç ve oyun alanına dokunarak ilk bloğunu yerleştir.</div>
+        <div id="status-bar">Hazır! Mod: Yap • Blok: 0</div>
+        <div id="mission-launcher">
+            <button id="start-mission-btn" type="button" aria-label="Mini görev başlat">🌟 Gorev Yap</button>
+        </div>
+        <div id="mission-card" aria-live="polite" class="hidden-panel">
+            <div class="mission-header">
+                <div class="mission-title">Mini Gorev</div>
+                <div class="mission-actions">
+                    <button id="play-mission-btn" class="mini-ui-btn" type="button" aria-label="Mini görevi dinlet" title="Mini görevi dinlet">🔈</button>
+                    <button id="next-mission-btn" class="mini-ui-btn" type="button" aria-label="Yeni mini görev seç" title="Yeni mini görev seç">↻</button>
+                </div>
+            </div>
+            <div id="mission-text">3 blokluk minik bir yapi kur.</div>
+            <div id="mission-progress">0/3 blok</div>
+        </div>
+        <div id="celebration-banner" aria-live="polite" class="hidden-panel"></div>
+    </div>
+    <div id="active-selection-card" aria-live="polite">
+        <div class="active-card-header">
+            <div class="active-card-actions">
+                <button id="play-selection-sound-btn" class="mini-ui-btn" type="button" aria-label="Secili sesi dinlet" title="Secili sesi dinlet">▶</button>
+                <button id="sound-toggle-btn" class="mini-ui-btn" type="button" aria-label="Sesi ac veya kapat" aria-pressed="true" title="Sesi ac veya kapat">🔊</button>
+            </div>
+        </div>
+        <div class="active-card-body">
+            <div class="selection-cube-scene" aria-hidden="true">
+                <div id="selection-preview-host"></div>
+            </div>
+        </div>
+    </div>
 
     <div id="palette-backdrop" aria-hidden="true"></div>
+    <div id="confirm-backdrop" aria-hidden="true"></div>
+    <div id="confirm-dialog" aria-hidden="true" role="alertdialog" aria-labelledby="confirm-title" aria-describedby="confirm-copy">
+        <div class="confirm-title" id="confirm-title">Temizleyelim mi?</div>
+        <div class="confirm-copy" id="confirm-copy">Sahnedeki bloklar silinecek.</div>
+        <div class="confirm-actions">
+            <button id="confirm-cancel-btn" class="confirm-btn" type="button">Vazgec</button>
+            <button id="confirm-accept-btn" class="confirm-btn danger" type="button">Temizle</button>
+        </div>
+    </div>
 
     <div id="palette-container" aria-hidden="true" role="dialog" aria-label="Renk, hareke ve harf paleti">
         <div class="palette-header">
             <button id="close-palette-btn" class="mini-ui-btn" type="button" aria-label="Paleti kapat">✕</button>
         </div>
         <div class="palette-scroll">
+            <section class="palette-section compact">
+                <div id="preset-palette"></div>
+            </section>
             <section class="palette-section">
                 <div id="letter-palette"></div>
             </section>
@@ -602,6 +1091,7 @@
 
     <div id="controls">
         <button id="toggle-palette-btn" class="control-btn" title="Paleti Aç/Kapat (P)" aria-label="Paleti aç veya kapat">🎨</button>
+        <button id="toggle-hud-btn" class="control-btn" title="Bilgi Kartlarını Aç/Kapat (I)" aria-label="Bilgi kartlarını aç veya kapat" aria-pressed="true">👁️</button>
         <button id="undo-btn" class="control-btn" title="Geri Al (Ctrl+Z)" aria-label="Son işlemi geri al">↶</button>
         <button id="redo-btn" class="control-btn" title="İleri Al (Ctrl+Y)" aria-label="Geri alınan işlemi tekrar yap">↷</button>
         <button id="remove-mode-btn" class="control-btn" title="Silme Modu (R)" aria-label="Silme modunu aç veya kapat" aria-pressed="false">🗑️</button>
@@ -618,12 +1108,19 @@
         </div>
         <div class="help-copy">Önce paleti aç, sonra rengini ve harfini seç. Oyun alanına dokununca yeni blok eklenir.</div>
         <div>🎨 Palet düğmesi renk ve harf kutusunu açar.</div>
+        <div>Sağ üstteki dönen küp aktif seçimi gösterir; ▶ sesi dinletir, 🔊 sesi acar veya kapatir.</div>
+        <div>👁️ dugmesi bilgi kartlarini ve onizlemeyi tek hamlede gizler veya geri getirir.</div>
+        <div>🌟 Gorev Yap alani temizler, mini gorevi acip yavasca okur.</div>
+        <div>Kelime gorevlerinde Turkce ad ile Arapca karsiligi art arda seslendirilir.</div>
+        <div>🔈 mini gorevi tekrar okur; ↻ yeni gorev verir, gorev bitince ayni dugme supurgeye doner.</div>
+        <div>Paletin ustundeki ikonlu hazir yapi dugmeleri secilince sekiller ve kisa kelime ornekleri hemen yuklenir.</div>
         <div>🗑️ Çöp kutusu silme modunu açar; kaldırmak istediğin bloğa dokunursun.</div>
         <div>↶ ↷ ile geri alıp tekrar deneyebilirsin.</div>
-        <div>♻️ Her şeyi temizlemek için geri dönüşüm düğmesini kullanabilirsin.</div>
+        <div>♻️ Temizleme dugmesi artik oyun ici onay kutusuyla calisir.</div>
         <div class="help-divider"></div>
         <div class="help-title" style="font-size: 15px;">Klavye kullananlar için</div>
         <div><span class="help-shortcut">P</span> Paleti aç veya kapat</div>
+        <div><span class="help-shortcut">I</span> Bilgi kartlarini ve onizlemeyi goster veya gizle</div>
         <div><span class="help-shortcut">R</span> Silme modunu aç veya kapat</div>
         <div><span class="help-shortcut">Ctrl+Z / Ctrl+Y</span> Geri al / ileri al</div>
         <div><span class="help-shortcut">1-9 ve ← →</span> Renk ve harfler arasında hızlı gez</div>
@@ -637,6 +1134,7 @@
             }
         }
     </script>
+    <script src="./audio/speech-pack.js"></script>
 
     <script type="module">
         (async () => {
@@ -654,6 +1152,58 @@
                 maxDistance: 5000
             },
             pointer: { clickThreshold: 300, moveThreshold: 10 },
+            storage: {
+                autosaveKey: 'elifba-autosave-v1',
+                exportKey: 'elifba-scene',
+                autosaveDelay: 350
+            },
+            speech: {
+                lang: 'tr-TR',
+                rate: 0.58,
+                rateArabic: 0.54,
+                pitch: 1,
+                volume: 1,
+                preferredVoices: {
+                    tr: ['yelda', 'filiz', 'zira', 'turkish', 'turkce', 'türkçe'],
+                    ar: ['tarik', 'maged', 'hoda', 'majed', 'arabic', 'العربية']
+                },
+                premiumVoiceKeywords: ['enhanced', 'premium', 'natural', 'neural', 'google', 'microsoft', 'apple', 'siri']
+            },
+            feedback: {
+                celebrations: [
+                    {
+                        kicker: 'Yildiz Toplandi',
+                        title: 'Bravo minik usta!',
+                        copy: 'Yeni gorevi tertemiz bitirdin.',
+                        speechLead: 'Bravo minik usta.',
+                        audioKey: 'celebration.bravo'
+                    },
+                    {
+                        kicker: 'Sahane',
+                        title: 'Hop, bir yildiz daha!',
+                        copy: 'Sahnen biraz daha parladı.',
+                        speechLead: 'Sahane. Bir yildiz daha kazandin.',
+                        audioKey: 'celebration.yildiz'
+                    },
+                    {
+                        kicker: 'Süper',
+                        title: 'Harika gidiyorsun!',
+                        copy: 'Bu gorevi de gulerek tamamladin.',
+                        speechLead: 'Harika gidiyorsun.',
+                        audioKey: 'celebration.harika'
+                    },
+                    {
+                        kicker: 'Cik Cik Alkis',
+                        title: 'Cok guzel oldu!',
+                        copy: 'Harflerin sirasi bu kez tam yerindeydi.',
+                        speechLead: 'Cok guzel oldu.',
+                        audioKey: 'celebration.cokguzel'
+                    }
+                ]
+            },
+            defaultSelection: {
+                colorHex: 0xff8a2a
+            },
             colors: [
                 { hex: 0xffffff, name: 'Bulut Beyazı' },
                 { hex: 0xff6fb5, name: 'Şeker Pembe' },
@@ -680,6 +1230,79 @@
                 ' ': { unicode: '', name: 'Yok' }
             },
             arabicAlphabet: ['ا', 'ب', 'ت', 'ث', 'ج', 'ح', 'خ', 'د', 'ذ', 'ر', 'ز', 'س', 'ش', 'ص', 'ض', 'ط', 'ظ', 'ع', 'غ', 'ف', 'ق', 'ك', 'ل', 'م', 'ن', 'ه', 'و', 'ي'],
+            letterNames: {
+                'ا': 'Elif',
+                'ب': 'Be',
+                'ت': 'Te',
+                'ث': 'Se',
+                'ج': 'Cim',
+                'ح': 'Ha',
+                'خ': 'Hı',
+                'د': 'Dal',
+                'ذ': 'Zel',
+                'ر': 'Ra',
+                'ز': 'Ze',
+                'س': 'Sin',
+                'ش': 'Şın',
+                'ص': 'Sad',
+                'ض': 'Dad',
+                'ط': 'Tı',
+                'ظ': 'Zı',
+                'ع': 'Ayn',
+                'غ': 'Gayn',
+                'ف': 'Fe',
+                'ق': 'Kaf',
+                'ك': 'Kef',
+                'ل': 'Lam',
+                'م': 'Mim',
+                'ن': 'Nun',
+                'ه': 'He',
+                'و': 'Vav',
+                'ي': 'Ye'
+            },
+            presets: [
+                { id: 'kule', label: 'Kule', speechLabel: 'Kule', audioKey: 'preset.kule', icon: '🗼', kind: 'shape' },
+                { id: 'merdiven', label: 'Merdiven', speechLabel: 'Merdiven', audioKey: 'preset.merdiven', icon: '🪜', kind: 'shape' },
+                { id: 'kopru', label: 'Kopru', speechLabel: 'Kopru', audioKey: 'preset.kopru', icon: '🌉', kind: 'shape' },
+                { id: 'piramit', label: 'Piramit', speechLabel: 'Piramit', audioKey: 'preset.piramit', icon: '🔺', kind: 'shape' },
+                { id: 'duvar', label: 'Duvar', speechLabel: 'Duvar', audioKey: 'preset.duvar', icon: '🧱', kind: 'shape' },
+                { id: 'kale', label: 'Kale', speechLabel: 'Kale', audioKey: 'preset.kale', icon: '🏰', kind: 'shape' },
+                { id: 'evkesit', label: 'Ev Kesit', speechLabel: 'Ev kesiti', audioKey: 'preset.evkesit', icon: '🏡', kind: 'shape' },
+                { id: 'odakesit', label: 'Oda Kesit', speechLabel: 'Oda kesiti', audioKey: 'preset.odakesit', icon: '🛋️', kind: 'shape' },
+                {
+                    id: 'bab',
+                    label: 'باب',
+                    speechLabel: 'Bab',
+                    speechSegments: [
+                        { text: 'Kapi', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.bab.tr' },
+                        { text: 'باب', lang: 'ar-SA', rate: 0.52, audioKey: 'preset.bab.ar' }
+                    ],
+                    icon: '🚪',
+                    kind: 'word'
+                },
+                {
+                    id: 'nur',
+                    label: 'نور',
+                    speechLabel: 'Nur',
+                    speechSegments: [
+                        { text: 'Isik', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.nur.tr' },
+                        { text: 'نور', lang: 'ar-SA', rate: 0.52, audioKey: 'preset.nur.ar' }
+                    ],
+                    icon: '💡',
+                    kind: 'word'
+                },
+                {
+                    id: 'beyt',
+                    label: 'بيت',
+                    speechLabel: 'Beyt',
+                    speechSegments: [
+                        { text: 'Ev', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.beyt.tr' },
+                        { text: 'بيت', lang: 'ar-SA', rate: 0.52, audioKey: 'preset.beyt.ar' }
+                    ],
+                    icon: '🏠',
+                    kind: 'word'
+                }
+            ],
             maxHistorySteps: 50,
             animationDuration: 300
         };
@@ -735,7 +1358,7 @@
 
             canUndo() { return this.currentStep > 0; }
             canRedo() { return this.currentStep < this.history.length - 1; }
-            
+
             clear() {
                 this.history = [];
                 this.currentStep = -1;
@@ -794,20 +1417,46 @@
                 this.textureCache = new TextureCache();
                 this.stateManager = new StateManager();
                 this.coachMessageTimeout = null;
+                this.autosaveTimeout = null;
+                this.isSpeechSupported = typeof window !== 'undefined' && 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined';
+                this.isSoundEnabled = true;
+                this.availableVoices = [];
+                this.audioCueMap = new Map();
+                this.previewRenderer = null;
+                this.previewScene = null;
+                this.previewCamera = null;
+                this.previewCube = null;
+                this.previewCubeGeometry = null;
+                this.speechToken = 0;
+                this.activeAudio = null;
+                this.activeAudioStopper = null;
+                this.activePresetId = '';
+                this.currentMission = null;
+                this.currentMissionCompleted = false;
+                this.completedMissionCount = 0;
+                this.pendingConfirmAction = null;
+                this.isMissionModeActive = false;
+                this.celebrationTimeout = null;
+                this.audioContext = null;
 
                 this.selectedLetter = CONFIG.arabicAlphabet[0];
                 this.selectedDiacritic = '';
-                this.selectedColor = CONFIG.colors[0];
+                this.selectedColor = CONFIG.colors.find(color => color.hex === CONFIG.defaultSelection.colorHex) || CONFIG.colors[0];
                 this.selectedShape = CONFIG.shapes[0];
                 this.isRemoveMode = false;
                 this.isPaletteOpen = false;
                 this.isHelpOpen = false;
+                this.isHudVisible = true;
                 this.isMobileViewport = window.innerWidth <= 768;
                 this.needsRender = false;
 
                 this.initThreeJS();
+                this.initSelectionPreview();
                 this.createUI();
+                this.loadAudioPackManifest();
+                this.initializeSpeechVoices();
                 this.setupEventListeners();
+                this.restoreAutosavedScene();
                 this.setupKeyboardShortcuts();
                 this.animationFrame();
             }
@@ -840,17 +1489,17 @@
                 const gridDivisions = CONFIG.grid.divisions;
                 const gridSpacing = gridSize / gridDivisions;
                 const gridMaterial = new THREE.LineBasicMaterial({ color: 0x74c2ff, linewidth: 1, opacity: 0.24, transparent: true });
-                
+
                 for (let i = 0; i <= gridDivisions; i++) {
                     const pos = -gridSize / 2 + i * gridSpacing;
-                    
+
                     // Lines parallel to Z
                     const geoZ = new THREE.BufferGeometry();
                     geoZ.setAttribute('position', new THREE.BufferAttribute(
                         new Float32Array([pos, 0, -gridSize/2, pos, 0, gridSize/2]), 3
                     ));
                     this.scene.add(new THREE.Line(geoZ, gridMaterial));
-                    
+
                     // Lines parallel to X
                     const geoX = new THREE.BufferGeometry();
                     geoX.setAttribute('position', new THREE.BufferAttribute(
@@ -900,21 +1549,1310 @@
                 this.stateManager.addState(this.objects);
             }
 
+            initSelectionPreview() {
+                const host = document.getElementById('selection-preview-host');
+                if (!host) return;
+
+                this.previewScene = new THREE.Scene();
+                this.previewCamera = new THREE.PerspectiveCamera(32, 1, 0.1, 20);
+                this.previewCamera.position.set(2.8, 2.2, 4.6);
+                this.previewCamera.lookAt(0, 0, 0);
+
+                const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+                this.previewScene.add(ambientLight);
+
+                const keyLight = new THREE.DirectionalLight(0xffffff, 1.15);
+                keyLight.position.set(3, 4, 5);
+                this.previewScene.add(keyLight);
+
+                const rimLight = new THREE.DirectionalLight(0xfff2cf, 0.5);
+                rimLight.position.set(-4, 2, -2);
+                this.previewScene.add(rimLight);
+
+                this.previewRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                this.previewRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+                this.previewRenderer.setClearColor(0x000000, 0);
+
+                this.previewCubeGeometry = new THREE.BoxGeometry(1.65, 1.65, 1.65);
+                this.previewCube = new THREE.Mesh(this.previewCubeGeometry, []);
+                this.previewScene.add(this.previewCube);
+
+                host.innerHTML = '';
+                host.appendChild(this.previewRenderer.domElement);
+                this.resizeSelectionPreview();
+                this.refreshSelectionPreviewCube();
+            }
+
+            resizeSelectionPreview() {
+                const host = document.getElementById('selection-preview-host');
+                if (!host || !this.previewRenderer || !this.previewCamera) return;
+
+                const size = Math.max(Math.round(Math.min(host.clientWidth || 96, host.clientHeight || 96)), 72);
+                this.previewRenderer.setSize(size, size, false);
+                this.previewCamera.aspect = 1;
+                this.previewCamera.updateProjectionMatrix();
+            }
+
+            refreshSelectionPreviewCube() {
+                if (!this.previewCube) return;
+
+                const previousMaterials = this.previewCube.material;
+                if (Array.isArray(previousMaterials)) {
+                    previousMaterials.forEach(material => {
+                        if (material && !material.map) {
+                            material.dispose();
+                        }
+                    });
+                }
+
+                const faceMaterial = this.createLetterMaterial(
+                    this.selectedLetter,
+                    this.selectedDiacritic,
+                    this.selectedColor.hex
+                );
+
+                this.previewCube.material = Array(6).fill(faceMaterial);
+            }
+
             // ==================== UI CREATION ====================
             createUI() {
+                this.createPresetPalette();
                 this.createColorPalette();
                 this.createLetterPalette();
                 this.createDiacriticPalette();
+                this.syncSelectionUI();
                 this.updatePaletteButton();
                 this.updateHelpButton();
+                this.updateHudToggleButton();
+                this.updateSoundButtons();
                 this.updatePreviewAppearance();
                 this.updateRemoveModeButton();
+                this.setMissionModeActive(false);
                 this.updateStatusBar();
+                this.setHudVisible(this.isHudVisible);
                 this.setCoachMessage(this.getDefaultCoachMessage());
+            }
+
+            createPresetPalette() {
+                const container = document.getElementById('preset-palette');
+                if (!container) return;
+
+                container.innerHTML = '';
+                CONFIG.presets.forEach((preset) => {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.classList.add('preset-btn');
+                    button.dataset.presetId = preset.id;
+                    button.dataset.kind = preset.kind;
+                    button.title = preset.label;
+                    button.setAttribute('aria-label', `Hazır yapı: ${preset.label}`);
+                    button.innerHTML = `<span class="preset-icon" aria-hidden="true">${preset.icon || '✨'}</span>`;
+                    button.addEventListener('click', () => this.applyPreset(preset.id));
+                    container.appendChild(button);
+                });
+
+                this.syncPresetButtons();
+            }
+
+            syncPresetButtons() {
+                document.querySelectorAll('.preset-btn').forEach(button => {
+                    button.classList.toggle('selected', button.dataset.presetId === this.activePresetId);
+                });
+            }
+
+            setActivePreset(presetId = '') {
+                this.activePresetId = presetId;
+                this.syncPresetButtons();
+            }
+
+            buildPresetData(presetId) {
+                const blockSize = CONFIG.block.size;
+                const half = blockSize / 2;
+                const makeBlock = (gridX, gridY, gridZ, letter, diacritic, colorHex) => ({
+                    position: [
+                        gridX * blockSize + half,
+                        gridY * blockSize + half,
+                        gridZ * blockSize + half
+                    ],
+                    color: colorHex,
+                    letter,
+                    diacritic,
+                    shape: 'box'
+                });
+
+                const buildWordBlocks = (specs, z = 0) => {
+                    const startX = Math.floor(specs.length / 2);
+                    return specs.map((spec, index) => makeBlock(startX - index, 0, z, spec.letter, spec.diacritic || '', spec.color));
+                };
+
+                const colors = {
+                    orange: CONFIG.colors.find(color => color.name === 'Turuncu')?.hex || CONFIG.defaultSelection.colorHex,
+                    pink: CONFIG.colors.find(color => color.name === 'Şeker Pembe')?.hex || 0xff6fb5,
+                    yellow: CONFIG.colors.find(color => color.name === 'Güneş Sarısı')?.hex || 0xffcf33,
+                    green: CONFIG.colors.find(color => color.name === 'Yaprak Yeşili')?.hex || 0x4ecb71,
+                    blue: CONFIG.colors.find(color => color.name === 'Deniz Mavisi')?.hex || 0x4d9fff,
+                    purple: CONFIG.colors.find(color => color.name === 'Leylak Moru')?.hex || 0xb67dff
+                };
+
+                const shapeColors = [colors.orange, colors.pink, colors.yellow, colors.green, colors.blue, colors.purple];
+                const createShapeBuilder = () => {
+                    const blocks = [];
+                    const occupied = new Set();
+                    let index = 0;
+
+                    const add = (x, y, z, options = {}) => {
+                        const key = `${x}|${y}|${z}`;
+                        if (occupied.has(key)) return;
+                        occupied.add(key);
+                        const letter = options.letter || CONFIG.arabicAlphabet[index % CONFIG.arabicAlphabet.length];
+                        const diacritic = options.diacritic || '';
+                        const color = options.color || shapeColors[index % shapeColors.length];
+                        blocks.push(makeBlock(x, y, z, letter, diacritic, color));
+                        index += 1;
+                    };
+
+                    const addCuboid = (xMin, xMax, yMin, yMax, zMin, zMax, options = {}) => {
+                        for (let y = yMin; y <= yMax; y += 1) {
+                            for (let x = xMin; x <= xMax; x += 1) {
+                                for (let z = zMin; z <= zMax; z += 1) {
+                                    add(x, y, z, options);
+                                }
+                            }
+                        }
+                    };
+
+                    const addPerimeter = (xMin, xMax, y, zMin, zMax, options = {}) => {
+                        for (let x = xMin; x <= xMax; x += 1) {
+                            add(x, y, zMin, options);
+                            add(x, y, zMax, options);
+                        }
+                        for (let z = zMin + 1; z < zMax; z += 1) {
+                            add(xMin, y, z, options);
+                            add(xMax, y, z, options);
+                        }
+                    };
+
+                    return { blocks, add, addCuboid, addPerimeter };
+                };
+
+                switch (presetId) {
+                    case 'kule': {
+                        const shape = createShapeBuilder();
+                        shape.addCuboid(-1, 1, 0, 1, -1, 1);
+                        shape.addCuboid(0, 0, 2, 5, 0, 0);
+                        return {
+                            label: 'Renkli Kule',
+                            selection: { letter: 'ا', diacritic: '', color: colors.orange },
+                            blocks: shape.blocks
+                        };
+                    }
+                    case 'merdiven': {
+                        const shape = createShapeBuilder();
+                        for (let x = -2; x <= 2; x += 1) {
+                            const top = x + 2;
+                            for (let y = 0; y <= top; y += 1) {
+                                for (let z = 0; z <= 1; z += 1) {
+                                    shape.add(x, y, z);
+                                }
+                            }
+                        }
+                        return {
+                            label: 'Merdiven',
+                            selection: { letter: 'ت', diacritic: '', color: colors.blue },
+                            blocks: shape.blocks
+                        };
+                    }
+                    case 'kopru': {
+                        const shape = createShapeBuilder();
+                        shape.addCuboid(-3, -2, 0, 2, 0, 1);
+                        shape.addCuboid(2, 3, 0, 2, 0, 1);
+                        shape.addCuboid(-1, 1, 2, 2, 0, 1);
+                        shape.addCuboid(-2, 2, 3, 3, 0, 1);
+                        return {
+                            label: 'Kopru',
+                            selection: { letter: 'ج', diacritic: '', color: colors.green },
+                            blocks: shape.blocks
+                        };
+                    }
+                    case 'piramit': {
+                        const shape = createShapeBuilder();
+                        shape.addCuboid(-2, 2, 0, 0, -2, 2);
+                        shape.addCuboid(-1, 1, 1, 1, -1, 1);
+                        shape.add(0, 2, 0);
+                        return {
+                            label: 'Piramit',
+                            selection: { letter: 'ه', diacritic: '', color: colors.yellow },
+                            blocks: shape.blocks
+                        };
+                    }
+                    case 'duvar': {
+                        const shape = createShapeBuilder();
+                        shape.addCuboid(-2, 2, 0, 1, 0, 1);
+                        [-2, 0, 2].forEach((x) => {
+                            shape.add(x, 2, 0);
+                            shape.add(x, 2, 1);
+                        });
+                        return {
+                            label: 'Duvar',
+                            selection: { letter: 'س', diacritic: '', color: colors.pink },
+                            blocks: shape.blocks
+                        };
+                    }
+                    case 'kale': {
+                        const shape = createShapeBuilder();
+                        shape.addPerimeter(-2, 2, 0, -2, 2);
+                        shape.addPerimeter(-2, 2, 1, -2, 2);
+                        [-2, 2].forEach((x) => {
+                            [-2, 2].forEach((z) => {
+                                shape.add(x, 2, z);
+                                shape.add(x, 3, z);
+                            });
+                        });
+                        [-1, 1].forEach((x) => {
+                            shape.add(x, 2, -2);
+                            shape.add(x, 2, 2);
+                        });
+                        return {
+                            label: 'Kale',
+                            selection: { letter: 'ك', diacritic: '', color: colors.purple },
+                            guideMessage: 'Kale kuruldu. Kuleleri incele, sonra kendi savunma yapini tasarlayabilirsin.',
+                            blocks: shape.blocks
+                        };
+                    }
+                    case 'evkesit': {
+                        const shape = createShapeBuilder();
+                        const floor = { color: 0xc9d3df };
+                        const wall = { color: colors.orange };
+                        const roof = { color: colors.purple };
+                        const furniture = { color: colors.green };
+                        const detail = { color: colors.blue };
+
+                        shape.addCuboid(-3, 3, 0, 0, -2, 2, floor);
+                        shape.addCuboid(-3, -3, 1, 3, -2, 2, wall);
+                        shape.addCuboid(3, 3, 1, 3, -2, 2, wall);
+                        shape.addCuboid(-3, 3, 1, 3, 2, 2, wall);
+                        shape.addCuboid(-3, -2, 1, 2, -2, -2, wall);
+                        shape.addCuboid(2, 3, 1, 2, -2, -2, wall);
+                        shape.addCuboid(0, 0, 1, 2, 0, 2, detail);
+                        shape.addCuboid(-2, -1, 1, 1, 0, 1, furniture);
+                        shape.addCuboid(1, 2, 1, 1, 0, 0, furniture);
+                        shape.add(2, 2, 0, detail);
+                        shape.addCuboid(-3, -2, 4, 4, -2, 2, roof);
+                        shape.addCuboid(2, 3, 4, 4, -2, 2, roof);
+                        shape.addCuboid(-1, 1, 5, 5, -2, 2, roof);
+                        return {
+                            label: 'Ev Kesiti',
+                            selection: { letter: 'ب', diacritic: '', color: colors.orange },
+                            guideMessage: 'Ev kesiti geldi. Odalari incele, sonra kendi ev maketini buyut.',
+                            blocks: shape.blocks
+                        };
+                    }
+                    case 'odakesit': {
+                        const shape = createShapeBuilder();
+                        const floor = { color: 0xc9d3df };
+                        const wall = { color: colors.blue };
+                        const furnitureA = { color: colors.green };
+                        const furnitureB = { color: colors.pink };
+                        const decor = { color: colors.yellow };
+
+                        shape.addCuboid(-3, 3, 0, 0, -2, 2, floor);
+                        shape.addCuboid(-3, -3, 1, 2, -2, 2, wall);
+                        shape.addCuboid(3, 3, 1, 2, -2, 2, wall);
+                        shape.addCuboid(-3, 3, 1, 2, 2, 2, wall);
+                        shape.addCuboid(-1, 1, 1, 2, 0, 0, wall);
+                        shape.addCuboid(-2, -1, 1, 1, -1, 0, furnitureA);
+                        shape.addCuboid(1, 2, 1, 1, 1, 1, furnitureB);
+                        shape.addCuboid(2, 2, 1, 2, -1, 0, decor);
+                        shape.add(-2, 2, 1, decor);
+                        shape.add(0, 1, -1, furnitureA);
+                        return {
+                            label: 'Oda Kesiti',
+                            selection: { letter: 'م', diacritic: '', color: colors.blue },
+                            guideMessage: 'Oda kesiti hazir. Esyalari takip et, sonra kendi oda planini kur.',
+                            blocks: shape.blocks
+                        };
+                    }
+                    case 'bab':
+                        return {
+                            label: 'باب',
+                            selection: { letter: 'ب', diacritic: '\u064E', color: colors.orange },
+                            guideMessage: 'باب geldi. Kapiyi bul ve harfleri sagdan sola oku.',
+                            blocks: buildWordBlocks([
+                                { letter: 'ب', diacritic: '\u064E', color: colors.orange },
+                                { letter: 'ا', diacritic: '', color: colors.yellow },
+                                { letter: 'ب', diacritic: '', color: colors.orange }
+                            ])
+                        };
+                    case 'nur':
+                        return {
+                            label: 'نور',
+                            selection: { letter: 'ن', diacritic: '\u064F', color: colors.blue },
+                            guideMessage: 'نور geldi. Isik kelimesini dinle ve harfleri tek tek incele.',
+                            blocks: buildWordBlocks([
+                                { letter: 'ن', diacritic: '\u064F', color: colors.blue },
+                                { letter: 'و', diacritic: '', color: colors.green },
+                                { letter: 'ر', diacritic: '', color: colors.purple }
+                            ])
+                        };
+                    case 'beyt':
+                        return {
+                            label: 'بيت',
+                            selection: { letter: 'ب', diacritic: '\u064E', color: colors.orange },
+                            guideMessage: 'بيت geldi. Evin harflerini oku, sonra kendi kelimeni dene.',
+                            blocks: buildWordBlocks([
+                                { letter: 'ب', diacritic: '\u064E', color: colors.orange },
+                                { letter: 'ي', diacritic: '\u0652', color: colors.blue },
+                                { letter: 'ت', diacritic: '', color: colors.green }
+                            ])
+                        };
+                    default:
+                        return null;
+                }
+            }
+
+            applyPreset(presetId) {
+                const preset = this.buildPresetData(presetId);
+                if (!preset) return;
+                const presetMeta = CONFIG.presets.find((item) => item.id === presetId);
+
+                this.setActivePreset(presetId);
+                this.isRemoveMode = false;
+                this.updateRemoveModeButton();
+                this.loadState(preset.blocks);
+                this.stateManager.addState(this.objects);
+                this.applySelectionSnapshot(preset.selection);
+                this.updateUndoRedoButtons();
+                this.scheduleAutosave();
+                this.setCoachMessage(preset.guideMessage || `${preset.label} sahneye yerlestirildi.`, true);
+                if (presetMeta?.speechSegments?.length) {
+                    this.speakSequence(presetMeta.speechSegments, { silentFail: true });
+                } else {
+                    this.speakSequence([
+                        {
+                            text: presetMeta?.speechLabel || preset.label,
+                            lang: 'tr-TR',
+                            rate: 0.5,
+                            audioKey: presetMeta?.audioKey
+                        }
+                    ], { silentFail: true });
+                }
+
+                if (this.isMobileViewport) {
+                    this.setPaletteOpen(false);
+                }
+
+                this.needsRender = true;
+            }
+
+            serializeScene() {
+                return {
+                    version: 2,
+                    timestamp: new Date().toISOString(),
+                    selection: {
+                        letter: this.selectedLetter,
+                        diacritic: this.selectedDiacritic,
+                        color: this.selectedColor.hex
+                    },
+                    blocks: this.stateManager.exportState()
+                };
+            }
+
+            scheduleAutosave() {
+                if (this.autosaveTimeout) {
+                    clearTimeout(this.autosaveTimeout);
+                }
+
+                this.autosaveTimeout = window.setTimeout(() => {
+                    this.persistAutosave();
+                }, CONFIG.storage.autosaveDelay);
+            }
+
+            persistAutosave() {
+                if (this.autosaveTimeout) {
+                    clearTimeout(this.autosaveTimeout);
+                    this.autosaveTimeout = null;
+                }
+
+                try {
+                    localStorage.setItem(
+                        CONFIG.storage.autosaveKey,
+                        JSON.stringify(this.serializeScene())
+                    );
+                    return true;
+                } catch (error) {
+                    console.warn('Autosave failed:', error);
+                    return false;
+                }
+            }
+
+            formatSavedTime(isoString) {
+                if (!isoString) return '';
+
+                try {
+                    return new Intl.DateTimeFormat('tr-TR', {
+                        day: 'numeric',
+                        month: 'long',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }).format(new Date(isoString));
+                } catch (error) {
+                    return '';
+                }
+            }
+
+            getLetterName(letter = this.selectedLetter) {
+                return CONFIG.letterNames[letter] || letter;
+            }
+
+            getSelectionAnnouncement() {
+                const letterName = this.getLetterName();
+                const diacriticName = this.getDiacriticName();
+                const diacriticSpeech = diacriticName === 'Yok' ? 'harekesiz' : diacriticName;
+                return `${letterName}. ${diacriticSpeech}. ${this.selectedColor.name}.`;
+            }
+
+            getHexColorString(hexColor) {
+                return `#${hexColor.toString(16).padStart(6, '0')}`;
+            }
+
+            initializeSpeechVoices() {
+                if (!this.isSpeechSupported) return;
+
+                const loadVoices = () => {
+                    this.availableVoices = window.speechSynthesis.getVoices();
+                };
+
+                loadVoices();
+
+                if (typeof window.speechSynthesis.addEventListener === 'function') {
+                    window.speechSynthesis.addEventListener('voiceschanged', loadVoices);
+                    return;
+                }
+
+                if ('onvoiceschanged' in window.speechSynthesis) {
+                    window.speechSynthesis.onvoiceschanged = loadVoices;
+                }
+            }
+
+            async loadAudioPackManifest() {
+                try {
+                    if (window.ELIFBA_AUDIO_PACK?.cues) {
+                        this.audioCueMap = new Map(Object.entries(window.ELIFBA_AUDIO_PACK.cues));
+                        this.updateSoundButtons();
+                        return;
+                    }
+                    const response = await fetch('./audio/speech-pack.json', { cache: 'no-store' });
+                    if (!response.ok) return;
+                    const data = await response.json();
+                    this.audioCueMap = new Map(Object.entries(data?.cues || {}));
+                    this.updateSoundButtons();
+                } catch (error) {
+                    console.info('Audio pack not loaded:', error);
+                }
+            }
+
+            canUseSoundPlayback() {
+                return this.isSpeechSupported || this.audioCueMap.size > 0;
+            }
+
+            resolveSpeechLang(text, preferredLang) {
+                if (preferredLang) return preferredLang;
+                return /[\u0600-\u06FF]/.test(text) ? 'ar-SA' : CONFIG.speech.lang;
+            }
+
+            getBestSpeechVoice(lang) {
+                if (!this.availableVoices.length) return null;
+
+                const normalizedLang = (lang || CONFIG.speech.lang).toLowerCase();
+                const baseLang = normalizedLang.split('-')[0];
+                const preferredTokens = baseLang === 'ar'
+                    ? CONFIG.speech.preferredVoices.ar
+                    : CONFIG.speech.preferredVoices.tr;
+
+                const candidates = this.availableVoices.filter((voice) => {
+                    const voiceLang = (voice.lang || '').toLowerCase();
+                    return voiceLang === normalizedLang || voiceLang === baseLang || voiceLang.startsWith(`${baseLang}-`);
+                });
+
+                if (!candidates.length) return null;
+
+                return candidates.reduce((bestVoice, currentVoice) => {
+                    const bestScore = this.getSpeechVoiceScore(bestVoice, normalizedLang, preferredTokens);
+                    const currentScore = this.getSpeechVoiceScore(currentVoice, normalizedLang, preferredTokens);
+                    return currentScore > bestScore ? currentVoice : bestVoice;
+                });
+            }
+
+            getSpeechVoiceScore(voice, normalizedLang, preferredTokens) {
+                if (!voice) return -Infinity;
+
+                const voiceLang = (voice.lang || '').toLowerCase();
+                const voiceName = `${voice.name || ''} ${voice.voiceURI || ''}`.toLowerCase();
+                const exactLangScore = voiceLang === normalizedLang ? 8 : (voiceLang.startsWith(normalizedLang.split('-')[0]) ? 4 : 0);
+                const preferredScore = preferredTokens.some((token) => voiceName.includes(token)) ? 10 : 0;
+                const premiumScore = CONFIG.speech.premiumVoiceKeywords.some((token) => voiceName.includes(token)) ? 5 : 0;
+                const defaultScore = voice.default ? 2 : 0;
+                const localScore = voice.localService ? 1 : 0;
+                return exactLangScore + preferredScore + premiumScore + defaultScore + localScore;
+            }
+
+            stopActiveAudio() {
+                const audio = this.activeAudio;
+                const stopper = this.activeAudioStopper;
+                this.activeAudio = null;
+                this.activeAudioStopper = null;
+
+                if (audio) {
+                    audio.onended = null;
+                    audio.onerror = null;
+                    try {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    } catch (error) {
+                        console.warn('Audio stop failed:', error);
+                    }
+                }
+
+                if (typeof stopper === 'function') {
+                    stopper();
+                }
+            }
+
+            cancelSpeechPlayback() {
+                this.speechToken += 1;
+                this.stopActiveAudio();
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                }
+                return this.speechToken;
+            }
+
+            getAudioCue(audioKey) {
+                if (!audioKey) return null;
+                return this.audioCueMap.get(audioKey) || null;
+            }
+
+            playAudioCueAsync(audioKey, token = this.speechToken) {
+                const cue = this.getAudioCue(audioKey);
+                if (!cue || !this.isSoundEnabled || token !== this.speechToken) {
+                    return Promise.resolve(false);
+                }
+
+                return new Promise((resolve) => {
+                    const audio = new Audio(cue.src);
+                    let settled = false;
+                    const finish = (value) => {
+                        if (settled) return;
+                        settled = true;
+                        if (this.activeAudio === audio) {
+                            this.activeAudio = null;
+                            this.activeAudioStopper = null;
+                        }
+                        resolve(value);
+                    };
+
+                    audio.preload = 'auto';
+                    audio.onended = () => finish(token === this.speechToken);
+                    audio.onerror = () => finish(false);
+                    this.activeAudio = audio;
+                    this.activeAudioStopper = () => finish(false);
+
+                    if (token !== this.speechToken) {
+                        finish(false);
+                        return;
+                    }
+
+                    const playPromise = audio.play();
+                    if (playPromise && typeof playPromise.catch === 'function') {
+                        playPromise.catch(() => finish(false));
+                    }
+                });
+            }
+
+            speakText(text, options = {}) {
+                if (!this.isSpeechSupported || !this.isSoundEnabled || !text) return false;
+
+                try {
+                    this.cancelSpeechPlayback();
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    const resolvedLang = this.resolveSpeechLang(text, options.lang);
+                    const voice = this.getBestSpeechVoice(resolvedLang);
+                    utterance.lang = resolvedLang;
+                    utterance.rate = options.rate ?? (resolvedLang.startsWith('ar') ? CONFIG.speech.rateArabic : CONFIG.speech.rate);
+                    utterance.pitch = options.pitch ?? CONFIG.speech.pitch;
+                    utterance.volume = options.volume ?? CONFIG.speech.volume;
+                    if (voice) {
+                        utterance.voice = voice;
+                    }
+                    window.speechSynthesis.speak(utterance);
+                    return true;
+                } catch (error) {
+                    console.warn('Speech failed:', error);
+                    return false;
+                }
+            }
+
+            speakTextAsync(text, options = {}, token = this.speechToken) {
+                if (!this.isSpeechSupported || !this.isSoundEnabled || !text) {
+                    return Promise.resolve(false);
+                }
+
+                return new Promise((resolve) => {
+                    try {
+                        const utterance = new SpeechSynthesisUtterance(text);
+                        const resolvedLang = this.resolveSpeechLang(text, options.lang);
+                        const voice = this.getBestSpeechVoice(resolvedLang);
+                        utterance.lang = resolvedLang;
+                        utterance.rate = options.rate ?? (resolvedLang.startsWith('ar') ? CONFIG.speech.rateArabic : CONFIG.speech.rate);
+                        utterance.pitch = options.pitch ?? CONFIG.speech.pitch;
+                        utterance.volume = options.volume ?? CONFIG.speech.volume;
+                        if (voice) {
+                            utterance.voice = voice;
+                        }
+                        utterance.onend = () => resolve(token === this.speechToken);
+                        utterance.onerror = () => resolve(false);
+                        if (token !== this.speechToken) {
+                            resolve(false);
+                            return;
+                        }
+                        window.speechSynthesis.speak(utterance);
+                    } catch (error) {
+                        console.warn('Speech sequence failed:', error);
+                        resolve(false);
+                    }
+                });
+            }
+
+            async playSpeechSegment(segment, token) {
+                if (!segment?.text) return false;
+                if (segment.audioKey) {
+                    const played = await this.playAudioCueAsync(segment.audioKey, token);
+                    if (played) return true;
+                }
+                return this.speakTextAsync(segment.text, segment, token);
+            }
+
+            async speakSequence(segments, options = {}) {
+                if (!Array.isArray(segments) || segments.length === 0) return false;
+
+                if (!this.canUseSoundPlayback() || !this.isSoundEnabled) {
+                    if (!options.silentFail) {
+                        this.setCoachMessage('Ses kapaliysa gorev okunamaz. Hoparloru acabilirsin.', true);
+                    }
+                    return false;
+                }
+
+                const token = this.cancelSpeechPlayback();
+                for (const segment of segments) {
+                    if (!segment?.text || token !== this.speechToken) return false;
+                    const ok = await this.playSpeechSegment(segment, token);
+                    if (!ok) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            toggleSound() {
+                if (!this.canUseSoundPlayback()) {
+                    this.setCoachMessage('Bu tarayicida seslendirme destegi gorunmuyor.', true);
+                    return;
+                }
+                this.isSoundEnabled = !this.isSoundEnabled;
+                if (!this.isSoundEnabled) {
+                    this.cancelSpeechPlayback();
+                }
+                this.updateSoundButtons();
+                this.setCoachMessage(
+                    this.isSoundEnabled
+                        ? 'Ses acildi. Secimleri artik dinleyebilirsin.'
+                        : 'Ses kapatildi.',
+                    true
+                );
+            }
+
+            replaySelectionAudio() {
+                if (!this.isSpeechSupported) {
+                    this.setCoachMessage('Bu tarayicida seslendirme destegi gorunmuyor.', true);
+                    return;
+                }
+                if (!this.isSoundEnabled) {
+                    this.setCoachMessage('Ses kapali. Dinlemek icin hoparlor dugmesini ac.', true);
+                    return;
+                }
+                this.speakText(this.getSelectionAnnouncement());
+            }
+
+            openConfirmDialog({ title, message, confirmLabel = 'Tamam', onConfirm }) {
+                const dialog = document.getElementById('confirm-dialog');
+                const backdrop = document.getElementById('confirm-backdrop');
+                const titleEl = document.getElementById('confirm-title');
+                const copyEl = document.getElementById('confirm-copy');
+                const acceptButton = document.getElementById('confirm-accept-btn');
+                if (!dialog || !backdrop || !titleEl || !copyEl || !acceptButton) return;
+
+                titleEl.textContent = title;
+                copyEl.textContent = message;
+                acceptButton.textContent = confirmLabel;
+                this.pendingConfirmAction = onConfirm || null;
+
+                dialog.classList.add('visible');
+                backdrop.classList.add('visible');
+                dialog.setAttribute('aria-hidden', 'false');
+                backdrop.setAttribute('aria-hidden', 'false');
+            }
+
+            closeConfirmDialog() {
+                const dialog = document.getElementById('confirm-dialog');
+                const backdrop = document.getElementById('confirm-backdrop');
+                if (!dialog || !backdrop) return;
+
+                dialog.classList.remove('visible');
+                backdrop.classList.remove('visible');
+                dialog.setAttribute('aria-hidden', 'true');
+                backdrop.setAttribute('aria-hidden', 'true');
+                this.pendingConfirmAction = null;
+            }
+
+            confirmDialogAction() {
+                const action = this.pendingConfirmAction;
+                this.closeConfirmDialog();
+                if (typeof action === 'function') {
+                    action();
+                }
+            }
+
+            updateSoundButtons() {
+                const soundToggleButton = document.getElementById('sound-toggle-btn');
+                const replayButton = document.getElementById('play-selection-sound-btn');
+                const missionButton = document.getElementById('play-mission-btn');
+                if (!soundToggleButton || !replayButton) return;
+
+                const canPlaySound = this.canUseSoundPlayback();
+                soundToggleButton.textContent = canPlaySound && this.isSoundEnabled ? '🔊' : '🔇';
+                soundToggleButton.setAttribute('aria-pressed', String(this.isSoundEnabled));
+                soundToggleButton.disabled = !canPlaySound;
+                soundToggleButton.title = !canPlaySound ? 'Bu tarayicida seslendirme desteklenmiyor' : (this.isSoundEnabled ? 'Sesi kapat' : 'Sesi ac');
+                replayButton.disabled = !this.isSpeechSupported || !this.isSoundEnabled;
+                replayButton.title = !this.isSpeechSupported ? 'Bu tarayicida seslendirme desteklenmiyor' : (this.isSoundEnabled ? 'Secili sesi dinlet' : 'Ses su an kapali');
+                if (missionButton) {
+                    missionButton.disabled = !canPlaySound || !this.isSoundEnabled;
+                    missionButton.title = !canPlaySound ? 'Bu tarayicida seslendirme desteklenmiyor' : (this.isSoundEnabled ? 'Mini gorevi dinlet' : 'Ses su an kapali');
+                }
+            }
+
+            updateSelectionCard() {
+                const card = document.getElementById('active-selection-card');
+                if (!card) return;
+
+                this.refreshSelectionPreviewCube();
+                card.setAttribute('aria-label', `Aktif secim: ${this.getSelectionAnnouncement()}`);
+            }
+
+            syncSelectionUI() {
+                document.querySelectorAll('.color-box').forEach(box => {
+                    const boxHex = Number(box.dataset.colorHex || 0);
+                    box.classList.toggle('selected', boxHex === this.selectedColor.hex);
+                });
+
+                document.querySelectorAll('.letter-box').forEach(box => {
+                    box.classList.toggle('selected', box.dataset.letter === this.selectedLetter);
+                });
+
+                document.querySelectorAll('.diacritic-box').forEach(box => {
+                    box.classList.toggle('selected', (box.dataset.diacritic || '') === this.selectedDiacritic);
+                });
+            }
+
+            applySelectionSnapshot(selection) {
+                if (!selection) return;
+
+                if (CONFIG.arabicAlphabet.includes(selection.letter)) {
+                    this.selectedLetter = selection.letter;
+                }
+
+                if (Object.values(CONFIG.diacritics).some(diacritic => diacritic.unicode === (selection.diacritic || ''))) {
+                    this.selectedDiacritic = selection.diacritic || '';
+                }
+
+                const savedColor = CONFIG.colors.find(color => color.hex === selection.color);
+                if (savedColor) {
+                    this.selectedColor = savedColor;
+                }
+
+                this.syncSelectionUI();
+                this.updatePreviewAppearance();
+                this.updateStatusBar();
+            }
+
+            restoreAutosavedScene() {
+                try {
+                    const rawAutosave = localStorage.getItem(CONFIG.storage.autosaveKey);
+                    if (!rawAutosave) return false;
+
+                    const autosave = JSON.parse(rawAutosave);
+                    if (!autosave || !Array.isArray(autosave.blocks)) {
+                        localStorage.removeItem(CONFIG.storage.autosaveKey);
+                        return false;
+                    }
+
+                    this.loadState(autosave.blocks);
+                    this.stateManager.clear();
+                    this.stateManager.addState(this.objects);
+                    this.setActivePreset('');
+                    this.applySelectionSnapshot(autosave.selection);
+                    this.updateUndoRedoButtons();
+
+                    if (autosave.blocks.length > 0) {
+                        const formattedTime = this.formatSavedTime(autosave.timestamp);
+                        const suffix = formattedTime ? ` En son ${formattedTime} kaydedilmişti.` : '';
+                        this.setCoachMessage(`Son çalışman geri geldi.${suffix}`, true);
+                    }
+
+                    return true;
+                } catch (error) {
+                    console.warn('Autosave restore failed:', error);
+                    return false;
+                }
             }
 
             getBlockCount() {
                 return this.objects.filter(object => object.userData?.isPlane !== true).length;
+            }
+
+            getSceneStats() {
+                const blocks = this.objects.filter(object => object.userData?.isPlane !== true);
+                const colorCounts = new Map();
+                const letterCounts = new Map();
+                const diacriticCounts = new Map();
+                let maxGridY = -1;
+                let groundBlocks = 0;
+                const blocksData = [];
+
+                blocks.forEach((block) => {
+                    const color = block.userData.color;
+                    const letter = block.userData.letter || '';
+                    const diacritic = block.userData.diacritic || '';
+                    const gridX = Math.round((block.position.x - CONFIG.block.size / 2) / CONFIG.block.size);
+                    const gridY = Math.round((block.position.y - CONFIG.block.size / 2) / CONFIG.block.size);
+                    const gridZ = Math.round((block.position.z - CONFIG.block.size / 2) / CONFIG.block.size);
+
+                    colorCounts.set(color, (colorCounts.get(color) || 0) + 1);
+                    letterCounts.set(letter, (letterCounts.get(letter) || 0) + 1);
+                    diacriticCounts.set(diacritic, (diacriticCounts.get(diacritic) || 0) + 1);
+                    if (gridY === 0) groundBlocks += 1;
+                    maxGridY = Math.max(maxGridY, gridY);
+                    blocksData.push({ gridX, gridY, gridZ, letter, diacritic, color });
+                });
+
+                return {
+                    blockCount: blocks.length,
+                    uniqueColorCount: colorCounts.size,
+                    groundBlocks,
+                    maxGridY,
+                    blocksData,
+                    countColor: (hex) => colorCounts.get(hex) || 0,
+                    countLetter: (letter) => letterCounts.get(letter) || 0,
+                    countDiacritic: (diacritic) => diacriticCounts.get(diacritic) || 0
+                };
+            }
+
+            getWordProgressCount(blocksData, targetWord) {
+                const letterPool = new Map();
+                blocksData.forEach((block) => {
+                    const current = letterPool.get(block.letter) || 0;
+                    letterPool.set(block.letter, current + 1);
+                });
+
+                let matched = 0;
+                Array.from(targetWord).forEach((letter) => {
+                    const remaining = letterPool.get(letter) || 0;
+                    if (remaining > 0) {
+                        matched += 1;
+                        letterPool.set(letter, remaining - 1);
+                    }
+                });
+
+                return matched;
+            }
+
+            hasWordRun(blocksData, targetWord) {
+                const letters = Array.from(targetWord);
+                const target = letters.join('');
+                const reversed = [...letters].reverse().join('');
+                const buildGroups = (keyFn) => {
+                    const groups = new Map();
+                    blocksData.forEach((block) => {
+                        const key = keyFn(block);
+                        const group = groups.get(key) || [];
+                        group.push(block);
+                        groups.set(key, group);
+                    });
+                    return groups;
+                };
+
+                const groupsX = buildGroups((block) => `x|${block.gridY}|${block.gridZ}`);
+                const groupsZ = buildGroups((block) => `z|${block.gridY}|${block.gridX}`);
+
+                const checkGroups = (groups, axis) => {
+                    for (const group of groups.values()) {
+                        const sorted = [...group].sort((a, b) => axis === 'x' ? a.gridX - b.gridX : a.gridZ - b.gridZ);
+                        for (let start = 0; start <= sorted.length - letters.length; start += 1) {
+                            const slice = sorted.slice(start, start + letters.length);
+                            const isContiguous = slice.every((block, index) => {
+                                if (index === 0) return true;
+                                const prev = slice[index - 1];
+                                return axis === 'x' ? block.gridX === prev.gridX + 1 : block.gridZ === prev.gridZ + 1;
+                            });
+                            if (!isContiguous) continue;
+
+                            const word = slice.map((block) => block.letter).join('');
+                            if (word === target || word === reversed) {
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                };
+
+                return checkGroups(groupsX, 'x') || checkGroups(groupsZ, 'z');
+            }
+
+            getMissionLibrary() {
+                const createSpeechMission = ({ id, text, progress, isComplete, success }) => ({
+                    id,
+                    text,
+                    speechSegments: [
+                        { text, lang: 'tr-TR', rate: 0.46, audioKey: `mission.${id}.tr` }
+                    ],
+                    progress,
+                    isComplete,
+                    success
+                });
+
+                const createWordMission = ({ id, label, arabic, success, type = 'nesne' }) => ({
+                    id,
+                    text: `${label} yaz. Ipucu: ${arabic}`,
+                    speechSegments: type === 'isim'
+                        ? [
+                            { text: `${label} adini yaz. Arapca yazilisi`, lang: 'tr-TR', rate: 0.46, audioKey: `mission.${id}.tr` },
+                            { text: arabic, lang: 'ar-SA', rate: 0.52, audioKey: `mission.${id}.ar` }
+                        ]
+                        : [
+                            { text: `${label} yaz. Arapcasi`, lang: 'tr-TR', rate: 0.46, audioKey: `mission.${id}.tr` },
+                            { text: arabic, lang: 'ar-SA', rate: 0.52, audioKey: `mission.${id}.ar` }
+                        ],
+                    progress: (stats) => `${this.getWordProgressCount(stats.blocksData, arabic)}/${Array.from(arabic).length} harf`,
+                    isComplete: (stats) => this.hasWordRun(stats.blocksData, arabic),
+                    success
+                });
+
+                const markedBlockCount = (stats) => stats.blocksData.filter((block) => block.diacritic).length;
+
+                return [
+                    createSpeechMission({
+                        id: 'three-blocks',
+                        text: '3 blokluk minik bir yapi kur.',
+                        progress: (stats) => `${Math.min(stats.blockCount, 3)}/3 blok`,
+                        isComplete: (stats) => stats.blockCount >= 3,
+                        success: 'Aferin. Ilk mini gorevi tamamladin.'
+                    }),
+                    createSpeechMission({
+                        id: 'orange-pair',
+                        text: '2 turuncu blok yerlestir.',
+                        progress: (stats) => `${Math.min(stats.countColor(CONFIG.defaultSelection.colorHex), 2)}/2 turuncu`,
+                        isComplete: (stats) => stats.countColor(CONFIG.defaultSelection.colorHex) >= 2,
+                        success: 'Harika. Turuncu gorev tamamlandi.'
+                    }),
+                    createSpeechMission({
+                        id: 'letter-be',
+                        text: '2 tane Be harfli blok yerlestir.',
+                        progress: (stats) => `${Math.min(stats.countLetter('ب'), 2)}/2 Be`,
+                        isComplete: (stats) => stats.countLetter('ب') >= 2,
+                        success: 'Sahneye iki Be yerlestirdin.'
+                    }),
+                    createSpeechMission({
+                        id: 'height-two',
+                        text: '2 katli bir yapi kur.',
+                        progress: (stats) => `${Math.max(stats.maxGridY + 1, 0)}/2 kat`,
+                        isComplete: (stats) => stats.maxGridY >= 1,
+                        success: 'Yukseklik gorevi tamam. Yapin buyuyor.'
+                    }),
+                    createSpeechMission({
+                        id: 'three-colors',
+                        text: '3 farkli renk kullan.',
+                        progress: (stats) => `${Math.min(stats.uniqueColorCount, 3)}/3 renk`,
+                        isComplete: (stats) => stats.uniqueColorCount >= 3,
+                        success: 'Renk gorevi tamam. Sahnen canlandi.'
+                    }),
+                    createSpeechMission({
+                        id: 'fatha-block',
+                        text: 'Ustunlu bir blok ekle.',
+                        progress: (stats) => stats.countDiacritic('\u064E') > 0 ? 'Tamamlandi' : 'Ustun bekleniyor',
+                        isComplete: (stats) => stats.countDiacritic('\u064E') > 0,
+                        success: 'Ustunlu blok gorevi tamam.'
+                    }),
+                    createSpeechMission({
+                        id: 'seven-blocks',
+                        text: '7 blokluk biraz daha buyuk bir yapi kur.',
+                        progress: (stats) => `${Math.min(stats.blockCount, 7)}/7 blok`,
+                        isComplete: (stats) => stats.blockCount >= 7,
+                        success: 'Buyuk yapi gorevini de bitirdin.'
+                    }),
+                    createSpeechMission({
+                        id: 'orange-trio',
+                        text: '3 turuncu blok yerlestir.',
+                        progress: (stats) => `${Math.min(stats.countColor(CONFIG.defaultSelection.colorHex), 3)}/3 turuncu`,
+                        isComplete: (stats) => stats.countColor(CONFIG.defaultSelection.colorHex) >= 3,
+                        success: 'Turuncu kule parlamaya basladi.'
+                    }),
+                    createSpeechMission({
+                        id: 'mim-pair',
+                        text: '2 tane Mim harfli blok yerlestir.',
+                        progress: (stats) => `${Math.min(stats.countLetter('م'), 2)}/2 Mim`,
+                        isComplete: (stats) => stats.countLetter('م') >= 2,
+                        success: 'Mimlerle yeni bir gorev tamamladin.'
+                    }),
+                    createSpeechMission({
+                        id: 'height-three',
+                        text: '3 katli bir yapi kur.',
+                        progress: (stats) => `${Math.max(stats.maxGridY + 1, 0)}/3 kat`,
+                        isComplete: (stats) => stats.maxGridY >= 2,
+                        success: 'Uc katli yapin uzaktan da gorunuyor.'
+                    }),
+                    createSpeechMission({
+                        id: 'marked-pair',
+                        text: '2 harekeli blok ekle.',
+                        progress: (stats) => `${Math.min(markedBlockCount(stats), 2)}/2 harekeli blok`,
+                        isComplete: (stats) => markedBlockCount(stats) >= 2,
+                        success: 'Harekeler de sahnede yerini buldu.'
+                    }),
+                    createSpeechMission({
+                        id: 'blue-pair',
+                        text: '2 mavi blok yerlestir.',
+                        progress: (stats) => `${Math.min(stats.countColor(0x4d9fff), 2)}/2 mavi`,
+                        isComplete: (stats) => stats.countColor(0x4d9fff) >= 2,
+                        success: 'Mavi blok gorevini de tamamladin.'
+                    }),
+                    createSpeechMission({
+                        id: 'wide-base',
+                        text: 'Yerde 5 blokluk genis bir taban kur.',
+                        progress: (stats) => `${Math.min(stats.groundBlocks, 5)}/5 taban`,
+                        isComplete: (stats) => stats.groundBlocks >= 5,
+                        success: 'Taban gorevi tamam. Simdi yukariya cikabilirsin.'
+                    }),
+                    createWordMission({ id: 'name-mustafa', label: 'Mustafa', arabic: 'مصطفي', type: 'isim', success: 'Mustafa gorevini tamamladin.' }),
+                    createWordMission({ id: 'name-fatima', label: 'Fatima', arabic: 'فاطمه', type: 'isim', success: 'Fatima gorevini tamamladin.' }),
+                    createWordMission({ id: 'name-emine', label: 'Emine', arabic: 'امينه', type: 'isim', success: 'Emine gorevini tamamladin.' }),
+                    createWordMission({ id: 'name-ali', label: 'Ali', arabic: 'علي', type: 'isim', success: 'Ali gorevini de bitirdin.' }),
+                    createWordMission({ id: 'name-hasan', label: 'Hasan', arabic: 'حسن', type: 'isim', success: 'Hasan gorevi tamamlandi.' }),
+                    createWordMission({ id: 'name-yusuf', label: 'Yusuf', arabic: 'يوسف', type: 'isim', success: 'Yusuf gorevini tamamladin.' }),
+                    createWordMission({ id: 'name-meryem', label: 'Meryem', arabic: 'مريم', type: 'isim', success: 'Meryem gorevi de tamamlandi.' }),
+                    createWordMission({ id: 'fruit-muz', label: 'Muz', arabic: 'موز', success: 'Muz gorevini tamamladin.' }),
+                    createWordMission({ id: 'fruit-uzum', label: 'Uzum', arabic: 'عنب', success: 'Uzum gorevini tamamladin.' }),
+                    createWordMission({ id: 'fruit-elma', label: 'Elma', arabic: 'تفاح', success: 'Elma gorevini tamamladin.' }),
+                    createWordMission({ id: 'fruit-nar', label: 'Nar', arabic: 'رمان', success: 'Nar gorevi tamamlandi.' }),
+                    createWordMission({ id: 'veg-havuc', label: 'Havuc', arabic: 'جزر', success: 'Havuc gorevini tamamladin.' }),
+                    createWordMission({ id: 'veg-sogan', label: 'Sogan', arabic: 'بصل', success: 'Sogan gorevini tamamladin.' }),
+                    createWordMission({ id: 'thing-ev', label: 'Ev', arabic: 'بيت', success: 'Ev gorevini tamamladin.' }),
+                    createWordMission({ id: 'thing-kapi', label: 'Kapi', arabic: 'باب', success: 'Kapi gorevi tamamlandi.' }),
+                    createWordMission({ id: 'thing-isik', label: 'Isik', arabic: 'نور', success: 'Isik gorevini tamamladin.' }),
+                    createWordMission({ id: 'thing-kitap', label: 'Kitap', arabic: 'كتاب', success: 'Kitap gorevi tamamlandi.' }),
+                    createWordMission({ id: 'thing-kalem', label: 'Kalem', arabic: 'قلم', success: 'Kalem gorevini tamamladin.' }),
+                    createWordMission({ id: 'thing-balik', label: 'Balik', arabic: 'سمك', success: 'Balik gorevi tamamlandi.' }),
+                    createWordMission({ id: 'thing-gul', label: 'Gul', arabic: 'ورد', success: 'Gul gorevini tamamladin.' }),
+                    createWordMission({ id: 'thing-bulut', label: 'Bulut', arabic: 'سحاب', success: 'Bulut gorevi tamamlandi.' })
+                ];
+            }
+
+            assignNextMission(showHint = true) {
+                const missions = this.getMissionLibrary();
+                const available = missions.filter((mission) => mission.id !== this.currentMission?.id);
+                this.currentMission = available[Math.floor(Math.random() * available.length)] || missions[0];
+                this.currentMissionCompleted = false;
+                this.hideCelebration();
+                this.updateMissionCard();
+
+                if (showHint && this.currentMission) {
+                    this.setCoachMessage(`Yeni mini gorev: ${this.currentMission.text}`, true);
+                    this.speakCurrentMission(true);
+                }
+            }
+
+            getMissionSpeechSegments(mission = this.currentMission) {
+                if (!mission) return [];
+                if (Array.isArray(mission.speechSegments) && mission.speechSegments.length > 0) {
+                    return mission.speechSegments;
+                }
+                return [{ text: `Mini gorev. ${mission.speechText || mission.text}`, lang: 'tr-TR', rate: 0.48 }];
+            }
+
+            speakCurrentMission(silent = false) {
+                if (!this.currentMission) return false;
+                if (!this.canUseSoundPlayback() || !this.isSoundEnabled) {
+                    if (!silent) {
+                        this.setCoachMessage('Ses kapaliysa gorev okunamaz. Hoparloru acabilirsin.', true);
+                    }
+                    return false;
+                }
+                return this.speakSequence(this.getMissionSpeechSegments(), { silentFail: silent });
+            }
+
+            setMissionModeActive(nextState) {
+                this.isMissionModeActive = nextState;
+                const launcher = document.getElementById('mission-launcher');
+                const card = document.getElementById('mission-card');
+                if (launcher) launcher.classList.toggle('hidden-panel', nextState);
+                if (card) card.classList.toggle('hidden-panel', !nextState);
+            }
+
+            startMissionMode() {
+                this.setMissionModeActive(true);
+                this.isRemoveMode = false;
+                this.updateRemoveModeButton();
+                this.clearAllBlocks({ silent: true });
+                this.assignNextMission(true);
+            }
+
+            handleMissionAction() {
+                if (this.currentMissionCompleted) {
+                    this.requestSceneClear('mission');
+                    return;
+                }
+                this.assignNextMission(true);
+            }
+
+            getRandomCelebration() {
+                const options = CONFIG.feedback.celebrations;
+                return options[Math.floor(Math.random() * options.length)] || options[0];
+            }
+
+            showCelebration(successText, celebration = this.getRandomCelebration()) {
+                const banner = document.getElementById('celebration-banner');
+                if (!banner) return;
+                banner.innerHTML = `
+                    <div class="celebration-kicker">✨ ${celebration.kicker}</div>
+                    <div class="celebration-title">${celebration.title}</div>
+                    <div class="celebration-copy">${successText} ${celebration.copy} Toplam yildiz: ${this.completedMissionCount}</div>
+                `;
+                banner.classList.remove('hidden-panel');
+
+                if (this.celebrationTimeout) {
+                    clearTimeout(this.celebrationTimeout);
+                }
+                this.celebrationTimeout = window.setTimeout(() => {
+                    this.hideCelebration();
+                }, 3400);
+            }
+
+            hideCelebration() {
+                const banner = document.getElementById('celebration-banner');
+                if (!banner) return;
+                banner.classList.add('hidden-panel');
+                banner.innerHTML = '';
+                if (this.celebrationTimeout) {
+                    clearTimeout(this.celebrationTimeout);
+                    this.celebrationTimeout = null;
+                }
+            }
+
+            playRewardChime() {
+                if (!this.isSoundEnabled) return;
+
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContextClass) return;
+
+                try {
+                    this.audioContext = this.audioContext || new AudioContextClass();
+                    if (this.audioContext.state === 'suspended') {
+                        this.audioContext.resume().catch(() => {});
+                    }
+
+                    const notes = [523.25, 659.25, 783.99];
+                    notes.forEach((frequency, index) => {
+                        const oscillator = this.audioContext.createOscillator();
+                        const gainNode = this.audioContext.createGain();
+                        const start = this.audioContext.currentTime + index * 0.09;
+                        const duration = 0.22;
+
+                        oscillator.type = index === notes.length - 1 ? 'triangle' : 'sine';
+                        oscillator.frequency.setValueAtTime(frequency, start);
+                        gainNode.gain.setValueAtTime(0.0001, start);
+                        gainNode.gain.exponentialRampToValueAtTime(0.11, start + 0.03);
+                        gainNode.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+
+                        oscillator.connect(gainNode);
+                        gainNode.connect(this.audioContext.destination);
+                        oscillator.start(start);
+                        oscillator.stop(start + duration + 0.02);
+                    });
+                } catch (error) {
+                    console.warn('Reward chime failed:', error);
+                }
+            }
+
+            celebrateMissionSuccess() {
+                const celebration = this.getRandomCelebration();
+                this.completedMissionCount += 1;
+                const statusBar = document.getElementById('status-bar');
+                if (statusBar) {
+                    statusBar.textContent = this.getStatusBarText();
+                }
+                this.showCelebration(this.currentMission.success, celebration);
+                this.playRewardChime();
+                this.setCoachMessage(`${celebration.title} ${this.currentMission.success} Istersen supurgeyle alani temizleyebilirsin.`, true, 3400);
+                this.speakSequence([
+                    { text: celebration.speechLead, lang: 'tr-TR', rate: 0.5, audioKey: celebration.audioKey },
+                    { text: this.currentMission.success, lang: 'tr-TR', rate: 0.5 },
+                    { text: `Toplam ${this.completedMissionCount} yildiz.`, lang: 'tr-TR', rate: 0.52 }
+                ], { silentFail: true });
+            }
+
+            escapeHtml(value) {
+                return String(value)
+                    .replaceAll('&', '&amp;')
+                    .replaceAll('<', '&lt;')
+                    .replaceAll('>', '&gt;')
+                    .replaceAll('"', '&quot;')
+                    .replaceAll("'", '&#39;');
+            }
+
+            formatMissionText(text) {
+                return this.escapeHtml(text)
+                    .replace(/([\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]+)/g, '<span class="mission-arabic">$1</span>');
+            }
+
+            updateMissionCard() {
+                const card = document.getElementById('mission-card');
+                const text = document.getElementById('mission-text');
+                const progress = document.getElementById('mission-progress');
+                const button = document.getElementById('next-mission-btn');
+                const playButton = document.getElementById('play-mission-btn');
+                if (!card || !text || !progress || !button || !playButton || !this.currentMission) return;
+
+                const stats = this.getSceneStats();
+                const isComplete = this.currentMission.isComplete(stats);
+
+                text.innerHTML = this.formatMissionText(this.currentMission.text);
+                progress.textContent = isComplete ? 'Tamamlandi' : this.currentMission.progress(stats);
+                card.classList.toggle('completed', isComplete);
+                button.textContent = isComplete ? '🧹' : '↻';
+                button.title = isComplete ? 'Sahneyi temizle' : 'Başka mini görev seç';
+                button.setAttribute('aria-label', isComplete ? 'Sahneyi temizle' : 'Başka mini görev seç');
+                playButton.disabled = !this.isSpeechSupported || !this.isSoundEnabled;
+                playButton.title = !this.isSpeechSupported
+                    ? 'Bu tarayicida seslendirme desteklenmiyor'
+                    : (this.isSoundEnabled ? 'Mini gorevi dinlet' : 'Ses su an kapali');
+
+                if (!isComplete && this.currentMissionCompleted) {
+                    this.currentMissionCompleted = false;
+                    this.hideCelebration();
+                }
+
+                if (isComplete && !this.currentMissionCompleted) {
+                    this.currentMissionCompleted = true;
+                    this.celebrateMissionSuccess();
+                }
             }
 
             getDiacriticName() {
@@ -944,7 +2882,7 @@
                 return `${blockCount} blok hazır. Yeni bir tane daha eklemek için boş bir yere dokunabilirsin.`;
             }
 
-            setCoachMessage(message, temporary = false) {
+            setCoachMessage(message, temporary = false, duration = 2400) {
                 const info = document.getElementById('info');
                 if (!info) return;
 
@@ -958,7 +2896,7 @@
                 if (temporary) {
                     this.coachMessageTimeout = window.setTimeout(() => {
                         this.setCoachMessage(this.getDefaultCoachMessage());
-                    }, 2400);
+                    }, duration);
                 }
             }
 
@@ -972,6 +2910,29 @@
                 const button = document.getElementById('help-btn');
                 if (!button) return;
                 button.setAttribute('aria-pressed', String(this.isHelpOpen));
+            }
+
+            updateHudToggleButton() {
+                const button = document.getElementById('toggle-hud-btn');
+                if (!button) return;
+                button.textContent = this.isHudVisible ? '👁️' : '🙈';
+                button.setAttribute('aria-pressed', String(this.isHudVisible));
+                button.title = this.isHudVisible ? 'Bilgi kartlarini gizle' : 'Bilgi kartlarini goster';
+            }
+
+            setHudVisible(nextState) {
+                this.isHudVisible = nextState;
+                document.body.classList.toggle('hud-cards-hidden', !this.isHudVisible);
+                document.getElementById('hud-info-stack')?.setAttribute('aria-hidden', String(!this.isHudVisible));
+                document.getElementById('active-selection-card')?.setAttribute('aria-hidden', String(!this.isHudVisible));
+                this.updateHudToggleButton();
+            }
+
+            toggleHudVisibility(forceVisible = !this.isHudVisible) {
+                this.setHudVisible(forceVisible);
+                if (this.isHudVisible) {
+                    this.setCoachMessage('Bilgi kartlari tekrar gorunuyor.', true);
+                }
             }
 
             updatePreviewAppearance() {
@@ -1039,12 +3000,19 @@
                 this.setHelpOpen(forceOpen);
             }
 
+            getStatusBarText() {
+                const modeLabel = this.isRemoveMode ? 'Sil' : 'Yap';
+                const blockCount = this.getBlockCount();
+                return `Hazır! Mod: ${modeLabel} • Blok: ${blockCount} • Yildiz: ${this.completedMissionCount}`;
+            }
+
             createColorPalette() {
                 const container = document.getElementById('color-palette');
                 container.innerHTML = '';
                 CONFIG.colors.forEach((colorObj, index) => {
                     const colorBox = document.createElement('div');
                     colorBox.classList.add('color-box');
+                    colorBox.dataset.colorHex = String(colorObj.hex);
                     colorBox.style.backgroundColor = `#${colorObj.hex.toString(16).padStart(6, '0')}`;
                     colorBox.title = colorObj.name;
                     colorBox.setAttribute('aria-label', `Renk: ${colorObj.name}`);
@@ -1067,6 +3035,7 @@
                 CONFIG.arabicAlphabet.forEach((letter, index) => {
                     const letterBox = document.createElement('div');
                     letterBox.classList.add('letter-box');
+                    letterBox.dataset.letter = letter;
                     letterBox.textContent = letter;
                     letterBox.title = `Harf: ${letter}`;
                     letterBox.setAttribute('aria-label', `Harf: ${letter}`);
@@ -1090,6 +3059,7 @@
                     const diacriticObj = CONFIG.diacritics[key];
                     const diacriticBox = document.createElement('div');
                     diacriticBox.classList.add('diacritic-box');
+                    diacriticBox.dataset.diacritic = diacriticObj.unicode;
                     diacriticBox.textContent = key === ' ' ? '∅' : key;
                     if (key === ' ') diacriticBox.classList.add('none');
                     diacriticBox.title = diacriticObj.name;
@@ -1114,6 +3084,8 @@
                 element.classList.add('selected');
                 this.updatePreviewAppearance();
                 this.updateStatusBar();
+                this.scheduleAutosave();
+                this.speakText(colorObj.name);
                 this.setCoachMessage(`${colorObj.name} seçildi. Şimdi bir harf seçebilirsin.`, true);
                 this.needsRender = true;
             }
@@ -1125,6 +3097,8 @@
                 this.isRemoveMode = false;
                 this.updateRemoveModeButton();
                 this.updateStatusBar();
+                this.scheduleAutosave();
+                this.speakText(this.getLetterName(letter));
                 this.setCoachMessage(`${letter} harfi hazır. İstersen hemen yeni bir blok yerleştirebilirsin.`, true);
                 this.needsRender = true;
             }
@@ -1134,7 +3108,9 @@
                 document.querySelectorAll('.diacritic-box').forEach(box => box.classList.remove('selected'));
                 element.classList.add('selected');
                 this.updateStatusBar();
+                this.scheduleAutosave();
                 const diacriticName = this.getDiacriticName();
+                this.speakText(diacriticName === 'Yok' ? 'Harekesiz' : diacriticName);
                 this.setCoachMessage(
                     diacriticName === 'Yok'
                         ? 'Hareke kaldırıldı. Şimdi istersen yeni bloğunu yerleştir.'
@@ -1145,17 +3121,16 @@
             }
 
             updateStatusBar() {
-                const diacriticName = this.getDiacriticName();
-                const modeLabel = this.isRemoveMode ? 'Sil' : 'Yap';
-                const blockCount = this.getBlockCount();
                 const statusBar = document.getElementById('status-bar');
                 if (statusBar) {
-                    statusBar.textContent = `Mod: ${modeLabel} • Harf: ${this.selectedLetter} • Renk: ${this.selectedColor.name} • Hareke: ${diacriticName} • Blok: ${blockCount}`;
+                    statusBar.textContent = this.getStatusBarText();
                 }
+                this.updateMissionCard();
+                this.updateSelectionCard();
             }
 
             isUiTarget(target) {
-                return Boolean(target?.closest('#palette-container, #controls, #shortcuts-help, #palette-backdrop'));
+                return Boolean(target?.closest('#palette-container, #controls, #shortcuts-help, #palette-backdrop, #active-selection-card, #confirm-dialog, #confirm-backdrop, #mission-card, #mission-launcher'));
             }
 
             // ==================== EVENT LISTENERS ====================
@@ -1168,20 +3143,30 @@
                 });
                 window.addEventListener('resize', () => this.onWindowResize());
 
+                document.getElementById('start-mission-btn').addEventListener('click', () => this.startMissionMode());
                 document.getElementById('toggle-palette-btn').addEventListener('click', () => this.togglePalette());
+                document.getElementById('toggle-hud-btn').addEventListener('click', () => this.toggleHudVisibility());
+                document.getElementById('play-mission-btn').addEventListener('click', () => this.speakCurrentMission());
+                document.getElementById('next-mission-btn').addEventListener('click', () => this.handleMissionAction());
                 document.getElementById('close-palette-btn').addEventListener('click', () => this.setPaletteOpen(false));
                 document.getElementById('remove-mode-btn').addEventListener('click', () => this.toggleRemoveMode());
-                document.getElementById('clear-all-btn').addEventListener('click', () => this.clearAllBlocks());
+                document.getElementById('clear-all-btn').addEventListener('click', () => this.requestSceneClear('manual'));
                 document.getElementById('undo-btn').addEventListener('click', () => this.undo());
                 document.getElementById('redo-btn').addEventListener('click', () => this.redo());
                 document.getElementById('export-btn').addEventListener('click', () => this.exportScene());
                 document.getElementById('import-btn').addEventListener('click', () => this.importScene());
                 document.getElementById('help-btn').addEventListener('click', () => this.toggleHelp());
                 document.getElementById('close-help-btn').addEventListener('click', () => this.setHelpOpen(false));
+                document.getElementById('sound-toggle-btn').addEventListener('click', () => this.toggleSound());
+                document.getElementById('play-selection-sound-btn').addEventListener('click', () => this.replaySelectionAudio());
+                document.getElementById('confirm-backdrop').addEventListener('click', () => this.closeConfirmDialog());
+                document.getElementById('confirm-cancel-btn').addEventListener('click', () => this.closeConfirmDialog());
+                document.getElementById('confirm-accept-btn').addEventListener('click', () => this.confirmDialogAction());
                 document.getElementById('palette-backdrop').addEventListener('click', () => {
                     this.setPaletteOpen(false);
                     this.setHelpOpen(false);
                 });
+                window.addEventListener('beforeunload', () => this.persistAutosave());
 
                 this.setPaletteOpen(!this.isMobileViewport);
                 this.updateUndoRedoButtons();
@@ -1195,16 +3180,20 @@
                         case 'p':
                             this.togglePalette();
                             break;
+                        case 'i':
+                            this.toggleHudVisibility();
+                            break;
                         case 'r':
                             this.toggleRemoveMode();
                             break;
                         case 'c':
-                            if (!e.ctrlKey && !e.metaKey) this.clearAllBlocks();
+                            if (!e.ctrlKey && !e.metaKey) this.requestSceneClear('manual');
                             break;
                         case '?':
                             this.toggleHelp();
                             break;
                         case 'escape':
+                            this.closeConfirmDialog();
                             if (this.isPaletteOpen) this.setPaletteOpen(false);
                             if (this.isHelpOpen) this.setHelpOpen(false);
                             break;
@@ -1288,28 +3277,57 @@
                 this.updatePreviewAppearance();
             }
 
-            clearAllBlocks() {
-                if (confirm('Tüm blokları silmek istediğinizden emin misiniz?')) {
-                    for (let i = this.objects.length - 1; i >= 0; i--) {
-                        if (!this.objects[i].userData.isPlane) {
-                            this.scene.remove(this.objects[i]);
-                            this.objects.splice(i, 1);
-                        }
-                    }
-                    this.stateManager.addState(this.objects);
-                    this.updateUndoRedoButtons();
-                    this.updateStatusBar();
-                    this.setCoachMessage('Puf. Oyun alanı temizlendi. Yeni bir çalışma kurabilirsin.', true);
-                    this.needsRender = true;
+            requestSceneClear(source = 'manual') {
+                if (this.getBlockCount() === 0) {
+                    this.setCoachMessage('Temizlenecek bir blok henuz yok.', true);
+                    return;
                 }
+
+                const isMissionReward = source === 'mission';
+                this.openConfirmDialog({
+                    title: isMissionReward ? 'Yeni Goreve Hazir misin?' : 'Sahneyi Temizleyelim mi?',
+                    message: isMissionReward
+                        ? 'Gorevi tamamladin. Supurgeye dokunursan alan temizlenecek ve yeni mini gorev gelecek.'
+                        : 'Sahnedeki tum bloklar temizlenecek. Devam etmek ister misin?',
+                    confirmLabel: isMissionReward ? 'Temizle ve Basla' : 'Temizle',
+                    onConfirm: () => this.clearAllBlocks({ assignNewMission: isMissionReward })
+                });
+            }
+
+            clearAllBlocks(options = {}) {
+                const { assignNewMission = false, silent = false } = options;
+
+                for (let i = this.objects.length - 1; i >= 0; i--) {
+                    if (!this.objects[i].userData.isPlane) {
+                        this.scene.remove(this.objects[i]);
+                        this.objects.splice(i, 1);
+                    }
+                }
+                this.setActivePreset('');
+                this.hideCelebration();
+                this.stateManager.addState(this.objects);
+                this.updateUndoRedoButtons();
+                this.updateStatusBar();
+                this.scheduleAutosave();
+
+                if (assignNewMission) {
+                    this.setMissionModeActive(true);
+                    this.assignNextMission(true);
+                } else if (!silent) {
+                    this.setCoachMessage('Puf. Oyun alanı temizlendi. Yeni bir çalışma kurabilirsin.', true);
+                }
+
+                this.needsRender = true;
             }
 
             // ==================== UNDO/REDO ====================
             undo() {
                 const previousState = this.stateManager.undo();
                 if (previousState) {
+                    this.setActivePreset('');
                     this.loadState(previousState);
                     this.updateUndoRedoButtons();
+                    this.scheduleAutosave();
                     this.setCoachMessage('Bir adım geri aldın. İstersen yeniden deneyebilirsin.', true);
                 }
             }
@@ -1317,8 +3335,10 @@
             redo() {
                 const nextState = this.stateManager.redo();
                 if (nextState) {
+                    this.setActivePreset('');
                     this.loadState(nextState);
                     this.updateUndoRedoButtons();
+                    this.scheduleAutosave();
                     this.setCoachMessage('Son geri aldığın adımı tekrar getirdin.', true);
                 }
             }
@@ -1375,7 +3395,8 @@
                 a.click();
                 URL.revokeObjectURL(url);
 
-                localStorage.setItem('elifba-scene', json);
+                localStorage.setItem(CONFIG.storage.exportKey, json);
+                this.persistAutosave();
                 this.setCoachMessage('Sahnen kaydedildi. Dilersen sonra tekrar açabilirsin.', true);
                 alert('Sahne kaydedildi!');
             }
@@ -1393,9 +3414,11 @@
                         try {
                             const data = JSON.parse(event.target.result);
                             if (data.blocks && Array.isArray(data.blocks)) {
+                                this.setActivePreset('');
                                 this.loadState(data.blocks);
                                 this.stateManager.addState(this.objects);
                                 this.updateUndoRedoButtons();
+                                this.persistAutosave();
                                 this.setCoachMessage('Kaydedilmiş sahne yüklendi. Kaldığın yerden devam edebilirsin.', true);
                                 alert('Sahne yüklendi!');
                             } else {
@@ -1415,18 +3438,14 @@
                 return new THREE.BoxGeometry(size, size, size);
             }
 
-            createLetterMaterial(letter, diacritic, hexColor) {
-                // Check cache first
-                const cached = this.textureCache.get(letter, diacritic, hexColor);
-                if (cached) return cached;
-
+            createLetterCanvas(letter, diacritic, hexColor) {
                 const canvas = document.createElement('canvas');
                 const context = canvas.getContext('2d');
                 canvas.width = 300;
                 canvas.height = 300;
 
                 // Background
-                context.fillStyle = `#${hexColor.toString(16).padStart(6, '0')}`;
+                context.fillStyle = this.getHexColorString(hexColor);
                 context.fillRect(0, 0, canvas.width, canvas.height);
 
                 // Auto text color based on background luminance
@@ -1484,6 +3503,16 @@
                 // Draw filled text
                 context.fillStyle = textColor;
                 context.fillText(combinedText, canvas.width / 2, textY);
+
+                return canvas;
+            }
+
+            createLetterMaterial(letter, diacritic, hexColor) {
+                // Check cache first
+                const cached = this.textureCache.get(letter, diacritic, hexColor);
+                if (cached) return cached;
+
+                const canvas = this.createLetterCanvas(letter, diacritic, hexColor);
 
                 // Create material - use MeshBasicMaterial to avoid color multiplication
                 const texture = new THREE.CanvasTexture(canvas);
@@ -1570,9 +3599,11 @@
                         if (!intersect.object.userData.isPlane) {
                             this.scene.remove(intersect.object);
                             this.objects.splice(this.objects.indexOf(intersect.object), 1);
+                            this.setActivePreset('');
                             this.stateManager.addState(this.objects);
                             this.updateUndoRedoButtons();
                             this.updateStatusBar();
+                            this.scheduleAutosave();
                             this.setCoachMessage('Bir blok kaldırıldı. İstersen başka birini de silebilirsin.', true);
                         }
                     } else {
@@ -1618,9 +3649,11 @@
                         };
                         animate();
 
+                        this.setActivePreset('');
                         this.stateManager.addState(this.objects);
                         this.updateUndoRedoButtons();
                         this.updateStatusBar();
+                        this.scheduleAutosave();
                         this.setCoachMessage(`Süper. ${this.getBlockCount()} blok oldu. Devam edebilirsin.`, true);
                     }
 
@@ -1634,6 +3667,7 @@
                 this.camera.aspect = window.innerWidth / window.innerHeight;
                 this.camera.updateProjectionMatrix();
                 this.renderer.setSize(window.innerWidth, window.innerHeight);
+                this.resizeSelectionPreview();
 
                 if (wasMobileViewport !== this.isMobileViewport) {
                     this.isHelpOpen = false;
@@ -1657,6 +3691,13 @@
             animationFrame() {
                 requestAnimationFrame(() => this.animationFrame());
                 this.controls.update();
+                if (this.previewCube && this.previewRenderer && this.previewScene && this.previewCamera) {
+                    const now = performance.now() * 0.001;
+                    this.previewCube.rotation.x = 0.42 + Math.sin(now * 0.85) * 0.08;
+                    this.previewCube.rotation.y = now * 0.9;
+                    this.previewCube.rotation.z = Math.sin(now * 0.45) * 0.04;
+                    this.previewRenderer.render(this.previewScene, this.previewCamera);
+                }
                 this.renderer.render(this.scene, this.camera);
             }
         }
