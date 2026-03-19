@@ -1,8 +1,8 @@
 
-# Elifba - 3D LEGO Editör
+# Elifba - 3D Oyun Atölyesi
 
 Bu depo, Three.js kullanarak hazırlanmış tek sayfalık bir statik uygulama içerir: `elifba.html`.
-Uygulama, Elifba'daki harfleri bloklar şeklinde sahneye yerleştirip düzenlemeye olanak sağlar — LEGO tarzı 3B bloklarla etkileşim için tasarlanmıştır.
+Uygulama, Elifba'daki harfleri renkli 3B bloklar olarak sahneye yerleştirmeye odaklanan küçük ve çocuk dostu bir oyun atölyesidir.
 
 **Kısa Özeti**
 - Dosya: `elifba.html` — tüm HTML, CSS ve JavaScript tek dosyada (Three.js modülleri importmap/CDN üzerinden yüklenir).
@@ -12,11 +12,13 @@ Uygulama, Elifba'daki harfleri bloklar şeklinde sahneye yerleştirip düzenleme
 - https://mn-su.github.io/lego-3B-elifba/elifba.html
 
 **Özellikler**
+- Çocuk dostu rehber mesajları ve daha sıcak, oyuncu bir arayüz.
+- Mobilde taşmayan, güvenli alan uyumlu açılır palet.
 - Renk paleti ile blok rengi seçme.
-- Harf paleti (Arapça harfler) ve diakritik/işaret(üstün, cezim, vb.) seçimi.
-- Zemine tıklayarak blok ekleme; silme modu ile blok silme.
-- "Hepsini Sil" butonu ile sahneyi temizleme.
-- OrbitControls ile 3B kamera kontrolü (fare/ dokunmatik destekli).
+- Harf paleti (Arapça harfler) ve hareke seçimi.
+- Zemine dokunarak blok ekleme; silme modu ile blok silme.
+- Geri al / ileri al, kaydet / yükle ve yardım kartı.
+- OrbitControls ile 3B kamera kontrolü (fare / dokunmatik destekli).
 
 
 **Bağımlılıklar ve Notlar**
@@ -30,4 +32,3 @@ Uygulama, Elifba'daki harfleri bloklar şeklinde sahneye yerleştirip düzenleme
 **İpuçları / Sorun Giderme**
 - Eğer sayfa boş görünüyorsa: tarayıcı konsolunu (DevTools) açın; importmap ile yüklenen modüllerin CORS veya ağ hatalarını kontrol edin.
 - Performans düşerse sahnedeki fazla objeleri silin veya tarayıcıyı yenileyin.
-

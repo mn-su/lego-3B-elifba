@@ -3,302 +3,601 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    <title>Elifba - 3D LEGO Editör</title>
+    <title>Elifba - 3D Oyun Atölyesi</title>
     <style>
+        :root {
+            --font-ui: "Avenir Next", "Trebuchet MS", "Segoe UI", sans-serif;
+            --sky-top: #fff1cb;
+            --sky-mid: #fff9ef;
+            --sky-bottom: #ddf5ff;
+            --panel: rgba(255, 255, 255, 0.88);
+            --panel-strong: rgba(255, 255, 255, 0.96);
+            --panel-border: rgba(255, 255, 255, 0.84);
+            --ink: #21425f;
+            --muted: #667e95;
+            --accent: #ff7a59;
+            --accent-soft: #ffe2cf;
+            --accent-ring: rgba(255, 122, 89, 0.3);
+            --danger: #ff6b78;
+            --shadow: 0 18px 45px rgba(76, 98, 126, 0.18);
+            --mobile-dock-height: 132px;
+        }
+
         * {
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
         }
 
         body {
             margin: 0;
             overflow: hidden;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background-color: #f0f0f0;
+            position: relative;
+            font-family: var(--font-ui);
+            background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 34%, var(--sky-bottom) 100%);
+            color: var(--ink);
         }
 
-        /* Info Panel & Status Bar */
-        #info {
-            position: absolute;
-            top: 10px;
-            width: 100%;
-            text-align: center;
-            color: #333;
-            font-size: 16px;
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
             pointer-events: none;
-            z-index: 10;
+            z-index: 0;
+            filter: blur(2px);
+        }
+
+        body::before {
+            width: 340px;
+            height: 340px;
+            top: -150px;
+            right: -110px;
+            background: radial-gradient(circle at center, rgba(255, 191, 116, 0.42) 0%, rgba(255, 191, 116, 0) 72%);
+        }
+
+        body::after {
+            width: 300px;
+            height: 300px;
+            bottom: -140px;
+            left: -120px;
+            background: radial-gradient(circle at center, rgba(127, 207, 255, 0.38) 0%, rgba(127, 207, 255, 0) 72%);
+        }
+
+        canvas {
+            display: block;
+            position: relative;
+            z-index: 1;
+        }
+
+        #info,
+        #status-bar,
+        #controls,
+        #shortcuts-help,
+        #palette-container,
+        #palette-backdrop {
+            position: absolute;
+        }
+
+        #info {
+            top: calc(env(safe-area-inset-top) + 14px);
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(470px, calc(100vw - 24px));
+            padding: 14px 18px;
+            border-radius: 24px;
+            background: var(--panel);
+            border: 1px solid var(--panel-border);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(16px);
+            text-align: center;
+            color: var(--ink);
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.45;
+            pointer-events: none;
+            z-index: 30;
         }
 
         #status-bar {
-            position: absolute;
-            top: 50px;
+            top: calc(env(safe-area-inset-top) + 100px);
             left: 50%;
             transform: translateX(-50%);
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 8px 15px;
-            border-radius: 8px;
+            width: min(560px, calc(100vw - 24px));
+            padding: 10px 16px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.74);
+            border: 1px solid rgba(255, 255, 255, 0.72);
+            box-shadow: 0 10px 24px rgba(80, 103, 132, 0.14);
+            backdrop-filter: blur(16px);
+            text-align: center;
+            color: var(--ink);
             font-size: 13px;
-            color: #333;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-weight: 600;
+            line-height: 1.45;
+            white-space: normal;
             pointer-events: none;
-            max-width: 90%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            z-index: 10;
+            z-index: 30;
         }
 
-        /* Palette Container */
+        #palette-backdrop {
+            inset: 0;
+            background: rgba(29, 48, 70, 0.24);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.22s ease;
+            z-index: 60;
+        }
+
+        #palette-backdrop.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
         #palette-container {
-            position: absolute;
             bottom: 20px;
             left: 50%;
-            transform: translateX(-50%);
-            width: 85%;
-            max-width: 850px;
-            display: none;
-            flex-direction: column;
-            gap: 10px;
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 12px 15px;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-            z-index: 100;
+            width: min(860px, calc(100vw - 32px));
+            padding: 14px;
+            border-radius: 28px;
+            background: var(--panel-strong);
+            border: 1px solid rgba(255, 255, 255, 0.92);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(18px);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translate(-50%, 26px) scale(0.97);
+            transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
+            z-index: 90;
+            overflow: hidden;
         }
 
         #palette-container.visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translate(-50%, 0) scale(1);
+        }
+
+        .palette-header {
             display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            padding: 0 0 8px;
         }
 
-        .palette-label {
-            font-size: 11px;
-            font-weight: 600;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 2px;
-            margin-bottom: 4px;
+        .palette-scroll {
+            display: grid;
+            gap: 10px;
+            max-height: 50vh;
+            overflow-y: auto;
+            padding-right: 4px;
         }
 
-        #color-palette, #diacritic-palette, #letter-palette, #shape-palette {
+        .palette-section {
+            padding: 10px;
+            border-radius: 20px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(247, 251, 255, 0.92));
+            border: 1px solid rgba(229, 238, 248, 0.92);
+        }
+
+        .palette-section.compact {
+            padding: 10px 10px 12px;
+        }
+
+        .palette-combo-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 8px;
+            align-items: start;
+        }
+
+        .palette-group {
+            min-width: 0;
+            display: grid;
+        }
+
+        #color-palette,
+        #diacritic-palette,
+        #letter-palette,
+        #shape-palette {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
+        }
+
+        #color-palette,
+        #diacritic-palette {
+            justify-content: flex-start;
+            align-content: flex-start;
+        }
+
+        .color-box,
+        .letter-box,
+        .diacritic-box,
+        .shape-box,
+        .control-btn,
+        .mini-ui-btn {
+            touch-action: manipulation;
         }
 
         .color-box {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
+            width: 24px;
+            height: 72px;
+            border-radius: 14px;
             cursor: pointer;
-            border: 3px solid #e0e0e0;
-            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+            box-shadow: 0 7px 16px rgba(90, 108, 134, 0.16);
         }
 
-        .color-box:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        .color-box:hover,
+        .color-box:focus-visible {
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 10px 20px rgba(90, 108, 134, 0.2);
+            outline: none;
         }
 
         .color-box.selected {
-            border-color: #000;
-            transform: scale(1.15);
-            box-shadow: 0 0 0 2px #000;
+            border-color: #17324d;
+            transform: scale(1.05);
+            box-shadow: 0 0 0 3px rgba(23, 50, 77, 0.16);
         }
 
-        .letter-box, .diacritic-box, .shape-box {
+        .letter-box,
+        .diacritic-box,
+        .shape-box {
             cursor: pointer;
-            border: 3px solid #ccc;
-            background-color: #fff;
-            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+            border: 2px solid rgba(216, 227, 239, 0.98);
+            background: linear-gradient(180deg, #ffffff, #f6fbff);
+            transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding-top: 2px;
-            font-weight: 500;
-            color: #333;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding-top: 4px;
+            font-weight: 700;
+            color: var(--ink);
+            box-shadow: 0 7px 16px rgba(90, 108, 134, 0.12);
         }
 
         .letter-box {
-            width: 38px;
-            height: 38px;
-            border-radius: 8px;
-            font-size: 20px;
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            font-size: 24px;
             line-height: 1;
         }
 
         .diacritic-box {
-            width: 38px;
-            height: 38px;
-            border-radius: 8px;
-            font-size: 26px;
-            line-height: 0.5;
-            padding-bottom: 16px;
+            width: 32px;
+            height: 74px;
+            border-radius: 14px;
+            font-size: 29px;
+            line-height: 1;
+            padding-top: 2px;
+            padding-bottom: 8px;
+            padding-left: 1px;
+            padding-right: 1px;
+            align-items: center;
+        }
+
+        .diacritic-box.none {
+            font-size: 18px;
+            letter-spacing: 0.02em;
         }
 
         .shape-box {
-            width: 45px;
-            height: 45px;
-            border-radius: 8px;
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
             font-size: 28px;
         }
 
-        .diacritic-box:hover, .letter-box:hover, .shape-box:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        .letter-box:hover,
+        .letter-box:focus-visible,
+        .diacritic-box:hover,
+        .diacritic-box:focus-visible,
+        .shape-box:hover,
+        .shape-box:focus-visible {
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 10px 20px rgba(90, 108, 134, 0.18);
+            outline: none;
         }
 
-        .diacritic-box.selected, .letter-box.selected, .shape-box.selected {
-            border-color: #007bff;
-            transform: scale(1.15);
-            box-shadow: 0 0 0 2px #007bff;
+        .letter-box.selected,
+        .diacritic-box.selected,
+        .shape-box.selected {
+            border-color: var(--accent);
+            background: linear-gradient(180deg, #fff6ef, #fffdf9);
+            transform: scale(1.03);
+            box-shadow: 0 0 0 3px var(--accent-ring);
         }
 
-        /* Controls */
         #controls {
-            position: absolute;
             top: 50%;
-            right: 20px;
+            right: 18px;
             transform: translateY(-50%);
             display: flex;
             flex-direction: column;
             gap: 10px;
-            z-index: 50;
+            padding: 10px;
+            border-radius: 28px;
+            background: rgba(255, 255, 255, 0.72);
+            border: 1px solid rgba(255, 255, 255, 0.78);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(16px);
+            z-index: 80;
+        }
+
+        .control-btn,
+        .mini-ui-btn {
+            border: none;
+            color: var(--ink);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.15s ease, box-shadow 0.18s ease, background-color 0.18s ease;
         }
 
         .control-btn {
-            width: 50px;
-            height: 50px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border: 2px solid #e0e0e0;
-            border-radius: 50%;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            transition: background-color 0.2s, border-color 0.2s, transform 0.1s;
-            color: #333;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 52px;
+            height: 52px;
+            border-radius: 18px;
+            font-size: 23px;
+            background: linear-gradient(180deg, #ffffff, #f5fbff);
+            box-shadow: 0 10px 18px rgba(88, 107, 132, 0.16);
         }
 
-        .control-btn:hover {
-            background-color: #fff;
-            border-color: #999;
-            transform: scale(1.05);
+        .control-btn:hover,
+        .control-btn:focus-visible,
+        .mini-ui-btn:hover,
+        .mini-ui-btn:focus-visible {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 22px rgba(88, 107, 132, 0.2);
+            outline: none;
         }
 
-        .control-btn:active {
-            transform: scale(0.95);
+        .control-btn:active,
+        .mini-ui-btn:active {
+            transform: scale(0.96);
         }
 
         .control-btn[aria-pressed="true"] {
-            background-color: #ff8c8c;
-            border-color: #ff4444;
+            background: linear-gradient(180deg, #fff1ea, #ffe1d4);
+            box-shadow: 0 0 0 4px rgba(255, 122, 89, 0.18);
         }
 
         .control-btn:disabled {
-            opacity: 0.5;
+            opacity: 0.45;
             cursor: not-allowed;
+            box-shadow: none;
         }
 
-        /* Keyboard Shortcuts Help */
+        .mini-ui-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            font-size: 18px;
+            background: linear-gradient(180deg, #ffffff, #f7fbff);
+            box-shadow: 0 8px 16px rgba(88, 107, 132, 0.14);
+            flex-shrink: 0;
+        }
+
         #shortcuts-help {
-            position: absolute;
-            bottom: 20px;
             left: 20px;
-            background-color: rgba(0, 0, 0, 0.85);
-            color: #fff;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 12px;
-            max-width: 200px;
-            display: none;
-            line-height: 1.6;
-            z-index: 50;
+            bottom: 20px;
+            width: min(320px, calc(100vw - 32px));
+            padding: 16px;
+            border-radius: 22px;
+            background: rgba(24, 46, 68, 0.92);
+            color: #f4fbff;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(16px);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(14px) scale(0.98);
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+            line-height: 1.55;
+            z-index: 88;
         }
 
         #shortcuts-help.visible {
-            display: block;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0) scale(1);
         }
 
-        #shortcuts-help strong {
-            display: block;
-            margin-top: 8px;
-            margin-bottom: 4px;
-            color: #4cf;
+        .help-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
         }
 
-        /* Responsive Design */
+        .help-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: #fff2c6;
+        }
+
+        .help-copy {
+            font-size: 13px;
+            color: rgba(244, 251, 255, 0.82);
+            margin-bottom: 10px;
+        }
+
+        .help-divider {
+            height: 1px;
+            margin: 12px 0;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .help-shortcut {
+            display: block;
+            margin-top: 6px;
+            color: #8de0ff;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
         @media (max-width: 768px) {
-            #palette-container {
-                flex-direction: column;
-                width: 100%;
-                bottom: 0;
-                left: 0;
-                transform: none;
-                border-radius: 15px 15px 0 0;
-                padding: 15px;
-                max-height: 60vh;
-                overflow-y: auto;
+            #info {
+                top: calc(env(safe-area-inset-top) + 10px);
+                width: calc(100vw - 18px);
+                padding: 12px 14px;
+                border-radius: 20px;
+                font-size: 13px;
+            }
+
+            #status-bar {
+                top: calc(env(safe-area-inset-top) + 86px);
+                width: calc(100vw - 18px);
+                padding: 8px 12px;
+                font-size: 12px;
             }
 
             #controls {
-                right: 10px;
-                flex-direction: row;
                 top: auto;
-                bottom: 20px;
-                transform: none;
+                right: auto;
+                left: 50%;
+                bottom: calc(env(safe-area-inset-bottom) + 12px);
+                transform: translateX(-50%);
+                width: min(248px, calc(100vw - 18px));
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+                padding: 10px;
+                border-radius: 24px;
+            }
+
+            .control-btn {
+                width: 48px;
+                height: 48px;
+                border-radius: 16px;
+                font-size: 22px;
+            }
+
+            #palette-container {
+                bottom: calc(env(safe-area-inset-bottom) + var(--mobile-dock-height));
+                width: calc(100vw - 16px);
+                padding: 12px;
+                border-radius: 24px;
+                transform: translate(-50%, 20px) scale(0.97);
+            }
+
+            #palette-container.visible {
+                transform: translate(-50%, 0) scale(1);
+            }
+
+            .palette-scroll {
+                max-height: calc(100vh - 250px);
+            }
+
+            .palette-section {
+                padding: 10px;
+                border-radius: 18px;
+            }
+
+            .palette-combo-grid {
                 gap: 8px;
             }
 
             .color-box {
-                width: 30px;
-                height: 30px;
+                width: 22px;
+                height: 64px;
+            }
+
+            .letter-box,
+            .diacritic-box {
+                width: 44px;
+                height: 44px;
             }
 
             .letter-box {
-                width: 35px;
-                height: 35px;
-                font-size: 18px;
+                font-size: 22px;
             }
 
             .diacritic-box {
-                width: 40px;
-                height: 40px;
-                font-size: 30px;
+                width: 30px;
+                height: 66px;
+                font-size: 26px;
+                padding-bottom: 7px;
             }
 
-            #status-bar {
-                font-size: 11px;
-                padding: 6px 10px;
+            .diacritic-box.none {
+                font-size: 16px;
             }
 
             #shortcuts-help {
-                bottom: 80px;
-                font-size: 10px;
+                left: 50%;
+                bottom: calc(env(safe-area-inset-bottom) + var(--mobile-dock-height));
+                width: calc(100vw - 18px);
+                padding: 14px;
+                transform: translate(-50%, 14px) scale(0.98);
+            }
+
+            #shortcuts-help.visible {
+                transform: translate(-50%, 0) scale(1);
             }
         }
 
-        /* Canvas */
-        canvas {
-            display: block;
+        @media (max-height: 740px) and (max-width: 768px) {
+            #info {
+                font-size: 12px;
+            }
+
+            #status-bar {
+                top: calc(env(safe-area-inset-top) + 80px);
+                font-size: 11px;
+            }
+
+            #palette-container {
+                bottom: calc(env(safe-area-inset-bottom) + 126px);
+            }
+
+            .palette-scroll {
+                max-height: calc(100vh - 232px);
+            }
         }
     </style>
 </head>
 <body>
-    <div id="info">📍 Blok eklemek için zemine, silmek için bloğa dokunun. Yardım için <kbd>?</kbd> tuşuna basın.</div>
-    <div id="status-bar">Seçili: <span id="status-letter">ا</span> | Renk: <span id="status-color">Beyaz</span> | Diakriti: Yok</div>
-    
-    <div id="palette-container">
-        <div class="palette-label">📍 Renk Seçimi</div>
-        <div id="color-palette"></div>
-        <div class="palette-label">🔤 Harf Seçimi</div>
-        <div id="letter-palette"></div>
-        <div class="palette-label">✏️ Diakriti Seçimi</div>
-        <div id="diacritic-palette"></div>
+    <div id="info">Haydi başlayalım. Bir renk seç, bir harf seç ve oyun alanına dokunarak ilk bloğunu yerleştir.</div>
+    <div id="status-bar">Hazır! Harf: ا • Renk: Bulut Beyazı • Hareke: Yok • Blok: 0</div>
+
+    <div id="palette-backdrop" aria-hidden="true"></div>
+
+    <div id="palette-container" aria-hidden="true" role="dialog" aria-label="Renk, hareke ve harf paleti">
+        <div class="palette-header">
+            <button id="close-palette-btn" class="mini-ui-btn" type="button" aria-label="Paleti kapat">✕</button>
+        </div>
+        <div class="palette-scroll">
+            <section class="palette-section">
+                <div id="letter-palette"></div>
+            </section>
+            <section class="palette-section compact">
+                <div class="palette-combo-grid">
+                    <div class="palette-group">
+                        <div id="color-palette"></div>
+                    </div>
+                    <div class="palette-group">
+                        <div id="diacritic-palette"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
 
     <div id="controls">
@@ -312,18 +611,22 @@
         <button id="help-btn" class="control-btn" title="Yardım (?)" aria-label="Klavye kısayollarını göster">❓</button>
     </div>
 
-    <div id="shortcuts-help">
-        <strong>⌨️ Klavye Kısayolları:</strong>
-        <div>P - Paleti aç/kapat</div>
-        <div>R - Silme modu</div>
-        <div>C - Hepsini sil</div>
-        <div>Ctrl+Z - Geri al</div>
-        <div>Ctrl+Y - İleri al</div>
-        <div>Ctrl+S - Kaydet</div>
-        <div>Ctrl+O - Yükle</div>
-        <div>? - Bu yardımı göster</div>
-        <div>1-8 - Renk seç</div>
-        <div>←/→ - Harf seç</div>
+    <div id="shortcuts-help" aria-hidden="true">
+        <div class="help-header">
+            <div class="help-title">Mini Yardım Kartı</div>
+            <button id="close-help-btn" class="mini-ui-btn" type="button" aria-label="Yardımı kapat">✕</button>
+        </div>
+        <div class="help-copy">Önce paleti aç, sonra rengini ve harfini seç. Oyun alanına dokununca yeni blok eklenir.</div>
+        <div>🎨 Palet düğmesi renk ve harf kutusunu açar.</div>
+        <div>🗑️ Çöp kutusu silme modunu açar; kaldırmak istediğin bloğa dokunursun.</div>
+        <div>↶ ↷ ile geri alıp tekrar deneyebilirsin.</div>
+        <div>♻️ Her şeyi temizlemek için geri dönüşüm düğmesini kullanabilirsin.</div>
+        <div class="help-divider"></div>
+        <div class="help-title" style="font-size: 15px;">Klavye kullananlar için</div>
+        <div><span class="help-shortcut">P</span> Paleti aç veya kapat</div>
+        <div><span class="help-shortcut">R</span> Silme modunu aç veya kapat</div>
+        <div><span class="help-shortcut">Ctrl+Z / Ctrl+Y</span> Geri al / ileri al</div>
+        <div><span class="help-shortcut">1-9 ve ← →</span> Renk ve harfler arasında hızlı gez</div>
     </div>
 
     <script type="importmap">
@@ -352,27 +655,28 @@
             },
             pointer: { clickThreshold: 300, moveThreshold: 10 },
             colors: [
-                { hex: 0xffffff, name: 'Beyaz' },
-                { hex: 0xff1493, name: 'Pembe' },
-                { hex: 0xffd700, name: 'Altın' },
-                { hex: 0x32cd32, name: 'Yeşil' },
-                { hex: 0x1e90ff, name: 'Mavi' },
-                { hex: 0xDA70D6, name: 'Mor' },
-                { hex: 0xcccccc, name: 'Gri' },
-                { hex: 0x000000, name: 'Siyah' }
+                { hex: 0xffffff, name: 'Bulut Beyazı' },
+                { hex: 0xff6fb5, name: 'Şeker Pembe' },
+                { hex: 0xffcf33, name: 'Güneş Sarısı' },
+                { hex: 0xff8a2a, name: 'Turuncu' },
+                { hex: 0x4ecb71, name: 'Yaprak Yeşili' },
+                { hex: 0x4d9fff, name: 'Deniz Mavisi' },
+                { hex: 0xb67dff, name: 'Leylak Moru' },
+                { hex: 0xc9d3df, name: 'Gümüş Gri' },
+                { hex: 0x27313b, name: 'Gece Laciverti' }
             ],
             shapes: [
                 { type: 'box', name: 'Kutu', icon: '⬜' }
             ],
             diacritics: {
-                'ـَ': { unicode: '\u064E', name: 'Fatha' },
-                'ـِ': { unicode: '\u0650', name: 'Kasra' },
-                'ـُ': { unicode: '\u064F', name: 'Damma' },
-                'ـً': { unicode: '\u064B', name: 'Tanwin Fath' },
-                'ـٍ': { unicode: '\u064D', name: 'Tanwin Kasr' },
-                'ـٌ': { unicode: '\u064C', name: 'Tanwin Damm' },
-                'ـّ': { unicode: '\u0651', name: 'Shadda' },
-                'ـْ': { unicode: '\u0652', name: 'Sukun' },
+                'ـَ': { unicode: '\u064E', name: 'Üstün' },
+                'ـِ': { unicode: '\u0650', name: 'Esre' },
+                'ـُ': { unicode: '\u064F', name: 'Ötre' },
+                'ـً': { unicode: '\u064B', name: 'Tenvin Üstün' },
+                'ـٍ': { unicode: '\u064D', name: 'Tenvin Esre' },
+                'ـٌ': { unicode: '\u064C', name: 'Tenvin Ötre' },
+                'ـّ': { unicode: '\u0651', name: 'Şedde' },
+                'ـْ': { unicode: '\u0652', name: 'Cezim' },
                 ' ': { unicode: '', name: 'Yok' }
             },
             arabicAlphabet: ['ا', 'ب', 'ت', 'ث', 'ج', 'ح', 'خ', 'د', 'ذ', 'ر', 'ز', 'س', 'ش', 'ص', 'ض', 'ط', 'ظ', 'ع', 'غ', 'ف', 'ق', 'ك', 'ل', 'م', 'ن', 'ه', 'و', 'ي'],
@@ -483,19 +787,23 @@
                 this.pointer = new THREE.Vector2();
                 this.pointerDownTime = 0;
                 this.pointerDownPosition = new THREE.Vector2();
+                this.isPointerDown = false;
 
                 this.objects = [];
                 this.rollOverMesh = null;
                 this.textureCache = new TextureCache();
                 this.stateManager = new StateManager();
+                this.coachMessageTimeout = null;
 
                 this.selectedLetter = CONFIG.arabicAlphabet[0];
                 this.selectedDiacritic = '';
                 this.selectedColor = CONFIG.colors[0];
                 this.selectedShape = CONFIG.shapes[0];
                 this.isRemoveMode = false;
+                this.isPaletteOpen = false;
+                this.isHelpOpen = false;
+                this.isMobileViewport = window.innerWidth <= 768;
                 this.needsRender = false;
-                this.selectedBlock = null;
 
                 this.initThreeJS();
                 this.createUI();
@@ -517,12 +825,12 @@
 
                 // Scene
                 this.scene = new THREE.Scene();
-                this.scene.background = new THREE.Color(0xf0f0f0);
+                this.scene.background = null;
 
                 // Roll-over mesh
                 const rollOverGeo = new THREE.BoxGeometry(CONFIG.block.size, CONFIG.block.size, CONFIG.block.size);
                 const rollOverMaterial = new THREE.MeshBasicMaterial({
-                    color: 0xff0000, opacity: 0.3, transparent: true, wireframe: false
+                    color: this.selectedColor.hex, opacity: 0.35, transparent: true, wireframe: false
                 });
                 this.rollOverMesh = new THREE.Mesh(rollOverGeo, rollOverMaterial);
                 this.scene.add(this.rollOverMesh);
@@ -531,7 +839,7 @@
                 const gridSize = CONFIG.grid.size;
                 const gridDivisions = CONFIG.grid.divisions;
                 const gridSpacing = gridSize / gridDivisions;
-                const gridMaterial = new THREE.LineBasicMaterial({ color: 0x0099ff, linewidth: 1, opacity: 0.25, transparent: true });
+                const gridMaterial = new THREE.LineBasicMaterial({ color: 0x74c2ff, linewidth: 1, opacity: 0.24, transparent: true });
                 
                 for (let i = 0; i <= gridDivisions; i++) {
                     const pos = -gridSize / 2 + i * gridSpacing;
@@ -571,9 +879,10 @@
                 this.scene.add(directionalLight);
 
                 // Renderer
-                this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+                this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
                 this.renderer.setPixelRatio(window.devicePixelRatio);
                 this.renderer.setSize(window.innerWidth, window.innerHeight);
+                this.renderer.setClearColor(0x000000, 0);
                 this.renderer.shadowMap.enabled = true;
                 this.renderer.shadowMap.type = THREE.PCFShadowShadowMap;
                 document.body.appendChild(this.renderer.domElement);
@@ -596,7 +905,138 @@
                 this.createColorPalette();
                 this.createLetterPalette();
                 this.createDiacriticPalette();
+                this.updatePaletteButton();
+                this.updateHelpButton();
+                this.updatePreviewAppearance();
+                this.updateRemoveModeButton();
                 this.updateStatusBar();
+                this.setCoachMessage(this.getDefaultCoachMessage());
+            }
+
+            getBlockCount() {
+                return this.objects.filter(object => object.userData?.isPlane !== true).length;
+            }
+
+            getDiacriticName() {
+                return Object.values(CONFIG.diacritics)
+                    .find(diacritic => diacritic.unicode === this.selectedDiacritic)?.name || 'Yok';
+            }
+
+            getDefaultCoachMessage() {
+                const blockCount = this.getBlockCount();
+
+                if (this.isHelpOpen) {
+                    return 'Mini yardım kartı açık. İpuçlarına bakıp hazır olduğunda oyuna dönebilirsin.';
+                }
+
+                if (this.isPaletteOpen && this.isMobileViewport) {
+                    return 'Harika. Şimdi rengini, harfini ve istersen harekeni seç.';
+                }
+
+                if (this.isRemoveMode) {
+                    return 'Silme modu açık. Kaldırmak istediğin bloğa dokun.';
+                }
+
+                if (blockCount === 0) {
+                    return 'Haydi başlayalım. Bir renk seç, bir harf seç ve oyun alanına dokunarak ilk bloğunu yerleştir.';
+                }
+
+                return `${blockCount} blok hazır. Yeni bir tane daha eklemek için boş bir yere dokunabilirsin.`;
+            }
+
+            setCoachMessage(message, temporary = false) {
+                const info = document.getElementById('info');
+                if (!info) return;
+
+                if (this.coachMessageTimeout) {
+                    clearTimeout(this.coachMessageTimeout);
+                    this.coachMessageTimeout = null;
+                }
+
+                info.textContent = message;
+
+                if (temporary) {
+                    this.coachMessageTimeout = window.setTimeout(() => {
+                        this.setCoachMessage(this.getDefaultCoachMessage());
+                    }, 2400);
+                }
+            }
+
+            updatePaletteButton() {
+                const button = document.getElementById('toggle-palette-btn');
+                if (!button) return;
+                button.setAttribute('aria-pressed', String(this.isPaletteOpen));
+            }
+
+            updateHelpButton() {
+                const button = document.getElementById('help-btn');
+                if (!button) return;
+                button.setAttribute('aria-pressed', String(this.isHelpOpen));
+            }
+
+            updatePreviewAppearance() {
+                if (!this.rollOverMesh) return;
+                this.rollOverMesh.material.color.setHex(this.selectedColor.hex);
+                this.rollOverMesh.material.opacity = 0.35;
+                this.rollOverMesh.visible = !this.isRemoveMode;
+            }
+
+            syncBackdrop() {
+                const backdrop = document.getElementById('palette-backdrop');
+                const shouldShow = this.isMobileViewport && (this.isPaletteOpen || this.isHelpOpen);
+                backdrop.classList.toggle('visible', shouldShow);
+                backdrop.setAttribute('aria-hidden', String(!shouldShow));
+            }
+
+            setPaletteOpen(nextState) {
+                this.isPaletteOpen = nextState;
+                if (this.isPaletteOpen) {
+                    this.isHelpOpen = false;
+                }
+
+                const palette = document.getElementById('palette-container');
+                const helpPanel = document.getElementById('shortcuts-help');
+
+                palette.classList.toggle('visible', this.isPaletteOpen);
+                palette.setAttribute('aria-hidden', String(!this.isPaletteOpen));
+
+                helpPanel.classList.toggle('visible', this.isHelpOpen);
+                helpPanel.setAttribute('aria-hidden', String(!this.isHelpOpen));
+
+                this.updatePaletteButton();
+                this.updateHelpButton();
+                this.syncBackdrop();
+                this.setCoachMessage(this.getDefaultCoachMessage());
+                this.needsRender = true;
+            }
+
+            togglePalette(forceOpen = !this.isPaletteOpen) {
+                this.setPaletteOpen(forceOpen);
+            }
+
+            setHelpOpen(nextState) {
+                this.isHelpOpen = nextState;
+                if (this.isHelpOpen) {
+                    this.isPaletteOpen = false;
+                }
+
+                const palette = document.getElementById('palette-container');
+                const helpPanel = document.getElementById('shortcuts-help');
+
+                palette.classList.toggle('visible', this.isPaletteOpen);
+                palette.setAttribute('aria-hidden', String(!this.isPaletteOpen));
+
+                helpPanel.classList.toggle('visible', this.isHelpOpen);
+                helpPanel.setAttribute('aria-hidden', String(!this.isHelpOpen));
+
+                this.updatePaletteButton();
+                this.updateHelpButton();
+                this.syncBackdrop();
+                this.setCoachMessage(this.getDefaultCoachMessage());
+            }
+
+            toggleHelp(forceOpen = !this.isHelpOpen) {
+                this.setHelpOpen(forceOpen);
             }
 
             createColorPalette() {
@@ -650,9 +1090,10 @@
                     const diacriticObj = CONFIG.diacritics[key];
                     const diacriticBox = document.createElement('div');
                     diacriticBox.classList.add('diacritic-box');
-                    diacriticBox.textContent = key;
+                    diacriticBox.textContent = key === ' ' ? '∅' : key;
+                    if (key === ' ') diacriticBox.classList.add('none');
                     diacriticBox.title = diacriticObj.name;
-                    diacriticBox.setAttribute('aria-label', `Diakriti: ${diacriticObj.name}`);
+                    diacriticBox.setAttribute('aria-label', `Hareke: ${diacriticObj.name}`);
                     diacriticBox.setAttribute('role', 'button');
                     diacriticBox.setAttribute('tabindex', '0');
                     diacriticBox.addEventListener('click', () => this.selectDiacritic(diacriticObj.unicode, diacriticBox));
@@ -671,7 +1112,9 @@
                 this.selectedColor = colorObj;
                 document.querySelectorAll('.color-box').forEach(box => box.classList.remove('selected'));
                 element.classList.add('selected');
+                this.updatePreviewAppearance();
                 this.updateStatusBar();
+                this.setCoachMessage(`${colorObj.name} seçildi. Şimdi bir harf seçebilirsin.`, true);
                 this.needsRender = true;
             }
 
@@ -682,6 +1125,7 @@
                 this.isRemoveMode = false;
                 this.updateRemoveModeButton();
                 this.updateStatusBar();
+                this.setCoachMessage(`${letter} harfi hazır. İstersen hemen yeni bir blok yerleştirebilirsin.`, true);
                 this.needsRender = true;
             }
 
@@ -690,20 +1134,28 @@
                 document.querySelectorAll('.diacritic-box').forEach(box => box.classList.remove('selected'));
                 element.classList.add('selected');
                 this.updateStatusBar();
+                const diacriticName = this.getDiacriticName();
+                this.setCoachMessage(
+                    diacriticName === 'Yok'
+                        ? 'Hareke kaldırıldı. Şimdi istersen yeni bloğunu yerleştir.'
+                        : `${diacriticName} seçildi. Şimdi bloğunu hazırlayabilirsin.`,
+                    true
+                );
                 this.needsRender = true;
             }
 
             updateStatusBar() {
-                const diacriticName = Object.values(CONFIG.diacritics)
-                    .find(d => d.unicode === this.selectedDiacritic)?.name || 'Yok';
-                const letterEl = document.getElementById('status-letter');
-                const colorEl = document.getElementById('status-color');
-                if (letterEl) letterEl.textContent = this.selectedLetter;
-                if (colorEl) colorEl.textContent = this.selectedColor.name;
+                const diacriticName = this.getDiacriticName();
+                const modeLabel = this.isRemoveMode ? 'Sil' : 'Yap';
+                const blockCount = this.getBlockCount();
                 const statusBar = document.getElementById('status-bar');
                 if (statusBar) {
-                    statusBar.textContent = `Seçili: ${this.selectedLetter} | Renk: ${this.selectedColor.name} | Diakriti: ${diacriticName}`;
+                    statusBar.textContent = `Mod: ${modeLabel} • Harf: ${this.selectedLetter} • Renk: ${this.selectedColor.name} • Hareke: ${diacriticName} • Blok: ${blockCount}`;
                 }
+            }
+
+            isUiTarget(target) {
+                return Boolean(target?.closest('#palette-container, #controls, #shortcuts-help, #palette-backdrop'));
             }
 
             // ==================== EVENT LISTENERS ====================
@@ -711,9 +1163,13 @@
                 document.addEventListener('pointermove', (e) => this.onPointerMove(e));
                 document.addEventListener('pointerdown', (e) => this.onPointerDown(e));
                 document.addEventListener('pointerup', (e) => this.onPointerUp(e));
+                document.addEventListener('pointercancel', () => {
+                    this.isPointerDown = false;
+                });
                 window.addEventListener('resize', () => this.onWindowResize());
 
                 document.getElementById('toggle-palette-btn').addEventListener('click', () => this.togglePalette());
+                document.getElementById('close-palette-btn').addEventListener('click', () => this.setPaletteOpen(false));
                 document.getElementById('remove-mode-btn').addEventListener('click', () => this.toggleRemoveMode());
                 document.getElementById('clear-all-btn').addEventListener('click', () => this.clearAllBlocks());
                 document.getElementById('undo-btn').addEventListener('click', () => this.undo());
@@ -721,12 +1177,13 @@
                 document.getElementById('export-btn').addEventListener('click', () => this.exportScene());
                 document.getElementById('import-btn').addEventListener('click', () => this.importScene());
                 document.getElementById('help-btn').addEventListener('click', () => this.toggleHelp());
+                document.getElementById('close-help-btn').addEventListener('click', () => this.setHelpOpen(false));
+                document.getElementById('palette-backdrop').addEventListener('click', () => {
+                    this.setPaletteOpen(false);
+                    this.setHelpOpen(false);
+                });
 
-                // Auto-show palette on desktop
-                if (window.innerWidth > 768) {
-                    document.getElementById('palette-container').classList.add('visible');
-                }
-
+                this.setPaletteOpen(!this.isMobileViewport);
                 this.updateUndoRedoButtons();
             }
 
@@ -746,6 +1203,10 @@
                             break;
                         case '?':
                             this.toggleHelp();
+                            break;
+                        case 'escape':
+                            if (this.isPaletteOpen) this.setPaletteOpen(false);
+                            if (this.isHelpOpen) this.setHelpOpen(false);
                             break;
                         case 'z':
                             if (e.ctrlKey || e.metaKey) {
@@ -780,7 +1241,7 @@
                             this.selectNextLetter();
                             break;
                         default:
-                            if (e.key >= '1' && e.key <= '8') {
+                            if (e.key >= '1' && e.key <= '9') {
                                 const index = parseInt(e.key) - 1;
                                 if (index < CONFIG.colors.length) {
                                     const colorBoxes = document.querySelectorAll('.color-box');
@@ -807,25 +1268,24 @@
                 if (letterBoxes[newIndex]) letterBoxes[newIndex].click();
             }
 
-            togglePalette() {
-                document.getElementById('palette-container').classList.toggle('visible');
-                this.needsRender = true;
-            }
-
             toggleRemoveMode() {
                 this.isRemoveMode = !this.isRemoveMode;
                 this.updateRemoveModeButton();
+                this.updateStatusBar();
+                this.setCoachMessage(
+                    this.isRemoveMode
+                        ? 'Silme modu açık. Kaldırmak istediğin bloğa dokun.'
+                        : 'Yapım moduna geri döndün. Yeni blok eklemek için zemine dokun.',
+                    true
+                );
                 this.needsRender = true;
             }
 
             updateRemoveModeButton() {
                 const btn = document.getElementById('remove-mode-btn');
+                if (!btn) return;
                 btn.setAttribute('aria-pressed', this.isRemoveMode);
-                this.rollOverMesh.visible = !this.isRemoveMode;
-            }
-
-            toggleHelp() {
-                document.getElementById('shortcuts-help').classList.toggle('visible');
+                this.updatePreviewAppearance();
             }
 
             clearAllBlocks() {
@@ -838,6 +1298,8 @@
                     }
                     this.stateManager.addState(this.objects);
                     this.updateUndoRedoButtons();
+                    this.updateStatusBar();
+                    this.setCoachMessage('Puf. Oyun alanı temizlendi. Yeni bir çalışma kurabilirsin.', true);
                     this.needsRender = true;
                 }
             }
@@ -848,6 +1310,7 @@
                 if (previousState) {
                     this.loadState(previousState);
                     this.updateUndoRedoButtons();
+                    this.setCoachMessage('Bir adım geri aldın. İstersen yeniden deneyebilirsin.', true);
                 }
             }
 
@@ -856,6 +1319,7 @@
                 if (nextState) {
                     this.loadState(nextState);
                     this.updateUndoRedoButtons();
+                    this.setCoachMessage('Son geri aldığın adımı tekrar getirdin.', true);
                 }
             }
 
@@ -884,8 +1348,7 @@
                     this.scene.add(voxel);
                     this.objects.push(voxel);
                 });
-                this.needsRender = true;
-
+                this.updateStatusBar();
                 this.needsRender = true;
             }
 
@@ -913,6 +1376,7 @@
                 URL.revokeObjectURL(url);
 
                 localStorage.setItem('elifba-scene', json);
+                this.setCoachMessage('Sahnen kaydedildi. Dilersen sonra tekrar açabilirsin.', true);
                 alert('Sahne kaydedildi!');
             }
 
@@ -932,6 +1396,7 @@
                                 this.loadState(data.blocks);
                                 this.stateManager.addState(this.objects);
                                 this.updateUndoRedoButtons();
+                                this.setCoachMessage('Kaydedilmiş sahne yüklendi. Kaldığın yerden devam edebilirsin.', true);
                                 alert('Sahne yüklendi!');
                             } else {
                                 alert('Geçersiz sahne dosyası!');
@@ -1034,15 +1499,16 @@
             // ==================== POINTER EVENTS ====================
             onPointerMove(event) {
                 if (event.isPrimary === false) return;
+                if (this.isUiTarget(event.target)) return;
 
                 this.pointer.set(
                     (event.clientX / window.innerWidth) * 2 - 1,
                     -(event.clientY / window.innerHeight) * 2 + 1
                 );
 
-                const distanceMoved = this.pointerDownPosition.distanceTo(
-                    new THREE.Vector2(event.clientX, event.clientY)
-                );
+                const distanceMoved = this.isPointerDown
+                    ? this.pointerDownPosition.distanceTo(new THREE.Vector2(event.clientX, event.clientY))
+                    : 0;
 
                 if (distanceMoved < CONFIG.pointer.moveThreshold && !this.isRemoveMode) {
                     this.raycaster.setFromCamera(this.pointer, this.camera);
@@ -1066,8 +1532,9 @@
 
             onPointerDown(event) {
                 if (event.isPrimary === false) return;
-                if (event.target.closest('#palette-container, #controls')) return;
+                if (this.isUiTarget(event.target)) return;
 
+                this.isPointerDown = true;
                 this.pointerDownTime = Date.now();
                 this.pointerDownPosition.set(event.clientX, event.clientY);
                 this.pointer.set(
@@ -1078,7 +1545,9 @@
 
             onPointerUp(event) {
                 if (event.isPrimary === false) return;
-                if (event.target.closest('#palette-container, #controls')) return;
+                if (!this.isPointerDown) return;
+                this.isPointerDown = false;
+                if (this.isUiTarget(event.target)) return;
 
                 const timeElapsed = Date.now() - this.pointerDownTime;
                 const distanceMoved = this.pointerDownPosition.distanceTo(
@@ -1103,6 +1572,8 @@
                             this.objects.splice(this.objects.indexOf(intersect.object), 1);
                             this.stateManager.addState(this.objects);
                             this.updateUndoRedoButtons();
+                            this.updateStatusBar();
+                            this.setCoachMessage('Bir blok kaldırıldı. İstersen başka birini de silebilirsin.', true);
                         }
                     } else {
                         const voxel = new THREE.Mesh(
@@ -1149,6 +1620,8 @@
 
                         this.stateManager.addState(this.objects);
                         this.updateUndoRedoButtons();
+                        this.updateStatusBar();
+                        this.setCoachMessage(`Süper. ${this.getBlockCount()} blok oldu. Devam edebilirsin.`, true);
                     }
 
                     this.needsRender = true;
@@ -1156,9 +1629,27 @@
             }
 
             onWindowResize() {
+                const wasMobileViewport = this.isMobileViewport;
+                this.isMobileViewport = window.innerWidth <= 768;
                 this.camera.aspect = window.innerWidth / window.innerHeight;
                 this.camera.updateProjectionMatrix();
                 this.renderer.setSize(window.innerWidth, window.innerHeight);
+
+                if (wasMobileViewport !== this.isMobileViewport) {
+                    this.isHelpOpen = false;
+                    this.isPaletteOpen = !this.isMobileViewport;
+                    document.getElementById('palette-container').classList.toggle('visible', this.isPaletteOpen);
+                    document.getElementById('palette-container').setAttribute('aria-hidden', String(!this.isPaletteOpen));
+                    document.getElementById('shortcuts-help').classList.toggle('visible', this.isHelpOpen);
+                    document.getElementById('shortcuts-help').setAttribute('aria-hidden', String(!this.isHelpOpen));
+                    this.updatePaletteButton();
+                    this.updateHelpButton();
+                    this.syncBackdrop();
+                    this.setCoachMessage(this.getDefaultCoachMessage());
+                } else {
+                    this.syncBackdrop();
+                }
+
                 this.needsRender = true;
             }
 
