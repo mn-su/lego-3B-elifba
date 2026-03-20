@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-19T12:44:54.005Z",
+  "generatedAt": "2026-03-20T06:14:16.637Z",
   "engine": "macos-say",
   "format": "mp3",
   "cues": {
@@ -87,6 +87,210 @@
       "lang": "ar-SA",
       "voice": "Majed"
     },
+    "preset.arz.tr": {
+      "src": "audio/generated/preset-arz-tr.mp3",
+      "text": "Yer",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "preset.arz.ar": {
+      "src": "audio/generated/preset-arz-ar.mp3",
+      "text": "أرض",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
+    "preset.sema.tr": {
+      "src": "audio/generated/preset-sema-tr.mp3",
+      "text": "Gök",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "preset.sema.ar": {
+      "src": "audio/generated/preset-sema-ar.mp3",
+      "text": "سماء",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
+    "preset.kamer.tr": {
+      "src": "audio/generated/preset-kamer-tr.mp3",
+      "text": "Ay",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "preset.kamer.ar": {
+      "src": "audio/generated/preset-kamer-ar.mp3",
+      "text": "قمر",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
+    "preset.sems.tr": {
+      "src": "audio/generated/preset-sems-tr.mp3",
+      "text": "Güneş",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "preset.sems.ar": {
+      "src": "audio/generated/preset-sems-ar.mp3",
+      "text": "شمس",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
+    "preset.kalb.tr": {
+      "src": "audio/generated/preset-kalb-tr.mp3",
+      "text": "Kalp",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "preset.kalb.ar": {
+      "src": "audio/generated/preset-kalb-ar.mp3",
+      "text": "قلب",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
+    "preset.ilm.tr": {
+      "src": "audio/generated/preset-ilm-tr.mp3",
+      "text": "İlim",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "preset.ilm.ar": {
+      "src": "audio/generated/preset-ilm-ar.mp3",
+      "text": "علم",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
+    "preset.kitab.tr": {
+      "src": "audio/generated/preset-kitab-tr.mp3",
+      "text": "Kitap",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "preset.kitab.ar": {
+      "src": "audio/generated/preset-kitab-ar.mp3",
+      "text": "كتاب",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
+    "preset.kalem.tr": {
+      "src": "audio/generated/preset-kalem-tr.mp3",
+      "text": "Kalem",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "preset.kalem.ar": {
+      "src": "audio/generated/preset-kalem-ar.mp3",
+      "text": "قلم",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
+    "preset.verd.tr": {
+      "src": "audio/generated/preset-verd-tr.mp3",
+      "text": "Gül",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "preset.verd.ar": {
+      "src": "audio/generated/preset-verd-ar.mp3",
+      "text": "ورد",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
+    "preset.ayn.tr": {
+      "src": "audio/generated/preset-ayn-tr.mp3",
+      "text": "Göz",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "preset.ayn.ar": {
+      "src": "audio/generated/preset-ayn-ar.mp3",
+      "text": "عين",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
+    "preset.ehl.tr": {
+      "src": "audio/generated/preset-ehl-tr.mp3",
+      "text": "Aile",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "preset.ehl.ar": {
+      "src": "audio/generated/preset-ehl-ar.mp3",
+      "text": "أهل",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
+    "preset.yed.tr": {
+      "src": "audio/generated/preset-yed-tr.mp3",
+      "text": "El",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "preset.yed.ar": {
+      "src": "audio/generated/preset-yed-ar.mp3",
+      "text": "يد",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
+    "preset.hubb.tr": {
+      "src": "audio/generated/preset-hubb-tr.mp3",
+      "text": "Sevgi",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "preset.hubb.ar": {
+      "src": "audio/generated/preset-hubb-ar.mp3",
+      "text": "حب",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
+    "preset.selam.tr": {
+      "src": "audio/generated/preset-selam-tr.mp3",
+      "text": "Selam",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "preset.selam.ar": {
+      "src": "audio/generated/preset-selam-ar.mp3",
+      "text": "سلام",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
+    "preset.hayr.tr": {
+      "src": "audio/generated/preset-hayr-tr.mp3",
+      "text": "Hayır",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "preset.hayr.ar": {
+      "src": "audio/generated/preset-hayr-ar.mp3",
+      "text": "خير",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
+    "preset.hakk.tr": {
+      "src": "audio/generated/preset-hakk-tr.mp3",
+      "text": "Hak",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "preset.hakk.ar": {
+      "src": "audio/generated/preset-hakk-ar.mp3",
+      "text": "حق",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
+    "preset.balik.tr": {
+      "src": "audio/generated/preset-balik-tr.mp3",
+      "text": "Balık",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "preset.balik.ar": {
+      "src": "audio/generated/preset-balik-ar.mp3",
+      "text": "سمك",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
     "mission.three-blocks.tr": {
       "src": "audio/generated/mission-three-blocks-tr.mp3",
       "text": "3 blokluk minik bir yapı kur.",
@@ -135,9 +339,27 @@
       "lang": "tr-TR",
       "voice": "Yelda"
     },
-    "mission.mim-pair.tr": {
-      "src": "audio/generated/mission-mim-pair-tr.mp3",
+    "mission.letter-mim.tr": {
+      "src": "audio/generated/mission-letter-mim-tr.mp3",
       "text": "2 tane Mim harfli blok yerleştir.",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "mission.letter-elif.tr": {
+      "src": "audio/generated/mission-letter-elif-tr.mp3",
+      "text": "3 tane Elif harfli blok yerleştir.",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "mission.letter-lam.tr": {
+      "src": "audio/generated/mission-letter-lam-tr.mp3",
+      "text": "2 tane Lam harfli blok yerleştir.",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "mission.letter-sin.tr": {
+      "src": "audio/generated/mission-letter-sin-tr.mp3",
+      "text": "2 tane Sin harfli blok yerleştir.",
       "lang": "tr-TR",
       "voice": "Yelda"
     },
@@ -159,11 +381,113 @@
       "lang": "tr-TR",
       "voice": "Yelda"
     },
+    "mission.green-pair.tr": {
+      "src": "audio/generated/mission-green-pair-tr.mp3",
+      "text": "2 yeşil blok yerleştir.",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
     "mission.wide-base.tr": {
       "src": "audio/generated/mission-wide-base-tr.mp3",
       "text": "Yerde 5 blokluk geniş bir taban kur.",
       "lang": "tr-TR",
       "voice": "Yelda"
+    },
+    "mission.word-arz.tr": {
+      "src": "audio/generated/mission-word-arz-tr.mp3",
+      "text": "Yer yaz. Arapçası",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "mission.word-arz.ar": {
+      "src": "audio/generated/mission-word-arz-ar.mp3",
+      "text": "ارض",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
+    "mission.word-sema.tr": {
+      "src": "audio/generated/mission-word-sema-tr.mp3",
+      "text": "Gök yaz. Arapçası",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "mission.word-sema.ar": {
+      "src": "audio/generated/mission-word-sema-ar.mp3",
+      "text": "سما",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
+    "mission.word-kamer.tr": {
+      "src": "audio/generated/mission-word-kamer-tr.mp3",
+      "text": "Ay yaz. Arapçası",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "mission.word-kamer.ar": {
+      "src": "audio/generated/mission-word-kamer-ar.mp3",
+      "text": "قمر",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
+    "mission.word-sems.tr": {
+      "src": "audio/generated/mission-word-sems-tr.mp3",
+      "text": "Güneş yaz. Arapçası",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "mission.word-sems.ar": {
+      "src": "audio/generated/mission-word-sems-ar.mp3",
+      "text": "شمس",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
+    "mission.word-kalb.tr": {
+      "src": "audio/generated/mission-word-kalb-tr.mp3",
+      "text": "Kalp yaz. Arapçası",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "mission.word-kalb.ar": {
+      "src": "audio/generated/mission-word-kalb-ar.mp3",
+      "text": "قلب",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
+    "mission.word-ilm.tr": {
+      "src": "audio/generated/mission-word-ilm-tr.mp3",
+      "text": "İlim yaz. Arapçası",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "mission.word-ilm.ar": {
+      "src": "audio/generated/mission-word-ilm-ar.mp3",
+      "text": "علم",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
+    "mission.word-verd.tr": {
+      "src": "audio/generated/mission-word-verd-tr.mp3",
+      "text": "Gül yaz. Arapçası",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "mission.word-verd.ar": {
+      "src": "audio/generated/mission-word-verd-ar.mp3",
+      "text": "ورد",
+      "lang": "ar-SA",
+      "voice": "Majed"
+    },
+    "mission.word-selam.tr": {
+      "src": "audio/generated/mission-word-selam-tr.mp3",
+      "text": "Selam yaz. Arapçası",
+      "lang": "tr-TR",
+      "voice": "Yelda"
+    },
+    "mission.word-selam.ar": {
+      "src": "audio/generated/mission-word-selam-ar.mp3",
+      "text": "سلام",
+      "lang": "ar-SA",
+      "voice": "Majed"
     },
     "mission.name-mustafa.tr": {
       "src": "audio/generated/mission-name-mustafa-tr.mp3",
@@ -440,6 +764,174 @@
       "text": "Çok güzel oldu.",
       "lang": "tr-TR",
       "voice": "Yelda"
+    },
+    "letter.ا": {
+      "src": "audio/letters/letter-alif.mp3",
+      "text": "ا",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.ب": {
+      "src": "audio/letters/letter-ba.mp3",
+      "text": "ب",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.ت": {
+      "src": "audio/letters/letter-ta.mp3",
+      "text": "ت",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.ث": {
+      "src": "audio/letters/letter-tha.mp3",
+      "text": "ث",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.ج": {
+      "src": "audio/letters/letter-jeem.mp3",
+      "text": "ج",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.ح": {
+      "src": "audio/letters/letter-haa.mp3",
+      "text": "ح",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.خ": {
+      "src": "audio/letters/letter-khaa.mp3",
+      "text": "خ",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.د": {
+      "src": "audio/letters/letter-dal.mp3",
+      "text": "د",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.ذ": {
+      "src": "audio/letters/letter-dhal.mp3",
+      "text": "ذ",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.ر": {
+      "src": "audio/letters/letter-ra.mp3",
+      "text": "ر",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.ز": {
+      "src": "audio/letters/letter-zay.mp3",
+      "text": "ز",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.س": {
+      "src": "audio/letters/letter-seen.mp3",
+      "text": "س",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.ش": {
+      "src": "audio/letters/letter-sheen.mp3",
+      "text": "ش",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.ص": {
+      "src": "audio/letters/letter-saad.mp3",
+      "text": "ص",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.ض": {
+      "src": "audio/letters/letter-dhaad.mp3",
+      "text": "ض",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.ط": {
+      "src": "audio/letters/letter-toa.mp3",
+      "text": "ط",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.ظ": {
+      "src": "audio/letters/letter-dhaa.mp3",
+      "text": "ظ",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.ع": {
+      "src": "audio/letters/letter-ain.mp3",
+      "text": "ع",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.غ": {
+      "src": "audio/letters/letter-ghain.mp3",
+      "text": "غ",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.ف": {
+      "src": "audio/letters/letter-faa.mp3",
+      "text": "ف",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.ق": {
+      "src": "audio/letters/letter-qaaf.mp3",
+      "text": "ق",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.ك": {
+      "src": "audio/letters/letter-kaaf.mp3",
+      "text": "ك",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.ل": {
+      "src": "audio/letters/letter-laam.mp3",
+      "text": "ل",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.م": {
+      "src": "audio/letters/letter-meem.mp3",
+      "text": "م",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.ن": {
+      "src": "audio/letters/letter-noon.mp3",
+      "text": "ن",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.ه": {
+      "src": "audio/letters/letter-ha.mp3",
+      "text": "ه",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.و": {
+      "src": "audio/letters/letter-waw.mp3",
+      "text": "و",
+      "lang": "ar-SA",
+      "voice": "real-recording"
+    },
+    "letter.ي": {
+      "src": "audio/letters/letter-yaa.mp3",
+      "text": "ي",
+      "lang": "ar-SA",
+      "voice": "real-recording"
     }
   }
 }

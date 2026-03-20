@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elifba - 3D Oyun Atölyesi</title>
     <style>
         :root {
@@ -745,11 +745,11 @@
         }
 
         .preset-btn {
-            width: 58px;
-            height: 58px;
+            width: 48px;
+            height: 48px;
             padding: 0;
             border: 2px solid rgba(216, 227, 239, 0.98);
-            border-radius: 18px;
+            border-radius: 16px;
             background: linear-gradient(180deg, #ffffff, #f6fbff);
             box-shadow: 0 7px 16px rgba(90, 108, 134, 0.1);
             color: var(--ink);
@@ -773,9 +773,9 @@
         }
 
         .preset-icon {
-            font-size: 29px;
+            font-size: 22px;
             line-height: 1;
-            filter: drop-shadow(0 4px 8px rgba(82, 104, 130, 0.18));
+            filter: drop-shadow(0 3px 6px rgba(82, 104, 130, 0.18));
         }
 
         .preset-btn:hover,
@@ -974,12 +974,13 @@
             }
 
             .preset-btn {
-                width: 52px;
-                height: 52px;
+                width: 44px;
+                height: 44px;
+                border-radius: 14px;
             }
 
             .preset-icon {
-                font-size: 26px;
+                font-size: 20px;
             }
 
             #palette-container {
@@ -1093,6 +1094,135 @@
                 max-height: calc(100vh - 232px);
             }
         }
+
+        /* ── Tablet/Telefon Yatay (Landscape) Modu ─────────────────────────────
+           Yüksekliği dar olan yatay görünümlerde kontrol çubuğu
+           ekranın altına yatay kaydırmalı bar olarak taşınır.
+           Hiçbir buton ekran dışında kalmaz.
+        ────────────────────────────────────────────────────────────────────── */
+        @media (orientation: landscape) and (max-height: 520px) {
+            /* CSS değişkenini landscape dok boyutuna güncelle */
+            :root {
+                --mobile-dock-height: 68px;
+            }
+
+            #controls {
+                top: auto;
+                right: auto;
+                left: 50%;
+                bottom: calc(env(safe-area-inset-bottom) + 8px);
+                transform: translateX(-50%);
+                width: calc(100vw - 20px);
+                max-width: 900px;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                gap: 6px;
+                padding: 8px 10px;
+                border-radius: 22px;
+                overflow-x: auto;
+                overflow-y: hidden;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+
+            #controls::-webkit-scrollbar {
+                display: none;
+            }
+
+            .control-btn {
+                width: 44px;
+                height: 44px;
+                border-radius: 14px;
+                font-size: 20px;
+                flex-shrink: 0;
+            }
+
+            /* Sol üst info stack: sadece coach mesajı ve durum çubuğu, kompakt */
+            #hud-info-stack {
+                top: calc(env(safe-area-inset-top) + 4px);
+                left: calc(env(safe-area-inset-left) + 6px);
+                width: clamp(130px, calc(100vw - 320px), 260px);
+                gap: 4px;
+            }
+
+            /* Görev başlat butonu ve görev kartı: landscape'de sol stackten çık, gizle */
+            #mission-launcher,
+            #mission-card {
+                display: none;
+            }
+
+            /* Kutlama bannerı da gizle (alan yok) */
+            #celebration-banner {
+                display: none;
+            }
+
+            #info {
+                font-size: 11px;
+                padding: 6px 10px;
+                border-radius: 14px;
+            }
+
+            #status-bar {
+                font-size: 10px;
+                padding: 5px 8px;
+                border-radius: 12px;
+            }
+
+            /* Sağ üst seçim kartı: küçük ve kompakt */
+            #active-selection-card {
+                top: calc(env(safe-area-inset-top) + 4px);
+                right: calc(env(safe-area-inset-right) + 6px);
+                width: min(110px, calc(100vw - 16px));
+                padding: 6px;
+                gap: 4px;
+            }
+
+            .selection-cube-scene {
+                width: 70px;
+                height: 70px;
+            }
+
+            .active-card-header {
+                gap: 4px;
+            }
+
+            .mini-ui-btn {
+                width: 32px;
+                height: 32px;
+                font-size: 15px;
+                border-radius: 10px;
+            }
+
+            /* Palet: kontrollerden yukarda dur */
+            #palette-container {
+                bottom: calc(env(safe-area-inset-bottom) + 68px) !important;
+                width: calc(100vw - 16px);
+                padding: 8px;
+                border-radius: 18px;
+                transform: translate(-50%, 16px) scale(0.97);
+            }
+
+            #palette-container.visible {
+                transform: translate(-50%, 0) scale(1);
+            }
+
+            .palette-scroll {
+                max-height: calc(100vh - 150px);
+            }
+
+            /* Yardım panelı de kontrollerin üzerinde açılsın */
+            #shortcuts-help {
+                bottom: calc(env(safe-area-inset-bottom) + 68px);
+                width: calc(100vw - 18px);
+                left: 50%;
+                transform: translate(-50%, 14px) scale(0.98);
+            }
+
+            #shortcuts-help.visible {
+                transform: translate(-50%, 0) scale(1);
+            }
+        }
     </style>
 </head>
 <body>
@@ -1199,7 +1329,7 @@
         <div class="help-divider"></div>
         <div class="help-title" style="font-size: 15px;">Klavye kullananlar için</div>
         <div><span class="help-shortcut">P</span> Paleti aç veya kapat</div>
-        <div><span class="help-shortcut">I</span> Bilgi kartlarini ve onizlemeyi goster veya gizle</div>
+        <div><span class="help-shortcut">I</span> Bilgi kartlarını ve önizlemeyi göster veya gizle</div>
         <div><span class="help-shortcut">R</span> Silme modunu aç veya kapat</div>
         <div><span class="help-shortcut">Ctrl+Z / Ctrl+Y</span> Geri al / ileri al</div>
         <div><span class="help-shortcut">1-9 ve ← →</span> Renk ve harfler arasında hızlı gez</div>
@@ -1213,7 +1343,7 @@
             }
         }
     </script>
-    <script src="./audio/speech-pack.js"></script>
+    <script src="./audio/speech-pack.js?v=2"></script>
 
     <script type="module">
         (async () => {
@@ -1238,8 +1368,8 @@
             },
             speech: {
                 lang: 'tr-TR',
-                rate: 0.58,
-                rateArabic: 0.54,
+                rate: 0.44,
+                rateArabic: 0.40,
                 pitch: 1,
                 volume: 1,
                 preferredVoices: {
@@ -1379,6 +1509,193 @@
                         { text: 'بيت', lang: 'ar-SA', rate: 0.52, audioKey: 'preset.beyt.ar' }
                     ],
                     icon: '🏠',
+                    kind: 'word'
+                },
+                {
+                    id: 'arz',
+                    label: 'أرض',
+                    speechLabel: 'Arz',
+                    speechSegments: [
+                        { text: 'Yer', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.arz.tr' },
+                        { text: 'أرض', lang: 'ar-SA', rate: 0.52, audioKey: 'preset.arz.ar' }
+                    ],
+                    icon: '🌍',
+                    kind: 'word'
+                },
+                {
+                    id: 'sema',
+                    label: 'سماء',
+                    speechLabel: 'Semâ',
+                    speechSegments: [
+                        { text: 'Gök', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.sema.tr' },
+                        { text: 'سماء', lang: 'ar-SA', rate: 0.52, audioKey: 'preset.sema.ar' }
+                    ],
+                    icon: '🌤️',
+                    kind: 'word'
+                },
+                {
+                    id: 'kamer',
+                    label: 'قمر',
+                    speechLabel: 'Kamer',
+                    speechSegments: [
+                        { text: 'Ay', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.kamer.tr' },
+                        { text: 'قمر', lang: 'ar-SA', rate: 0.52, audioKey: 'preset.kamer.ar' }
+                    ],
+                    icon: '🌙',
+                    kind: 'word'
+                },
+                {
+                    id: 'sems',
+                    label: 'شمس',
+                    speechLabel: 'Şems',
+                    speechSegments: [
+                        { text: 'Güneş', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.sems.tr' },
+                        { text: 'شمس', lang: 'ar-SA', rate: 0.52, audioKey: 'preset.sems.ar' }
+                    ],
+                    icon: '☀️',
+                    kind: 'word'
+                },
+                {
+                    id: 'kalb',
+                    label: 'قلب',
+                    speechLabel: 'Kalb',
+                    speechSegments: [
+                        { text: 'Kalp', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.kalb.tr' },
+                        { text: 'قلب', lang: 'ar-SA', rate: 0.52, audioKey: 'preset.kalb.ar' }
+                    ],
+                    icon: '❤️',
+                    kind: 'word'
+                },
+                {
+                    id: 'ilm',
+                    label: 'علم',
+                    speechLabel: 'İlm',
+                    speechSegments: [
+                        { text: 'İlim', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.ilm.tr' },
+                        { text: 'علم', lang: 'ar-SA', rate: 0.52, audioKey: 'preset.ilm.ar' }
+                    ],
+                    icon: '📖',
+                    kind: 'word'
+                },
+                {
+                    id: 'kitab',
+                    label: 'كتاب',
+                    speechLabel: 'Kitâb',
+                    speechSegments: [
+                        { text: 'Kitap', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.kitab.tr' },
+                        { text: 'كتاب', lang: 'ar-SA', rate: 0.52, audioKey: 'preset.kitab.ar' }
+                    ],
+                    icon: '📚',
+                    kind: 'word'
+                },
+                {
+                    id: 'kalem',
+                    label: 'قلم',
+                    speechLabel: 'Kalem',
+                    speechSegments: [
+                        { text: 'Kalem', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.kalem.tr' },
+                        { text: 'قلم', lang: 'ar-SA', rate: 0.52, audioKey: 'preset.kalem.ar' }
+                    ],
+                    icon: '✏️',
+                    kind: 'word'
+                },
+                {
+                    id: 'verd',
+                    label: 'ورد',
+                    speechLabel: 'Verd',
+                    speechSegments: [
+                        { text: 'Gül', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.verd.tr' },
+                        { text: 'ورد', lang: 'ar-SA', rate: 0.52, audioKey: 'preset.verd.ar' }
+                    ],
+                    icon: '🌹',
+                    kind: 'word'
+                },
+                {
+                    id: 'ayn',
+                    label: 'عين',
+                    speechLabel: 'Ayn',
+                    speechSegments: [
+                        { text: 'Göz', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.ayn.tr' },
+                        { text: 'عين', lang: 'ar-SA', rate: 0.52, audioKey: 'preset.ayn.ar' }
+                    ],
+                    icon: '👁️',
+                    kind: 'word'
+                },
+                {
+                    id: 'ehl',
+                    label: 'أهل',
+                    speechLabel: 'Ehl',
+                    speechSegments: [
+                        { text: 'Aile', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.ehl.tr' },
+                        { text: 'أهل', lang: 'ar-SA', rate: 0.52, audioKey: 'preset.ehl.ar' }
+                    ],
+                    icon: '👨‍👩‍👧',
+                    kind: 'word'
+                },
+                {
+                    id: 'yed',
+                    label: 'يد',
+                    speechLabel: 'Yed',
+                    speechSegments: [
+                        { text: 'El', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.yed.tr' },
+                        { text: 'يد', lang: 'ar-SA', rate: 0.52, audioKey: 'preset.yed.ar' }
+                    ],
+                    icon: '✋',
+                    kind: 'word'
+                },
+                {
+                    id: 'hubb',
+                    label: 'حب',
+                    speechLabel: 'Hubb',
+                    speechSegments: [
+                        { text: 'Sevgi', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.hubb.tr' },
+                        { text: 'حب', lang: 'ar-SA', rate: 0.52, audioKey: 'preset.hubb.ar' }
+                    ],
+                    icon: '💕',
+                    kind: 'word'
+                },
+                {
+                    id: 'selam',
+                    label: 'سلام',
+                    speechLabel: 'Selâm',
+                    speechSegments: [
+                        { text: 'Selam', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.selam.tr' },
+                        { text: 'سلام', lang: 'ar-SA', rate: 0.52, audioKey: 'preset.selam.ar' }
+                    ],
+                    icon: '🤝',
+                    kind: 'word'
+                },
+                {
+                    id: 'hayr',
+                    label: 'خير',
+                    speechLabel: 'Hayr',
+                    speechSegments: [
+                        { text: 'Hayır', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.hayr.tr' },
+                        { text: 'خير', lang: 'ar-SA', rate: 0.52, audioKey: 'preset.hayr.ar' }
+                    ],
+                    icon: '🌟',
+                    kind: 'word'
+                },
+                {
+                    id: 'hakk',
+                    label: 'حق',
+                    speechLabel: 'Hakk',
+                    speechSegments: [
+                        { text: 'Hak', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.hakk.tr' },
+                        { text: 'حق', lang: 'ar-SA', rate: 0.52, audioKey: 'preset.hakk.ar' }
+                    ],
+                    icon: '⚖️',
+                    kind: 'word'
+                },
+                {
+                    id: 'balik',
+                    label: 'سمك',
+                    speechLabel: 'Balık',
+                    speechSegments: [
+                        { text: 'Balık', lang: 'tr-TR', rate: 0.5, audioKey: 'preset.balik.tr' },
+                        { text: 'سمك', lang: 'ar-SA', rate: 0.52, audioKey: 'preset.balik.ar' }
+                    ],
+                    icon: '🐟',
                     kind: 'word'
                 }
             ],
@@ -1613,7 +1930,7 @@
                 this.renderer.setSize(window.innerWidth, window.innerHeight);
                 this.renderer.setClearColor(0x000000, 0);
                 this.renderer.shadowMap.enabled = true;
-                this.renderer.shadowMap.type = THREE.PCFShadowShadowMap;
+                this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
                 document.body.appendChild(this.renderer.domElement);
 
                 // Controls
@@ -1985,6 +2302,192 @@
                                 { letter: 'ت', diacritic: '', color: colors.green }
                             ])
                         };
+                    case 'arz':
+                        return {
+                            label: 'أرض',
+                            selection: { letter: 'ا', diacritic: '', color: colors.orange },
+                            guideMessage: 'أرض geldi. Yer kelimesini dinle, harfleri sağdan sola oku.',
+                            blocks: buildWordBlocks([
+                                { letter: 'ا', diacritic: '\u064E', color: colors.orange },
+                                { letter: 'ر', diacritic: '\u0652', color: colors.yellow },
+                                { letter: 'ض', diacritic: '', color: colors.green }
+                            ])
+                        };
+                    case 'sema':
+                        return {
+                            label: 'سماء',
+                            selection: { letter: 'س', diacritic: '', color: colors.blue },
+                            guideMessage: 'سماء geldi. Gök kelimesini dinle ve harfleri incele.',
+                            blocks: buildWordBlocks([
+                                { letter: 'س', diacritic: '\u064E', color: colors.blue },
+                                { letter: 'م', diacritic: '\u064E', color: colors.purple },
+                                { letter: 'ا', diacritic: '', color: colors.pink }
+                            ])
+                        };
+                    case 'kamer':
+                        return {
+                            label: 'قمر',
+                            selection: { letter: 'ق', diacritic: '', color: colors.purple },
+                            guideMessage: 'قمر geldi. Ay kelimesini dinle ve harfleri birlikte say.',
+                            blocks: buildWordBlocks([
+                                { letter: 'ق', diacritic: '\u064E', color: colors.purple },
+                                { letter: 'م', diacritic: '\u064E', color: colors.blue },
+                                { letter: 'ر', diacritic: '', color: colors.yellow }
+                            ])
+                        };
+                    case 'sems':
+                        return {
+                            label: 'شمس',
+                            selection: { letter: 'ش', diacritic: '', color: colors.yellow },
+                            guideMessage: 'شمس geldi. Güneş kelimesini dinle ve ışıklı harfleri gör.',
+                            blocks: buildWordBlocks([
+                                { letter: 'ش', diacritic: '\u064E', color: colors.yellow },
+                                { letter: 'م', diacritic: '\u064E', color: colors.orange },
+                                { letter: 'س', diacritic: '', color: colors.yellow }
+                            ])
+                        };
+                    case 'kalb':
+                        return {
+                            label: 'قلب',
+                            selection: { letter: 'ق', diacritic: '', color: colors.pink },
+                            guideMessage: 'قلب geldi. Kalp kelimesini dinle ve üç harfi oku.',
+                            blocks: buildWordBlocks([
+                                { letter: 'ق', diacritic: '\u064E', color: colors.pink },
+                                { letter: 'ل', diacritic: '\u0652', color: colors.orange },
+                                { letter: 'ب', diacritic: '', color: colors.pink }
+                            ])
+                        };
+                    case 'ilm':
+                        return {
+                            label: 'علم',
+                            selection: { letter: 'ع', diacritic: '', color: colors.blue },
+                            guideMessage: 'علم geldi. İlim kelimesini dinle ve harfleri tanı.',
+                            blocks: buildWordBlocks([
+                                { letter: 'ع', diacritic: '\u064E', color: colors.blue },
+                                { letter: 'ل', diacritic: '\u0652', color: colors.green },
+                                { letter: 'م', diacritic: '', color: colors.yellow }
+                            ])
+                        };
+                    case 'kitab':
+                        return {
+                            label: 'كتاب',
+                            selection: { letter: 'ك', diacritic: '', color: colors.blue },
+                            guideMessage: 'كتاب geldi. Kitap kelimesinin dört harfini sağdan sola say.',
+                            blocks: buildWordBlocks([
+                                { letter: 'ك', diacritic: '\u064E', color: colors.blue },
+                                { letter: 'ت', diacritic: '\u064E', color: colors.green },
+                                { letter: 'ا', diacritic: '', color: colors.yellow },
+                                { letter: 'ب', diacritic: '', color: colors.orange }
+                            ])
+                        };
+                    case 'kalem':
+                        return {
+                            label: 'قلم',
+                            selection: { letter: 'ق', diacritic: '', color: colors.purple },
+                            guideMessage: 'قلم geldi. Kalem kelimesini dinle ve harflere bak.',
+                            blocks: buildWordBlocks([
+                                { letter: 'ق', diacritic: '\u064E', color: colors.purple },
+                                { letter: 'ل', diacritic: '\u064E', color: colors.blue },
+                                { letter: 'م', diacritic: '', color: colors.green }
+                            ])
+                        };
+                    case 'verd':
+                        return {
+                            label: 'ورد',
+                            selection: { letter: 'و', diacritic: '', color: colors.pink },
+                            guideMessage: 'ورد geldi. Gül kelimesini dinle ve harfleri incele.',
+                            blocks: buildWordBlocks([
+                                { letter: 'و', diacritic: '\u064E', color: colors.pink },
+                                { letter: 'ر', diacritic: '\u064E', color: colors.yellow },
+                                { letter: 'د', diacritic: '', color: colors.green }
+                            ])
+                        };
+                    case 'ayn':
+                        return {
+                            label: 'عين',
+                            selection: { letter: 'ع', diacritic: '', color: colors.blue },
+                            guideMessage: 'عين geldi. Göz kelimesini dinle ve üç harfi tanı.',
+                            blocks: buildWordBlocks([
+                                { letter: 'ع', diacritic: '\u064E', color: colors.blue },
+                                { letter: 'ي', diacritic: '\u0652', color: colors.green },
+                                { letter: 'ن', diacritic: '', color: colors.yellow }
+                            ])
+                        };
+                    case 'ehl':
+                        return {
+                            label: 'أهل',
+                            selection: { letter: 'ا', diacritic: '', color: colors.orange },
+                            guideMessage: 'أهل geldi. Aile kelimesini dinle ve harfleri oku.',
+                            blocks: buildWordBlocks([
+                                { letter: 'ا', diacritic: '\u064E', color: colors.orange },
+                                { letter: 'ه', diacritic: '\u0652', color: colors.green },
+                                { letter: 'ل', diacritic: '', color: colors.blue }
+                            ])
+                        };
+                    case 'yed':
+                        return {
+                            label: 'يد',
+                            selection: { letter: 'ي', diacritic: '', color: colors.blue },
+                            guideMessage: 'يد geldi. El kelimesini dinle ve iki harfi incele.',
+                            blocks: buildWordBlocks([
+                                { letter: 'ي', diacritic: '\u064E', color: colors.blue },
+                                { letter: 'د', diacritic: '', color: colors.green }
+                            ])
+                        };
+                    case 'hubb':
+                        return {
+                            label: 'حب',
+                            selection: { letter: 'ح', diacritic: '', color: colors.pink },
+                            guideMessage: 'حب geldi. Sevgi kelimesini dinle ve iki harfe bak.',
+                            blocks: buildWordBlocks([
+                                { letter: 'ح', diacritic: '\u064F', color: colors.pink },
+                                { letter: 'ب', diacritic: '\u0651', color: colors.orange }
+                            ])
+                        };
+                    case 'selam':
+                        return {
+                            label: 'سلام',
+                            selection: { letter: 'س', diacritic: '', color: colors.blue },
+                            guideMessage: 'سلام geldi. Selam kelimesini dinle ve dört harfi say.',
+                            blocks: buildWordBlocks([
+                                { letter: 'س', diacritic: '\u064E', color: colors.blue },
+                                { letter: 'ل', diacritic: '\u064E', color: colors.green },
+                                { letter: 'ا', diacritic: '', color: colors.yellow },
+                                { letter: 'م', diacritic: '', color: colors.orange }
+                            ])
+                        };
+                    case 'hayr':
+                        return {
+                            label: 'خير',
+                            selection: { letter: 'خ', diacritic: '', color: colors.green },
+                            guideMessage: 'خير geldi. Hayır kelimesini dinle ve harfleri oku.',
+                            blocks: buildWordBlocks([
+                                { letter: 'خ', diacritic: '\u064E', color: colors.green },
+                                { letter: 'ي', diacritic: '\u0652', color: colors.blue },
+                                { letter: 'ر', diacritic: '', color: colors.yellow }
+                            ])
+                        };
+                    case 'hakk':
+                        return {
+                            label: 'حق',
+                            selection: { letter: 'ح', diacritic: '', color: colors.purple },
+                            guideMessage: 'حق geldi. Hak kelimesini dinle ve iki harfi incele.',
+                            blocks: buildWordBlocks([
+                                { letter: 'ح', diacritic: '\u064E', color: colors.purple },
+                                { letter: 'ق', diacritic: '\u0651', color: colors.blue }
+                            ])
+                        };
+                    case 'balik':
+                        return {
+                            label: 'سمك',
+                            selection: { letter: 'س', diacritic: '', color: colors.blue },
+                            guideMessage: 'سمك geldi. Balık kelimesini dinle ve harfleri oku.',
+                            blocks: buildWordBlocks([
+                                { letter: 'س', diacritic: '\u064E', color: colors.blue },
+                                { letter: 'م', diacritic: '\u064E', color: colors.green },
+                                { letter: 'ك', diacritic: '', color: colors.yellow }
+                            ])
+                        };
                     default:
                         return null;
                 }
@@ -2335,7 +2838,7 @@
 
             toggleSound() {
                 if (!this.canUseSoundPlayback()) {
-                    this.setCoachMessage('Bu tarayicida seslendirme destegi gorunmuyor.', true);
+                    this.setCoachMessage('Bu tarayıcıda seslendirme desteği görünmüyor.', true);
                     return;
                 }
                 this.isSoundEnabled = !this.isSoundEnabled;
@@ -2345,22 +2848,24 @@
                 this.updateSoundButtons();
                 this.setCoachMessage(
                     this.isSoundEnabled
-                        ? 'Ses acildi. Secimleri artik dinleyebilirsin.'
-                        : 'Ses kapatildi.',
+                        ? 'Ses açıldı. Seçimleri artık dinleyebilirsin.'
+                        : 'Ses kapatıldı.',
                     true
                 );
             }
 
             replaySelectionAudio() {
-                if (!this.isSpeechSupported) {
-                    this.setCoachMessage('Bu tarayicida seslendirme destegi gorunmuyor.', true);
+                if (!this.canUseSoundPlayback()) {
+                    this.setCoachMessage('Bu tarayıcıda seslendirme desteği görünmüyor.', true);
                     return;
                 }
                 if (!this.isSoundEnabled) {
-                    this.setCoachMessage('Ses kapali. Dinlemek icin hoparlor dugmesini ac.', true);
+                    this.setCoachMessage('Ses kapalı. Dinlemek için hoparlör düğmesini aç.', true);
                     return;
                 }
-                this.speakText(this.getSelectionAnnouncement());
+                if (this.isSpeechSupported) {
+                    this.speakText(this.getSelectionAnnouncement());
+                }
             }
 
             openConfirmDialog({ title, message, confirmLabel = 'Tamam', onConfirm }) {
@@ -2412,9 +2917,9 @@
                 soundToggleButton.textContent = canPlaySound && this.isSoundEnabled ? '🔊' : '🔇';
                 soundToggleButton.setAttribute('aria-pressed', String(this.isSoundEnabled));
                 soundToggleButton.disabled = !canPlaySound;
-                soundToggleButton.title = !canPlaySound ? 'Bu tarayicida seslendirme desteklenmiyor' : (this.isSoundEnabled ? 'Sesi kapat' : 'Sesi ac');
-                replayButton.disabled = !this.isSpeechSupported || !this.isSoundEnabled;
-                replayButton.title = !this.isSpeechSupported ? 'Bu tarayicida seslendirme desteklenmiyor' : (this.isSoundEnabled ? 'Secili sesi dinlet' : 'Ses su an kapali');
+                soundToggleButton.title = !canPlaySound ? 'Bu tarayıcıda seslendirme desteklenmiyor' : (this.isSoundEnabled ? 'Sesi kapat' : 'Sesi aç');
+                replayButton.disabled = !this.canUseSoundPlayback() || !this.isSoundEnabled;
+                replayButton.title = !this.canUseSoundPlayback() ? 'Bu tarayıcıda seslendirme desteklenmiyor' : (this.isSoundEnabled ? 'Seçili sesi dinlet' : 'Ses şu an kapalı');
                 if (missionButton) {
                     missionButton.disabled = !canPlaySound || !this.isSoundEnabled;
                     missionButton.title = !canPlaySound ? 'Bu tarayıcıda seslendirme desteklenmiyor' : (this.isSoundEnabled ? 'Mini görevi dinlet' : 'Ses şu an kapalı');
@@ -2426,7 +2931,7 @@
                 if (!card) return;
 
                 this.refreshSelectionPreviewCube();
-                card.setAttribute('aria-label', `Aktif secim: ${this.getSelectionAnnouncement()}`);
+                card.setAttribute('aria-label', `Aktif seçim: ${this.getSelectionAnnouncement()}`);
             }
 
             syncSelectionUI() {
@@ -2630,47 +3135,13 @@
                 const markedBlockCount = (stats) => stats.blocksData.filter((block) => block.diacritic).length;
 
                 return [
+                    // ── Yapı Görevleri ────────────────────────────────────
                     createSpeechMission({
                         id: 'three-blocks',
                         text: '3 blokluk minik bir yapı kur.',
                         progress: (stats) => `${Math.min(stats.blockCount, 3)}/3 blok`,
                         isComplete: (stats) => stats.blockCount >= 3,
                         success: 'Aferin. İlk mini görevi tamamladın.'
-                    }),
-                    createSpeechMission({
-                        id: 'orange-pair',
-                        text: '2 turuncu blok yerleştir.',
-                        progress: (stats) => `${Math.min(stats.countColor(CONFIG.defaultSelection.colorHex), 2)}/2 turuncu`,
-                        isComplete: (stats) => stats.countColor(CONFIG.defaultSelection.colorHex) >= 2,
-                        success: 'Harika. Turuncu görev tamamlandı.'
-                    }),
-                    createSpeechMission({
-                        id: 'letter-be',
-                        text: '2 tane Be harfli blok yerleştir.',
-                        progress: (stats) => `${Math.min(stats.countLetter('ب'), 2)}/2 Be`,
-                        isComplete: (stats) => stats.countLetter('ب') >= 2,
-                        success: 'Sahneye iki Be yerleştirdin.'
-                    }),
-                    createSpeechMission({
-                        id: 'height-two',
-                        text: '2 katlı bir yapı kur.',
-                        progress: (stats) => `${Math.max(stats.maxGridY + 1, 0)}/2 kat`,
-                        isComplete: (stats) => stats.maxGridY >= 1,
-                        success: 'Yükseklik görevi tamam. Yapın büyüyor.'
-                    }),
-                    createSpeechMission({
-                        id: 'three-colors',
-                        text: '3 farklı renk kullan.',
-                        progress: (stats) => `${Math.min(stats.uniqueColorCount, 3)}/3 renk`,
-                        isComplete: (stats) => stats.uniqueColorCount >= 3,
-                        success: 'Renk görevi tamam. Sahnen canlandı.'
-                    }),
-                    createSpeechMission({
-                        id: 'fatha-block',
-                        text: 'Üstünlü bir blok ekle.',
-                        progress: (stats) => stats.countDiacritic('\u064E') > 0 ? 'Tamamlandı' : 'Üstün bekleniyor',
-                        isComplete: (stats) => stats.countDiacritic('\u064E') > 0,
-                        success: 'Üstünlü blok görevi tamam.'
                     }),
                     createSpeechMission({
                         id: 'seven-blocks',
@@ -2680,18 +3151,11 @@
                         success: 'Büyük yapı görevini de bitirdin.'
                     }),
                     createSpeechMission({
-                        id: 'orange-trio',
-                        text: '3 turuncu blok yerleştir.',
-                        progress: (stats) => `${Math.min(stats.countColor(CONFIG.defaultSelection.colorHex), 3)}/3 turuncu`,
-                        isComplete: (stats) => stats.countColor(CONFIG.defaultSelection.colorHex) >= 3,
-                        success: 'Turuncu kule parlamaya başladı.'
-                    }),
-                    createSpeechMission({
-                        id: 'mim-pair',
-                        text: '2 tane Mim harfli blok yerleştir.',
-                        progress: (stats) => `${Math.min(stats.countLetter('م'), 2)}/2 Mim`,
-                        isComplete: (stats) => stats.countLetter('م') >= 2,
-                        success: 'Mimlerle yeni bir görev tamamladın.'
+                        id: 'wide-base',
+                        text: 'Yerde 5 blokluk geniş bir taban kur.',
+                        progress: (stats) => `${Math.min(stats.groundBlocks, 5)}/5 taban`,
+                        isComplete: (stats) => stats.groundBlocks >= 5,
+                        success: 'Taban görevi tamam. Şimdi yukarıya çıkabilirsin.'
                     }),
                     createSpeechMission({
                         id: 'height-three',
@@ -2700,12 +3164,14 @@
                         isComplete: (stats) => stats.maxGridY >= 2,
                         success: 'Üç katlı yapın uzaktan da görünüyor.'
                     }),
+
+                    // ── Renk Görevleri ────────────────────────────────────
                     createSpeechMission({
-                        id: 'marked-pair',
-                        text: '2 harekeli blok ekle.',
-                        progress: (stats) => `${Math.min(markedBlockCount(stats), 2)}/2 harekeli blok`,
-                        isComplete: (stats) => markedBlockCount(stats) >= 2,
-                        success: 'Harekeler de sahnede yerini buldu.'
+                        id: 'orange-trio',
+                        text: '3 turuncu blok yerleştir.',
+                        progress: (stats) => `${Math.min(stats.countColor(CONFIG.defaultSelection.colorHex), 3)}/3 turuncu`,
+                        isComplete: (stats) => stats.countColor(CONFIG.defaultSelection.colorHex) >= 3,
+                        success: 'Turuncu kule parlamaya başladı.'
                     }),
                     createSpeechMission({
                         id: 'blue-pair',
@@ -2715,33 +3181,105 @@
                         success: 'Mavi blok görevini de tamamladın.'
                     }),
                     createSpeechMission({
-                        id: 'wide-base',
-                        text: 'Yerde 5 blokluk genis bir taban kur.',
-                        progress: (stats) => `${Math.min(stats.groundBlocks, 5)}/5 taban`,
-                        isComplete: (stats) => stats.groundBlocks >= 5,
-                        success: 'Taban görevi tamam. Şimdi yukarıya çıkabilirsin.'
+                        id: 'green-pair',
+                        text: '2 yeşil blok yerleştir.',
+                        progress: (stats) => `${Math.min(stats.countColor(0x4ecb71), 2)}/2 yeşil`,
+                        isComplete: (stats) => stats.countColor(0x4ecb71) >= 2,
+                        success: 'Yeşil blok görevini tamamladın.'
                     }),
+                    createSpeechMission({
+                        id: 'three-colors',
+                        text: '3 farklı renk kullan.',
+                        progress: (stats) => `${Math.min(stats.uniqueColorCount, 3)}/3 renk`,
+                        isComplete: (stats) => stats.uniqueColorCount >= 3,
+                        success: 'Renk görevi tamam. Sahnen canlandı.'
+                    }),
+
+                    // ── Harf Görevleri ────────────────────────────────────
+                    createSpeechMission({
+                        id: 'letter-be',
+                        text: '2 tane Be harfli blok yerleştir.',
+                        progress: (stats) => `${Math.min(stats.countLetter('ب'), 2)}/2 Be`,
+                        isComplete: (stats) => stats.countLetter('ب') >= 2,
+                        success: 'Sahneye iki Be yerleştirdin.'
+                    }),
+                    createSpeechMission({
+                        id: 'letter-mim',
+                        text: '2 tane Mim harfli blok yerleştir.',
+                        progress: (stats) => `${Math.min(stats.countLetter('م'), 2)}/2 Mim`,
+                        isComplete: (stats) => stats.countLetter('م') >= 2,
+                        success: 'Mimlerle yeni bir görev tamamladın.'
+                    }),
+                    createSpeechMission({
+                        id: 'letter-elif',
+                        text: '3 tane Elif harfli blok yerleştir.',
+                        progress: (stats) => `${Math.min(stats.countLetter('ا'), 3)}/3 Elif`,
+                        isComplete: (stats) => stats.countLetter('ا') >= 3,
+                        success: 'Üç Elif: görev tamam!'
+                    }),
+                    createSpeechMission({
+                        id: 'letter-lam',
+                        text: '2 tane Lam harfli blok yerleştir.',
+                        progress: (stats) => `${Math.min(stats.countLetter('ل'), 2)}/2 Lam`,
+                        isComplete: (stats) => stats.countLetter('ل') >= 2,
+                        success: 'Lamlar yerleşti. Güzel iş.'
+                    }),
+                    createSpeechMission({
+                        id: 'letter-sin',
+                        text: '2 tane Sin harfli blok yerleştir.',
+                        progress: (stats) => `${Math.min(stats.countLetter('س'), 2)}/2 Sin`,
+                        isComplete: (stats) => stats.countLetter('س') >= 2,
+                        success: 'Sinler sahnede. Aferin.'
+                    }),
+
+                    // ── Hareke Görevleri ──────────────────────────────────
+                    createSpeechMission({
+                        id: 'fatha-block',
+                        text: 'Üstünlü bir blok ekle.',
+                        progress: (stats) => stats.countDiacritic('\u064E') > 0 ? 'Tamamlandı' : 'Üstün bekleniyor',
+                        isComplete: (stats) => stats.countDiacritic('\u064E') > 0,
+                        success: 'Üstünlü blok görevi tamam.'
+                    }),
+                    createSpeechMission({
+                        id: 'marked-pair',
+                        text: '2 harekeli blok ekle.',
+                        progress: (stats) => `${Math.min(markedBlockCount(stats), 2)}/2 harekeli blok`,
+                        isComplete: (stats) => markedBlockCount(stats) >= 2,
+                        success: 'Harekeler de sahnede yerini buldu.'
+                    }),
+
+                    // ── İsim Görevleri ────────────────────────────────────
                     createWordMission({ id: 'name-mustafa', label: 'Mustafa', arabic: 'مصطفي', type: 'isim', success: 'Mustafa görevini tamamladın.' }),
                     createWordMission({ id: 'name-fatima', label: 'Fatima', arabic: 'فاطمه', type: 'isim', success: 'Fatima görevini tamamladın.' }),
-                    createWordMission({ id: 'name-emine', label: 'Emine', arabic: 'امينه', type: 'isim', success: 'Emine görevini tamamladın.' }),
                     createWordMission({ id: 'name-ali', label: 'Ali', arabic: 'علي', type: 'isim', success: 'Ali görevini de bitirdin.' }),
                     createWordMission({ id: 'name-hasan', label: 'Hasan', arabic: 'حسن', type: 'isim', success: 'Hasan görevi tamamlandı.' }),
-                    createWordMission({ id: 'name-yusuf', label: 'Yusuf', arabic: 'يوسف', type: 'isim', success: 'Yusuf görevini tamamladın.' }),
                     createWordMission({ id: 'name-meryem', label: 'Meryem', arabic: 'مريم', type: 'isim', success: 'Meryem görevi de tamamlandı.' }),
+
+                    // ── Meyve / Sebze Görevleri ───────────────────────────
                     createWordMission({ id: 'fruit-muz', label: 'Muz', arabic: 'موز', success: 'Muz görevini tamamladın.' }),
                     createWordMission({ id: 'fruit-uzum', label: 'Üzüm', arabic: 'عنب', success: 'Üzüm görevini tamamladın.' }),
                     createWordMission({ id: 'fruit-elma', label: 'Elma', arabic: 'تفاح', success: 'Elma görevini tamamladın.' }),
                     createWordMission({ id: 'fruit-nar', label: 'Nar', arabic: 'رمان', success: 'Nar görevi tamamlandı.' }),
                     createWordMission({ id: 'veg-havuc', label: 'Havuç', arabic: 'جزر', success: 'Havuç görevini tamamladın.' }),
-                    createWordMission({ id: 'veg-sogan', label: 'Soğan', arabic: 'بصل', success: 'Soğan görevini tamamladın.' }),
+
+                    // ── Nesne Görevleri ───────────────────────────────────
                     createWordMission({ id: 'thing-ev', label: 'Ev', arabic: 'بيت', success: 'Ev görevini tamamladın.' }),
                     createWordMission({ id: 'thing-kapi', label: 'Kapı', arabic: 'باب', success: 'Kapı görevi tamamlandı.' }),
                     createWordMission({ id: 'thing-isik', label: 'Işık', arabic: 'نور', success: 'Işık görevini tamamladın.' }),
                     createWordMission({ id: 'thing-kitap', label: 'Kitap', arabic: 'كتاب', success: 'Kitap görevi tamamlandı.' }),
                     createWordMission({ id: 'thing-kalem', label: 'Kalem', arabic: 'قلم', success: 'Kalem görevini tamamladın.' }),
-                    createWordMission({ id: 'thing-balik', label: 'Balık', arabic: 'سمك', success: 'Balık görevi tamamlandı.' }),
                     createWordMission({ id: 'thing-gul', label: 'Gül', arabic: 'ورد', success: 'Gül görevini tamamladın.' }),
-                    createWordMission({ id: 'thing-bulut', label: 'Bulut', arabic: 'سحاب', success: 'Bulut görevi tamamlandı.' })
+                    createWordMission({ id: 'thing-balik', label: 'Balık', arabic: 'سمك', success: 'Balık görevi tamamlandı.' }),
+
+                    // ── Yeni: Anlam Kelime Görevleri ──────────────────────
+                    createWordMission({ id: 'word-arz', label: 'Yer', arabic: 'ارض', success: 'Arz kelimesi tamamlandı.' }),
+                    createWordMission({ id: 'word-sema', label: 'Gök', arabic: 'سما', success: 'Semâ kelimesi tamamlandı.' }),
+                    createWordMission({ id: 'word-kamer', label: 'Ay', arabic: 'قمر', success: 'Kamer kelimesi tamamlandı.' }),
+                    createWordMission({ id: 'word-sems', label: 'Güneş', arabic: 'شمس', success: 'Şems kelimesi tamamlandı.' }),
+                    createWordMission({ id: 'word-kalb', label: 'Kalp', arabic: 'قلب', success: 'Kalb kelimesi tamamlandı.' }),
+                    createWordMission({ id: 'word-ilm', label: 'İlim', arabic: 'علم', success: 'İlm kelimesi tamamlandı.' }),
+                    createWordMission({ id: 'word-verd', label: 'Gül', arabic: 'ورد', success: 'Verd kelimesi tamamlandı.' }),
+                    createWordMission({ id: 'word-selam', label: 'Selam', arabic: 'سلام', success: 'Selam kelimesi tamamlandı.' })
                 ];
             }
 
@@ -2813,7 +3351,7 @@
                 banner.innerHTML = `
                     <div class="celebration-kicker">✨ ${celebration.kicker}</div>
                     <div class="celebration-title">${celebration.title}</div>
-                    <div class="celebration-copy">${successText} ${celebration.copy} Toplam yildiz: ${this.completedMissionCount}</div>
+                    <div class="celebration-copy">${successText} ${celebration.copy} Toplam yıldız: ${this.completedMissionCount}</div>
                 `;
                 banner.classList.remove('hidden-panel');
 
@@ -2880,11 +3418,11 @@
                 }
                 this.showCelebration(this.currentMission.success, celebration);
                 this.playRewardChime();
-                this.setCoachMessage(`${celebration.title} ${this.currentMission.success} Istersen supurgeyle alani temizleyebilirsin.`, true, 3400);
+                this.setCoachMessage(`${celebration.title} ${this.currentMission.success} İstersen süpürgeyle alanı temizleyebilirsin.`, true, 3400);
                 this.speakSequence([
                     { text: celebration.speechLead, lang: 'tr-TR', rate: 0.5, audioKey: celebration.audioKey },
                     { text: this.currentMission.success, lang: 'tr-TR', rate: 0.5 },
-                    { text: `Toplam ${this.completedMissionCount} yildiz.`, lang: 'tr-TR', rate: 0.52 }
+                    { text: `Toplam ${this.completedMissionCount} yıldız.`, lang: 'tr-TR', rate: 0.52 }
                 ], { silentFail: true });
             }
 
@@ -2997,7 +3535,7 @@
                 if (!button) return;
                 button.textContent = this.isHudVisible ? '👁️' : '🙈';
                 button.setAttribute('aria-pressed', String(this.isHudVisible));
-                button.title = this.isHudVisible ? 'Bilgi kartlarini gizle' : 'Bilgi kartlarini goster';
+                button.title = this.isHudVisible ? 'Bilgi kartlarını gizle' : 'Bilgi kartlarını göster';
             }
 
             setHudVisible(nextState) {
@@ -3011,7 +3549,7 @@
             toggleHudVisibility(forceVisible = !this.isHudVisible) {
                 this.setHudVisible(forceVisible);
                 if (this.isHudVisible) {
-                    this.setCoachMessage('Bilgi kartlari tekrar gorunuyor.', true);
+                    this.setCoachMessage('Bilgi kartları tekrar görünüyor.', true);
                 }
             }
 
@@ -3194,7 +3732,12 @@
                 this.updateRemoveModeButton();
                 this.updateStatusBar();
                 this.scheduleAutosave();
-                this.speakText(this.getLetterName(letter));
+                const letterAudioKey = `letter.${letter}`;
+                if (this.getAudioCue(letterAudioKey)) {
+                    this.playAudioCueAsync(letterAudioKey, this.cancelSpeechPlayback());
+                } else {
+                    this.speakText(this.getLetterName(letter));
+                }
                 this.setCoachMessage(`${letter} harfi hazır. İstersen hemen yeni bir blok yerleştirebilirsin.`, true);
                 this.needsRender = true;
             }
@@ -3378,7 +3921,7 @@
 
             requestSceneClear(source = 'manual') {
                 if (this.getBlockCount() === 0) {
-                    this.setCoachMessage('Temizlenecek bir blok henuz yok.', true);
+                    this.setCoachMessage('Temizlenecek bir blok henüz yok.', true);
                     return;
                 }
 
