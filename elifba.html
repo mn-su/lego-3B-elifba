@@ -2870,7 +2870,7 @@
                 );
             }
 
-            async replaySelectionAudio() {
+            async replaySelectionAudio(source = 'manual') {
                 if (!this.canUseSoundPlayback()) {
                     this.setCoachMessage('Bu tarayıcıda seslendirme desteği görünmüyor.', true);
                     return;
@@ -2886,6 +2886,7 @@
                 this.stopActiveAudio();
                 this.cancelSpeechPlayback();
 
+                const trigger = source === 'letter' || source === 'diacritic' ? source : 'manual';
                 let playedCustomAudio = false;
 
                 if (letterEn && diacriticEn) {
@@ -2905,19 +2906,18 @@
                     }
                 }
 
-                // Eğer harf+hareke karma MP3 dosyası bulunamadıysa VEYA hareke hiç yoksa
+                // Karma (harf+hareke) ses yoksa, fallback davranışını seçimin kaynağına göre uygula.
                 if (!playedCustomAudio) {
-                    let playedSequentialAudio = false;
+                    let playedLetterAudio = false;
+                    let playedDiacriticAudio = false;
 
-                    // 1. Harf Sesini Oynat ("Bâ")
-                    if (letterEn) {
+                    // Harf seçildiyse yalnız harf; hareke seçildiyse yalnız hareke oku.
+                    if (letterEn && trigger !== 'diacritic') {
                         const cueKey = `letter.${this.selectedLetter}`;
-                        const played = await this.playAudioCueAsync(cueKey);
-                        if (played) playedSequentialAudio = true;
+                        playedLetterAudio = await this.playAudioCueAsync(cueKey);
                     }
 
-                    // 2. Hareke İsmi Sesini Oynat ("Tenvin Üstün")
-                    if (diacriticEn) {
+                    if (diacriticEn && trigger !== 'letter') {
                         try {
                             const nameAudioPath = `./audio/harakat_names/${diacriticEn}.mp3`;
                             const nameAudio = new Audio(nameAudioPath);
@@ -2928,15 +2928,24 @@
                                 const playPromise = nameAudio.play();
                                 if (playPromise) playPromise.catch(reject);
                             });
-                            playedSequentialAudio = true;
+                            playedDiacriticAudio = true;
                         } catch (err) {
                             console.warn("Harakat name audio play failed", err);
                         }
                     }
 
-                    // 3. Son olarak TTS tamamlayıcısı (Eğer özel MP3'ler bulunamadıysa komple okur, yoksa susar)
+                    const playedSequentialAudio = playedLetterAudio || playedDiacriticAudio;
+
+                    // MP3 bulunamazsa TTS ile yine seçime uygun kısa okuma yap.
                     if (this.isSpeechSupported && !playedSequentialAudio) {
-                        this.speakText(this.getSelectionAnnouncement());
+                        if (trigger === 'letter') {
+                            this.speakText(this.getLetterName());
+                        } else if (trigger === 'diacritic') {
+                            const diacriticName = this.getDiacriticName();
+                            this.speakText(diacriticName === 'Yok' ? 'Harekesiz' : diacriticName);
+                        } else {
+                            this.speakText(this.getSelectionAnnouncement());
+                        }
                     }
                 }
             }
@@ -3805,7 +3814,7 @@
                 this.updateStatusBar();
                 this.scheduleAutosave();
                 
-                this.replaySelectionAudio();
+                this.replaySelectionAudio('letter');
 
                 this.setCoachMessage(`${letter} harfi hazır. İstersen hemen yeni bir blok yerleştirebilirsin.`, true);
                 this.needsRender = true;
@@ -3818,7 +3827,7 @@
                 this.updateStatusBar();
                 this.scheduleAutosave();
                 
-                this.replaySelectionAudio();
+                this.replaySelectionAudio('diacritic');
 
                 const diacriticName = this.getDiacriticName();
                 this.setCoachMessage(
