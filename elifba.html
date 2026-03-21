@@ -745,11 +745,11 @@
         }
 
         .preset-btn {
-            width: 48px;
-            height: 48px;
+            width: 32px;
+            height: 32px;
             padding: 0;
             border: 2px solid rgba(216, 227, 239, 0.98);
-            border-radius: 16px;
+            border-radius: 10px;
             background: linear-gradient(180deg, #ffffff, #f6fbff);
             box-shadow: 0 7px 16px rgba(90, 108, 134, 0.1);
             color: var(--ink);
@@ -773,7 +773,7 @@
         }
 
         .preset-icon {
-            font-size: 22px;
+            font-size: 16px;
             line-height: 1;
             filter: drop-shadow(0 3px 6px rgba(82, 104, 130, 0.18));
         }
@@ -974,13 +974,13 @@
             }
 
             .preset-btn {
-                width: 44px;
-                height: 44px;
-                border-radius: 14px;
+                width: 28px;
+                height: 28px;
+                border-radius: 8px;
             }
 
             .preset-icon {
-                font-size: 20px;
+                font-size: 14px;
             }
 
             #palette-container {
@@ -1468,6 +1468,22 @@
                 'ه': 'He',
                 'و': 'Vav',
                 'ي': 'Ye'
+            },
+            letterEnglishNames: {
+                'ا': 'alif', 'ب': 'ba', 'ت': 'ta', 'ث': 'tha', 'ج': 'jeem', 'ح': 'haa', 'خ': 'khaa',
+                'د': 'dal', 'ذ': 'dhal', 'ر': 'ra', 'ز': 'zay', 'س': 'seen', 'ش': 'sheen', 'ص': 'saad',
+                'ض': 'dhaad', 'ط': 'toa', 'ظ': 'dhaa', 'ع': 'ain', 'غ': 'ghain', 'ف': 'faa', 'ق': 'qaaf',
+                'ك': 'kaaf', 'ل': 'laam', 'م': 'meem', 'ن': 'noon', 'ه': 'ha', 'و': 'waw', 'ي': 'yaa'
+            },
+            diacriticEnglishNames: {
+                '\u064E': 'fatha',
+                '\u0650': 'kasra',
+                '\u064F': 'damma',
+                '\u064B': 'fathatan',
+                '\u064D': 'kasratan',
+                '\u064C': 'dammatan',
+                '\u0651': 'shadda',
+                '\u0652': 'sukun'
             },
             presets: [
                 { id: 'kule', label: 'Kule', speechLabel: 'Kule', audioKey: 'preset.kule', icon: '🗼', kind: 'shape' },
@@ -2854,7 +2870,7 @@
                 );
             }
 
-            replaySelectionAudio() {
+            async replaySelectionAudio() {
                 if (!this.canUseSoundPlayback()) {
                     this.setCoachMessage('Bu tarayıcıda seslendirme desteği görünmüyor.', true);
                     return;
@@ -2863,8 +2879,65 @@
                     this.setCoachMessage('Ses kapalı. Dinlemek için hoparlör düğmesini aç.', true);
                     return;
                 }
-                if (this.isSpeechSupported) {
-                    this.speakText(this.getSelectionAnnouncement());
+
+                const letterEn = CONFIG.letterEnglishNames[this.selectedLetter];
+                const diacriticEn = CONFIG.diacriticEnglishNames[this.selectedDiacritic];
+
+                this.stopActiveAudio();
+                this.cancelSpeechPlayback();
+
+                let playedCustomAudio = false;
+
+                if (letterEn && diacriticEn) {
+                    const audioPath = `./audio/harakat/letter-${letterEn}-${diacriticEn}.mp3`;
+                    try {
+                        const audio = new Audio(audioPath);
+                        this.activeAudio = audio;
+                        await new Promise((resolve, reject) => {
+                            audio.onended = resolve;
+                            audio.onerror = reject;
+                            const playPromise = audio.play();
+                            if (playPromise) playPromise.catch(reject);
+                        });
+                        playedCustomAudio = true;
+                    } catch (err) {
+                        console.warn("Harakat mixed audio play failed", err);
+                    }
+                }
+
+                // Eğer harf+hareke karma MP3 dosyası bulunamadıysa VEYA hareke hiç yoksa
+                if (!playedCustomAudio) {
+                    let playedSequentialAudio = false;
+
+                    // 1. Harf Sesini Oynat ("Bâ")
+                    if (letterEn) {
+                        const cueKey = `letter.${this.selectedLetter}`;
+                        const played = await this.playAudioCueAsync(cueKey);
+                        if (played) playedSequentialAudio = true;
+                    }
+
+                    // 2. Hareke İsmi Sesini Oynat ("Tenvin Üstün")
+                    if (diacriticEn) {
+                        try {
+                            const nameAudioPath = `./audio/harakat_names/${diacriticEn}.mp3`;
+                            const nameAudio = new Audio(nameAudioPath);
+                            this.activeAudio = nameAudio;
+                            await new Promise((resolve, reject) => {
+                                nameAudio.onended = resolve;
+                                nameAudio.onerror = reject;
+                                const playPromise = nameAudio.play();
+                                if (playPromise) playPromise.catch(reject);
+                            });
+                            playedSequentialAudio = true;
+                        } catch (err) {
+                            console.warn("Harakat name audio play failed", err);
+                        }
+                    }
+
+                    // 3. Son olarak TTS tamamlayıcısı (Eğer özel MP3'ler bulunamadıysa komple okur, yoksa susar)
+                    if (this.isSpeechSupported && !playedSequentialAudio) {
+                        this.speakText(this.getSelectionAnnouncement());
+                    }
                 }
             }
 
@@ -3719,7 +3792,6 @@
                 this.updatePreviewAppearance();
                 this.updateStatusBar();
                 this.scheduleAutosave();
-                this.speakText(colorObj.name);
                 this.setCoachMessage(`${colorObj.name} seçildi. Şimdi bir harf seçebilirsin.`, true);
                 this.needsRender = true;
             }
@@ -3732,12 +3804,9 @@
                 this.updateRemoveModeButton();
                 this.updateStatusBar();
                 this.scheduleAutosave();
-                const letterAudioKey = `letter.${letter}`;
-                if (this.getAudioCue(letterAudioKey)) {
-                    this.playAudioCueAsync(letterAudioKey, this.cancelSpeechPlayback());
-                } else {
-                    this.speakText(this.getLetterName(letter));
-                }
+                
+                this.replaySelectionAudio();
+
                 this.setCoachMessage(`${letter} harfi hazır. İstersen hemen yeni bir blok yerleştirebilirsin.`, true);
                 this.needsRender = true;
             }
@@ -3748,8 +3817,10 @@
                 element.classList.add('selected');
                 this.updateStatusBar();
                 this.scheduleAutosave();
+                
+                this.replaySelectionAudio();
+
                 const diacriticName = this.getDiacriticName();
-                this.speakText(diacriticName === 'Yok' ? 'Harekesiz' : diacriticName);
                 this.setCoachMessage(
                     diacriticName === 'Yok'
                         ? 'Hareke kaldırıldı. Şimdi istersen yeni bloğunu yerleştir.'
